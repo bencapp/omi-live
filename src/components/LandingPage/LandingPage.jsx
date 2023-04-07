@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
+import io from 'socket.io-client'
+const socket = io.connect("http://localhost:3001")
 
 // CUSTOM COMPONENTS
 import RegisterForm from '../RegisterForm/RegisterForm';
@@ -13,34 +15,34 @@ function LandingPage() {
     history.push('/login');
   };
 
+  const [message, setMessage] = useState("")
+  const [messageReceived, setMessageReceived] = useState("");
+  const sendMessage = () => {
+    socket.emit("send_message", {message})
+  };
+
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      setMessageReceived(data.message); 
+    })
+  }, [socket])
+
+
   return (
     <div className="container">
       <h2>{heading}</h2>
 
       <div className="grid">
         <div className="grid-col grid-col_8">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            id felis metus. Vestibulum et pulvinar tortor. Morbi pharetra lacus
-            ut ex molestie blandit. Etiam et turpis sit amet risus mollis
-            interdum. Suspendisse et justo vitae metus bibendum fringilla sed
-            sed justo. Aliquam sollicitudin dapibus lectus, vitae consequat odio
-            elementum eget. Praesent efficitur eros vitae nunc interdum, eu
-            interdum justo facilisis. Sed pulvinar nulla ac dignissim efficitur.
-            Quisque eget eros metus. Vestibulum bibendum fringilla nibh a
-            luctus. Duis a sapien metus.
-          </p>
+         <div>
+          <input placeholder = "Message..." onChange={(event) => {setMessage(event.target.value) }} />
+          <button onClick={sendMessage}>Send Message</button>
+          <h1> Message </h1>
+          {messageReceived}
+         </div>
 
-          <p>
-            Praesent consectetur orci dui, id elementum eros facilisis id. Sed
-            id dolor in augue porttitor faucibus eget sit amet ante. Nunc
-            consectetur placerat pharetra. Aenean gravida ex ut erat commodo, ut
-            finibus metus facilisis. Nullam eget lectus non urna rhoncus
-            accumsan quis id massa. Curabitur sit amet dolor nisl. Proin
-            euismod, augue at condimentum rhoncus, massa lorem semper lacus, sed
-            lobortis augue mi vel felis. Duis ultrices sapien at est convallis
-            congue.
-          </p>
+         
+       
 
           <p>
             Fusce porta diam ac tortor elementum, ut imperdiet metus volutpat.
