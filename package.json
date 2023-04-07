@@ -7,11 +7,15 @@
     "node": "18.x"
   },
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
+    "http-proxy-middleware": "^2.0.6",
+    "node-media-server": "^2.5.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pg": "^8.5.1",
