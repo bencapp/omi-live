@@ -20,6 +20,7 @@ import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
+import EditStream from "../StreamerComponents/EditStream/EditStream";
 
 import "./App.css";
 
@@ -35,9 +36,12 @@ function App() {
   return (
     <Router>
       <div>
+        {/* If the user is logged in, display the nav bar */}
+        {user.id && <Nav />}
+
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
-          <Redirect exact from="/" to="/home" />
+          {/* <Redirect exact from="/" to="/home" /> */}
 
           {/* Visiting localhost:3000/about will show the about page. */}
           <Route
@@ -68,6 +72,10 @@ function App() {
 
           <AdminProtectedRoute exact path="/home">
             <StreamerHomePage />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute exact path="/edit-stream">
+            <EditStream />
           </AdminProtectedRoute>
 
           <Route exact path="/login">
