@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   rejectUnauthenticated,
+  rejectNonAdminUnauthenticated,
 } = require("../modules/authentication-middleware");
 const encryptLib = require("../modules/encryption");
 const pool = require("../modules/pool");
