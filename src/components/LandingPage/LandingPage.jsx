@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import './LandingPage.css';
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+
+import { Link } from "react-router-dom";
 import io from 'socket.io-client'
 const socket = io.connect("http://localhost:3001")
 
 // CUSTOM COMPONENTS
-import RegisterForm from '../RegisterForm/RegisterForm';
+import RegisterForm from "../RegisterForm/RegisterForm";
 
 function LandingPage() {
-  const [heading, setHeading] = useState('Welcome');
   const history = useHistory();
 
   const onLogin = (event) => {
-    history.push('/login');
+    history.push("/login");
   };
 
   const [message, setMessage] = useState("")
@@ -34,15 +37,28 @@ function LandingPage() {
 
       <div className="grid">
         <div className="grid-col grid-col_8">
-         <div>
-          <input placeholder = "Message..." onChange={(event) => {setMessage(event.target.value) }} />
-          <button onClick={sendMessage}>Send Message</button>
-          <h1> Message </h1>
-          {messageReceived}
-         </div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            id felis metus. Vestibulum et pulvinar tortor. Morbi pharetra lacus
+            ut ex molestie blandit. Etiam et turpis sit amet risus mollis
+            interdum. Suspendisse et justo vitae metus bibendum fringilla sed
+            sed justo. Aliquam sollicitudin dapibus lectus, vitae consequat odio
+            elementum eget. Praesent efficitur eros vitae nunc interdum, eu
+            interdum justo facilisis. Sed pulvinar nulla ac dignissim efficitur.
+            Quisque eget eros metus. Vestibulum bibendum fringilla nibh a
+            luctus. Duis a sapien metus.
+          </p>
 
-         
-       
+          <p>
+            Praesent consectetur orci dui, id elementum eros facilisis id. Sed
+            id dolor in augue porttitor faucibus eget sit amet ante. Nunc
+            consectetur placerat pharetra. Aenean gravida ex ut erat commodo, ut
+            finibus metus facilisis. Nullam eget lectus non urna rhoncus
+            accumsan quis id massa. Curabitur sit amet dolor nisl. Proin
+            euismod, augue at condimentum rhoncus, massa lorem semper lacus, sed
+            lobortis augue mi vel felis. Duis ultrices sapien at est convallis
+            congue.
+          </p>
 
           <p>
             Fusce porta diam ac tortor elementum, ut imperdiet metus volutpat.

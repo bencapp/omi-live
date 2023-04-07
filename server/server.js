@@ -1,11 +1,11 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-require('dotenv').config();
+const express = require("express");
+const bodyParser = require("body-parser");
+require("dotenv").config();
 
 const app = express();
 
-const sessionMiddleware = require('./modules/session-middleware');
-const passport = require('./strategies/user.strategy');
+const sessionMiddleware = require("./modules/session-middleware");
+const passport = require("./strategies/user.strategy");
 
 //Socket io set up
 const cors = require("cors"); 
@@ -34,7 +34,7 @@ server.listen(3001, () => {
 })
 
 // Route includes
-const userRouter = require('./routes/user.router');
+const usersRouter = require("./routes/users.router");
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -48,10 +48,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /* Routes */
-app.use('/api/user', userRouter);
+app.use("/api/user", usersRouter);
 
 // Serve static files
-app.use(express.static('build'));
+app.use(express.static("build"));
 
 // App Set //
 const PORT = process.env.PORT || 5000;
