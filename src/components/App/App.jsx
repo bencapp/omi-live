@@ -18,7 +18,8 @@ import UserPage from "../UserPage/UserPage";
 import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
-import StreamerHome from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
+import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
+import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 
 import "./App.css";
 
@@ -54,9 +55,9 @@ function App() {
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
             exact
-            path="/user"
+            path="/viewer-home"
           >
-            <UserPage />
+            <ViewerHomePage />
           </ProtectedRoute>
 
           <ProtectedRoute
@@ -65,15 +66,15 @@ function App() {
             path="/info"
           ></ProtectedRoute>
 
-          <AdminProtectedRoute exact path="/streamer-home">
-            <StreamerHome />
+          <AdminProtectedRoute exact path="/home">
+            <StreamerHomePage />
           </AdminProtectedRoute>
 
           <Route exact path="/login">
             {user.id ? (
               // If the user is already logged in,
               // redirect to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/home" />
             ) : (
               // Otherwise, show the login page
               <LoginPage />
@@ -84,20 +85,22 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/viewer-home" />
             ) : (
               // Otherwise, show the registration page
               <RegisterPage />
             )}
           </Route>
 
-          <Route exact path="/home">
-            {user.id ? (
+          <Route exact path="/">
+            {user.id && user.isAdmin ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/user" />
-            ) : (
+              <Redirect to="/home" />
+            ) : user.id ? (
               // Otherwise, show the Landing page
+              <Redirect to="/viewer-home" />
+            ) : (
               <LandingPage />
             )}
           </Route>

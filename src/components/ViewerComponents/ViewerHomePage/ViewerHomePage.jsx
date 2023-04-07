@@ -1,12 +1,11 @@
-import Box from "@mui/material/Box";
 import { useSelector } from "react-redux";
 import LogOutButton from "../../LogOutButton/LogOutButton";
 
-function StreamerHomePage() {
+function ViewerHomePage() {
   const user = useSelector((store) => store.user);
   return (
     <>
-      <div>This is the streamer home page!</div>
+      <div>This is the viewer home page!</div>
       <div className="container">
         <h2>Welcome, {user.username}!</h2>
         <p>Your ID is: {user.id}</p>
@@ -16,4 +15,4 @@ function StreamerHomePage() {
   );
 }
 
-export default StreamerHomePage;
+export default ViewerHomePage;
