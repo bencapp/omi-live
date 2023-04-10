@@ -1,8 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const NodeMediaServer = require('node-media-server');
-const config = require('./constants/stream_config');
 const { createProxyMiddleware } = require('http-proxy-middleware')
 require('dotenv').config();
 
@@ -53,15 +51,17 @@ const proxyOptions = {
   changeOrigin: true,
   ws: true,
   router: {
-    [`http://localhost:${PORT}/live`]: `http://localhost:${process.env.STREAM_PORT || 5001}/live`,
+    [`http://localhost:${PORT}/live/`]: `http://localhost:${process.env.STREAM_PORT || 5001}/live/`,
   }
 }
 app.use('/live', createProxyMiddleware(proxyOptions));
+
+console.log(proxyOptions.router);
 
 /** Listen * */
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
 
-let nms = new NodeMediaServer(config)
-nms.run();
+const nms = require('./media.server/media.server');
+nms.init();

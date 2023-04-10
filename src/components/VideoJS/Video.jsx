@@ -30,7 +30,7 @@ function Video() {
     sources: [{
       // src: 'http://localhost:5000/live/test/index.m3u8',
       // type: 'application/x-mpegURL'
-      src: 'http://localhost:5000/live/test/index.mpd',
+      src: '/live/omi/index.mpd',
       type: 'application/dash+xml'
     }]
   };
