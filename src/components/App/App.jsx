@@ -21,6 +21,7 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
+import InfoPage from "../InfoPage/InfoPage";
 
 import "./App.css";
 
@@ -68,7 +69,9 @@ function App() {
             // logged in shows InfoPage else shows LoginPage
             exact
             path="/info"
-          ></ProtectedRoute>
+          >
+            <InfoPage />
+          </ProtectedRoute>
 
           <AdminProtectedRoute exact path="/home">
             <StreamerHomePage />
