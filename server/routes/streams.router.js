@@ -7,7 +7,12 @@ const router = express.Router();
  */
 router.get("/", (req, res) => {
   // GET route code here
-  const queryText = `SELECT * FROM streams`;
+  const queryText = `SELECT streams.id, streams.title, streams.description, streams.scheduled, 
+                      JSON_AGG(json_build_object('id', "products".id, 'name', "products".name, 'image_url', "products".image_url, 'description', "products".description, 'coupon_code', "products".coupon_code, 'coupon_expiration', "products".coupon_expiration, 'url', "products".url, 'order', "streams_products".order)) AS products
+                      FROM "streams" 
+                      LEFT JOIN "streams_products" ON streams.id = streams_products.stream_id 
+                      LEFT JOIN products ON streams_products.product_id = products.id 
+                      GROUP BY streams.id;`;
   pool
     .query(queryText)
     .then((result) => res.send(result.rows))

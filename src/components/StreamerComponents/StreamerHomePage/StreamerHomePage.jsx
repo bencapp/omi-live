@@ -16,7 +16,7 @@ function StreamerHomePage() {
         padding: "0px 20px",
         display: "flex",
         flexDirection: "column",
-        gap: "15px",
+        gap: "10px",
       }}
     >
       <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>
