@@ -1,15 +1,96 @@
-import React from 'react';
-
-// This is one of our simplest components
-// It doesn't have local state
-// It doesn't dispatch any redux actions or display any part of redux state
-// or even care what the redux state is
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  Button,
+  TextField,
+  Typography,
+  Box,
+  TextareaAutosize,
+} from "@mui/material";
 
 function InfoPage() {
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+  const [description, setDescription] = useState("");
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({ type: "ADD_PRODUCT", payload: { title, url, description } });
+    setTitle("");
+    setUrl("");
+    setDescription("");
+  };
+
   return (
-    <div className="container">
-      <p>Info Page</p>
-    </div>
+    <form
+      onSubmit={handleSubmit}
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      Title:
+      <TextField
+        id="standard-basic"
+        variant="standard"
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      URL:
+      <TextField
+        id="standard-basic"
+        variant="standard"
+        type="text"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+      />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {url && (
+          <img
+            src={url}
+            alt="Product Preview"
+            width={200}
+            height={200}
+            style={{ marginTop: "20px" }}
+          />
+        )}
+        {description && (
+          <div
+            style={{
+              marginTop: "20px",
+              border: "1px solid #ccc",
+              padding: "10px",
+              borderRadius: "3px",
+            }}
+          >
+            <Typography> Description: {description}</Typography>
+          </div>
+        )}
+      </div>
+      <label style={{ marginBottom: "20px", marginTop: "20px" }}>
+        Description:
+        <TextareaAutosize
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          style={{
+            marginLeft: "10px",
+            padding: "5px",
+            borderRadius: "3px",
+            border: "1px solid #ccc",
+          }}
+        />
+      </label>
+      <Button variant="contained" type="submit">
+        {" "}
+        Add Product
+      </Button>
+    </form>
   );
 }
 
