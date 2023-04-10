@@ -29,6 +29,7 @@ CREATE TABLE "users_products" (
 CREATE TABLE "streams" (
 	"id" SERIAL PRIMARY KEY,
 	"title" VARCHAR (255),
+	"description" TEXT,
 	"scheduled" TIMESTAMP
 );
 

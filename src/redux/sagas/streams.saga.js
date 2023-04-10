@@ -22,9 +22,26 @@ function* postEmptyStream(action) {
   }
 }
 
+function* updateStreamInfo(action) {
+  try {
+    const history = action.payload.history;
+    console.log(action.payload.id);
+    const response = yield axios.put(`/api/streams/${action.payload.id}`, {
+      title: action.payload.title,
+      description: action.payload.description,
+      scheduled: action.payload.scheduled,
+    });
+    yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
+    yield history.push("/edit-stream");
+  } catch (error) {
+    console.log("Error with put stream saga:", error);
+  }
+}
+
 function* streamsSaga() {
   yield takeEvery("FETCH_STREAMS", fetchStreams);
   yield takeEvery("POST_EMPTY_STREAM", postEmptyStream);
+  yield takeEvery("UPDATE_STREAM_INFO", updateStreamInfo);
 }
 
 export default streamsSaga;

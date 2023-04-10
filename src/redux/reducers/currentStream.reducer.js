@@ -1,7 +1,7 @@
 // stream data format:
 // {id, title, scheduled}
 
-const currentStream = (state = "", action) => {
+const currentStream = (state = {}, action) => {
   switch (action.type) {
     case "SET_CURRENT_STREAM":
       return action.payload;

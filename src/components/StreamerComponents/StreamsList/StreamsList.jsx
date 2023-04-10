@@ -18,7 +18,6 @@ function StreamsList() {
   // when the user clicks on a stream, go to the stream edit view
   const handleStreamClick = (stream) => {
     dispatch({ type: "SET_CURRENT_STREAM", payload: stream });
-    history.push("/edit-stream");
   };
 
   const handlePlanNewStream = () => {
