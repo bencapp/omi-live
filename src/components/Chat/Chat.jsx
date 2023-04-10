@@ -12,8 +12,9 @@ function Chat() {
     const [message, setMessage] = useState("")
     //fullchat is all of the messages
     const [fullchat, setFullChat] = useState([])
+    let timestamp = Date.now(); 
     const sendMessage = () => {
-        socket.emit("send_message", { message, user })
+        socket.emit("send_message", { message, user, timestamp })
         //reset input field
         setMessage("");
     };
@@ -33,7 +34,7 @@ function Chat() {
             <h2>Chatroom</h2>
             {console.log(fullchat)}
             {fullchat?.map(chat => {
-                return (<p>{chat.user?.username}: {chat.message}</p>)
+                return (<p>{chat.user?.username}: {chat.message} sent at {chat.timestamp}</p>)
             })}
             <input placeholder="Message..." value={message} onChange={(event) => { setMessage(event.target.value) }} />
             <button onClick={sendMessage}>Send Message</button>

@@ -10,7 +10,6 @@ const sessionMiddleware = require("./modules/session-middleware");
 const passport = require("./strategies/user.strategy");
 
 //Socket io set up
-const cors = require("cors"); 
 app.use(cors());
 const http = require("http");
 const server = http.createServer(app)
