@@ -1,13 +1,14 @@
-import React from 'react';
-import videojs from 'video.js';
+import React, {useEffect, useRef} from 'react';
+import videojs from '!video.js';
 import "video.js/dist/video-js.css";
 
-export const Video = () => {
-  const videoRef = React.useRef(null);
-  const playerRef = React.useRef(null);
+function Video() {
+  const videoRef = useRef(null);
+  const playerRef = useRef(null);
 
   const onReady = (player) => {
     playerRef.current = player;
+    videojs.log('handlingready');
 
     // You can handle player events here, for example:
     player.on('waiting', () => {
@@ -17,6 +18,8 @@ export const Video = () => {
     player.on('dispose', () => {
       videojs.log('player will dispose');
     });
+    videojs.log('handlingreadyend');
+
   };
   
   const options = {
@@ -32,7 +35,7 @@ export const Video = () => {
     }]
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
 
     // Make sure Video.js player is only initialized once
     if (!playerRef.current) {
@@ -58,7 +61,7 @@ export const Video = () => {
   }, [options, videoRef]);
 
   // Dispose the Video.js player when the functional component unmounts
-  React.useEffect(() => {
+  useEffect(() => {
     const player = playerRef.current;
 
     return () => {
@@ -69,6 +72,7 @@ export const Video = () => {
     };
   }, [playerRef]);
 
+  console.log('rendered');
   return (
     <div data-vjs-player>
       <div ref={videoRef} />

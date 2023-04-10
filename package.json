@@ -10,6 +10,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@ffmpeg/ffmpeg": "^0.11.6",
     "@mui/material": "^5.11.16",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
