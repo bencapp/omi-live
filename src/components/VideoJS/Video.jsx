@@ -28,10 +28,11 @@ function Video() {
     responsive: true,
     fluid: true,
     sources: [{
-      // src: 'http://localhost:5000/live/test/index.m3u8',
-      // type: 'application/x-mpegURL'
       src: '/live/omi/index.mpd',
       type: 'application/dash+xml'
+    }, {
+      src: '/live/omi/index.m3u8',
+      type: 'application/x-mpegURL'
     }]
   };
 

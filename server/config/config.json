@@ -38,7 +38,8 @@
         "-b:a",
         "128k"
       ],
+    "mediaFormats": {"hls": true, "dash": true},
     "mediaRoot": "./media",
-    "persistentStreamFiles": true,
+    "persistentStreamFiles": false,
     "saveVideos": false
 }

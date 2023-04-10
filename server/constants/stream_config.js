@@ -32,10 +32,10 @@ module.exports = {
         app: config.appIdentifier,
         mp4: config.saveVideos,
         mp4Flags: '[movflags=frag_keyframe+empty_moov]',
-        hls: true,
+        hls: config.mediaFormats.hls,
         hlsFlags: "[hls_time=2:hls_list_size=3:hls_flags=delete_segments]",
         hlsKeep: config.persistentStreamFiles, // to prevent hls file delete after end the stream
-        dash: true,
+        dash: config.mediaFormats.dash,
         dashFlags: "[f=dash:window_size=3:extra_window_size=5]",
         dashKeep: config.persistentStreamFiles, // to prevent dash file delete after end the stream
         raw: config.ffmpegFlags
