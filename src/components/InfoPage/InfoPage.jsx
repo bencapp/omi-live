@@ -37,7 +37,7 @@ function InfoPage() {
       style={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        alignItems: "stretch",
         margin: "10px",
       }}
     >
@@ -48,7 +48,7 @@ function InfoPage() {
           alignItems: "center",
         }}
       >
-        <Typography variant="h5">Add Product</Typography>
+        <Typography variant="h5"> Add Product</Typography>
         <Typography> URL: </Typography>
         <TextField
           id="standard-basic"
