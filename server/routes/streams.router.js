@@ -67,4 +67,58 @@ router.put("/:id", (req, res) => {
     });
 });
 
+// PUT route for updating the order of the stream's products
+router.put("/order-change/:streamID", async (req, res) => {
+  const connection = await pool.connect();
+
+  try {
+    // first get the product that is adjacent to the one selected
+    const getQueryText = `SELECT product_id FROM streams_products WHERE "order" = $1 AND stream_id = $2`;
+    const newOrder =
+      req.body.type == "increase" ? req.body.order + 1 : req.body.order - 1;
+    const getQueryParams = [newOrder, req.params.streamID];
+
+    console.log("getQueryParams is", getQueryParams);
+
+    const result = await connection.query(getQueryText, [
+      newOrder,
+      Number(req.params.streamID),
+    ]);
+
+    const otherProductID = result.rows[0];
+    console.log("changing order, other product id is", otherProductID);
+
+    // now set the order of that product
+    const setOrderQueryText = `UPDATE streams_products SET "order" = $1 WHERE product_id = $2 AND stream_id = $3`;
+    const newOtherProductOrder =
+      req.body.type == "increase" ? req.body.order - 1 : req.body.order + 1;
+    const firstQueryParams = [
+      newOtherProductOrder,
+      otherProductID,
+      req.params.streamID,
+    ];
+    console.log("firstQueryParams is", firstQueryParams);
+
+    await connection.query(setOrderQueryText, firstQueryParams);
+
+    // set the order of the first product
+    const secondQueryParams = [
+      newOrder,
+      req.body.productID,
+      req.params.streamID,
+    ];
+    console.log("secondQueryParams is", secondQueryParams);
+
+    await connection.query(setOrderQueryText, secondQueryParams);
+
+    res.sendStatus(204);
+  } catch (error) {
+    // await connection.query("FAILED STREAM PUT");
+    console.log(`Error in stream PUT: `, error);
+    res.sendStatus(500);
+  } finally {
+    connection.release();
+  }
+});
+
 module.exports = router;

@@ -25,7 +25,6 @@ function* postEmptyStream(action) {
 function* updateStreamInfo(action) {
   try {
     const history = action.payload.history;
-    console.log(action.payload.id);
     const response = yield axios.put(`/api/streams/${action.payload.id}`, {
       title: action.payload.title,
       description: action.payload.description,
@@ -38,10 +37,29 @@ function* updateStreamInfo(action) {
   }
 }
 
+// type is either 'increase' or 'decrease'
+function* orderChange(action) {
+  try {
+    yield axios.put(
+      `/api/streams/order-change/${action.payload.currentStream.id}`,
+      {
+        productID: action.payload.productID,
+        order: action.payload.order,
+        type: action.payload.type,
+      }
+    );
+    // TODO: fetch stream by ID
+    // yield put({ type: "SET_CURRENT_STREAM", payload: currentStream });
+  } catch (error) {
+    console.log("Error with order change stream saga:", error);
+  }
+}
+
 function* streamsSaga() {
   yield takeEvery("FETCH_STREAMS", fetchStreams);
   yield takeEvery("POST_EMPTY_STREAM", postEmptyStream);
   yield takeEvery("UPDATE_STREAM_INFO", updateStreamInfo);
+  yield takeEvery("ORDER_CHANGE", orderChange);
 }
 
 export default streamsSaga;

@@ -1,7 +1,25 @@
 import { Grid, Box, useTheme } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
 function EditStreamProduct({ product }) {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const currentStream = useSelector((store) => store.currentStream);
+
+  const handleOrderIncrease = () => {
+    dispatch({
+      type: "ORDER_CHANGE",
+      payload: {
+        productID: product.id,
+        order: product.order,
+        currentStream: currentStream,
+        type: "increase",
+      },
+    });
+  };
+
+  const handleOrderDecrease = () => {};
+
   return (
     <Box
       sx={{
@@ -52,6 +70,7 @@ function EditStreamProduct({ product }) {
               color: "white",
               textAlign: "center",
             }}
+            onClick={handleOrderIncrease}
           >
             +
           </Box>
@@ -63,6 +82,7 @@ function EditStreamProduct({ product }) {
               color: "white",
               textAlign: "center",
             }}
+            onClick={handleOrderDecrease}
           >
             -
           </Box>
