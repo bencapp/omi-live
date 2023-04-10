@@ -12,15 +12,20 @@ function InfoPage() {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
+  const [couponCode, setCouponCode] = useState("");
 
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch({ type: "ADD_PRODUCT", payload: { title, url, description } });
+    dispatch({
+      type: "ADD_PRODUCT",
+      payload: { title, url, description, couponCode },
+    });
     setTitle("");
     setUrl("");
     setDescription("");
+    setCouponCode("");
   };
 
   return (
@@ -86,6 +91,14 @@ function InfoPage() {
           }}
         />
       </label>
+      Coupon Code:
+      <TextField
+        id="standard-basic"
+        variant="standard"
+        type="text"
+        value={couponCode}
+        onChange={(e) => setCouponCode(e.target.value)}
+      />
       <Button variant="contained" type="submit">
         {" "}
         Add Product
