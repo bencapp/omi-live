@@ -23,9 +23,9 @@ router.post("/", (req, res) => {
   pool
     .query(queryText)
     .then(() => {
-      const selectIDQueryText = `SELECT currval('streams_id_seq')`;
+      const selectIDQueryText = `SELECT * FROM "streams" WHERE id = currval('streams_id_seq')`;
       pool.query(selectIDQueryText).then((result) => {
-        res.send(result.rows[0].currval);
+        res.send(result.rows[0]);
       });
     })
     .catch((err) => {

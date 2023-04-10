@@ -15,7 +15,7 @@ function* postEmptyStream(action) {
   try {
     const { history } = action.payload;
     const response = yield axios.post("/api/streams");
-    yield put({ type: "SET_CURRENT_STREAM_ID", payload: response.data });
+    yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
     yield history.push("/edit-stream");
   } catch (error) {
     console.log("Error with post stream saga:", error);
