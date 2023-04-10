@@ -47,7 +47,6 @@ function EditStreamInfo() {
         padding: "20px 0px",
       }}
     >
-      {JSON.stringify(currentStream)}
       <div>CREATE A NEW STREAM</div>
       <InputLabel>TITLE</InputLabel>
       <TextField
