@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import EditStreamInfo from "../EditStreamInfo/EditStreamInfo";
 import dayjs from "dayjs";
 
@@ -15,20 +15,29 @@ function EditStream() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: "5px",
+            gap: "10px",
             width: "100%",
             alignItems: "center",
           }}
         >
           <Box sx={{ fontSize: "1.5em", fontWeight: "bold" }}>EDIT STREAM</Box>
-          <Box sx={{ fontSize: "1.3em", alignSelf: "start" }}>
-            {currentStream.title}
-          </Box>
-          <Box sx={{ alignSelf: "start" }}>
-            {dayjs(currentStream.scheduled).format("DD/MM/YYYY")}
+          <Box
+            sx={{
+              fontSize: "1.3em",
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box>
+              <b>{currentStream.title}</b>,{" "}
+              {dayjs(currentStream.scheduled).format("DD/MM/YYYY")}
+            </Box>
+            <Button size="small">EDIT INFO</Button>
           </Box>
         </Box>
         // products list goes here
+        // LIST
       )}
     </Box>
   );
