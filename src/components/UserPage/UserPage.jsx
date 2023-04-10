@@ -1,5 +1,6 @@
 import React from 'react';
 import LogOutButton from '../LogOutButton/LogOutButton';
+import Video from '../VideoJS/Video';
 import {useSelector} from 'react-redux';
 
 function UserPage() {
@@ -9,6 +10,7 @@ function UserPage() {
     <div className="container">
       <h2>Welcome, {user.username}!</h2>
       <p>Your ID is: {user.id}</p>
+      <Video/>
       <LogOutButton className="btn" />
     </div>
   );
