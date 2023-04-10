@@ -20,6 +20,7 @@ import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import StreamerHome from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
+import InfoPage from "../InfoPage/InfoPage";
 
 import "./App.css";
 
@@ -64,7 +65,9 @@ function App() {
             // logged in shows InfoPage else shows LoginPage
             exact
             path="/info"
-          ></ProtectedRoute>
+          >
+            <InfoPage />
+          </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows chat else shows LoginPage
