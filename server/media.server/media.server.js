@@ -4,23 +4,26 @@ const globalConfig = require("../config/config.json");
 const pool = require("../modules/pool");
 const encryptLib = require("../modules/encryption");
 
+let users = [];
+
 function init() {
+  //store db users into local memory
+  loadUsers();
   //create node media server object using config
   let nms = new NodeMediaServer(streamConfig);
   //start media server
   nms.run();
 
   //fire when new incoming stream is in prePublish stage
-  nms.on("prePublish", async (id, StreamPath, args) => {
+  nms.on("prePublish", (id, StreamPath, args) => {
     const session = nms.getSession(id);
     try {
       //check if user and key parameters exist in passed url
       if (args && args.user && args.streamKey && args.pass) {
+        // const streamKey = args.streamKey;
+        // const validated = streamKey == process.env.STREAM_KEY;
 
-        const streamKey = args.streamKey;
-        const validated = streamKey == process.env.STREAM_KEY;
-
-        // const validated = await validateUser(args, session);
+        const validated = validateUser(args);
         //validate parameters passed by streaming environment
         console.log(validated);
         if (validated) {
@@ -29,7 +32,7 @@ function init() {
             `/${globalConfig.appIdentifier}/` + args.user;
         } else {
           //throw error if key is not validated
-          throw "Stream params were not validated";
+          throw "Stream was not validated";
         }
 
         //log stream info
@@ -47,34 +50,62 @@ function init() {
       session.reject();
     }
   });
-
-  async function validateUser(args) {
-    let connection = await pool.connect();
-
-    // Using basic JavaScript try/catch/finally
-    try {
-      await connection.query("BEGIN");
-      const sqlText = `
-      SELECT * from users u
-      WHERE u.username = $1`;
-      const result = await connection.query(sqlText, [args.user]);
-      const user = result && result.rows && result.rows[0];
-      console.log(`${args.user} : ${user.username} | ${args.streamKey} : ${user.stream_key} | ${args.pass} : ${user.password}`)
-      if (args.user == user.username
-        && args.key == user.streamKey
-        && encryptLib.comparePassword(args.pass, user.password)) {
-          // console.log("authenticated: ", args.pass, user.password)
-        return true;
-      }
-      await connection.query("COMMIT");
-    } catch (error) {
-      await connection.query("ROLLBACK");
-      console.log(`Transaction Error - Rolling back transfer`, error);
-    } finally {
-      connection.release();
-    }
-    return false;
-  }
 }
 
-module.exports = { init };
+function validateUser(args) {
+  for (let user of users) {
+    //check stream args against cached users array
+    if (
+      args.user == user.username &&
+      args.streamKey == user.stream_key &&
+      encryptLib.comparePassword(args.pass, user.password)
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+//add user to cache
+function addUser(user) {
+  users.push(user);
+}
+
+//load all users from DB into cache where user is admin
+function loadUsers() {
+  const query = `
+  SELECT * FROM users WHERE "isAdmin" = true`;
+  pool.query(query).then((response) => {
+    users = response.rows;
+  });
+}
+
+//   async function validateDbUser(args) {
+//     let connection = await pool.connect();
+
+//     // Using basic JavaScript try/catch/finally
+//     try {
+//       await connection.query("BEGIN");
+//       const sqlText = `
+//       SELECT * from users u
+//       WHERE u.username = $1`;
+//       const result = await connection.query(sqlText, [args.user]);
+//       const user = result && result.rows && result.rows[0];
+//       console.log(`${args.user} : ${user.username} | ${args.streamKey} : ${user.stream_key} | ${args.pass} : ${user.password}`)
+//       if (args.user == user.username
+//         && args.key == user.streamKey
+//         && encryptLib.comparePassword(args.pass, user.password)) {
+//           // console.log("authenticated: ", args.pass, user.password)
+//         return true;
+//       }
+//       await connection.query("COMMIT");
+//     } catch (error) {
+//       await connection.query("ROLLBACK");
+//       console.log(`Transaction Error - Rolling back transfer`, error);
+//     } finally {
+//       connection.release();
+//     }
+//     return false;
+//   }
+
+module.exports = { init, addUser };
