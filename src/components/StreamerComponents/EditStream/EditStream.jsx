@@ -11,11 +11,15 @@ function EditStream() {
 
   const [displayEditInfo, setDisplayEditInfo] = useState(false);
 
+  const handleCancelEditInfo = () => {
+    setDisplayEditInfo(false);
+  };
+
   return (
     <Box sx={{ padding: "0px 20px" }}>
       {/* if stream does not have a date planned, render 'create a new stream'; else render 'edit stream' */}
       {!currentStream.scheduled || displayEditInfo ? (
-        <EditStreamInfo />
+        <EditStreamInfo handleCancelEditInfo={handleCancelEditInfo} />
       ) : (
         <>
           <Box

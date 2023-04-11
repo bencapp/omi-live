@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 
 import { useState } from "react";
 
-function EditStreamInfo() {
+function EditStreamInfo({ handleCancelEditInfo }) {
   const theme = useTheme();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -16,6 +16,8 @@ function EditStreamInfo() {
   const [newDate, setNewDate] = useState();
   const [newTitle, setNewTitle] = useState();
   const [newDescription, setNewDescription] = useState();
+
+  const [displayCancelConfirm, setDisplayCancelConfirm] = useState(false);
 
   const currentStream = useSelector((store) => store.currentStream);
 
@@ -69,7 +71,32 @@ function EditStreamInfo() {
           onChange={(date) => setNewDate(date)}
         />
       </LocalizationProvider>
-      <Button onClick={handleSubmit}>SUBMIT</Button>
+      {displayCancelConfirm ? (
+        <>
+          <Box> Cancel changes and return to stream?</Box>
+          <Box sx={{ display: "flex", gap: "20px" }}>
+            <Button onClick={() => setDisplayCancelConfirm(false)}>BACK</Button>
+            <Button
+              onClick={handleCancelEditInfo}
+              color="warning"
+              sx={{ color: "black" }}
+            >
+              CONFIRM
+            </Button>
+          </Box>
+        </>
+      ) : (
+        <Box sx={{ display: "flex", gap: "20px" }}>
+          <Button
+            onClick={() => setDisplayCancelConfirm(true)}
+            color="warning"
+            sx={{ color: "black" }}
+          >
+            CANCEL
+          </Button>
+          <Button onClick={handleSubmit}>SUBMIT</Button>
+        </Box>
+      )}
     </Box>
   );
 }
