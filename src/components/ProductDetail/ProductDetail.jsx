@@ -35,6 +35,11 @@ function ProductDetail() {
     });
   };
 
+  const handleClickBuy = () => {
+    setDisplayConfirmBuy(true);
+    navigator.clipboard.writeText(currentProduct.coupon_code);
+  };
+
   const hideConfirmBuyPopup = () => {
     setDisplayConfirmBuy(false);
   };
@@ -79,7 +84,7 @@ function ProductDetail() {
           </>
         ) : (
           <>
-            <Button onClick={() => setDisplayConfirmBuy(true)}>BUY</Button>
+            <Button onClick={handleClickBuy}>BUY</Button>
             {!currentProduct.on_user_wishlist ? (
               <Button onClick={handleSaveProduct}>ADD TO WISHLIST</Button>
             ) : (
