@@ -21,11 +21,12 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 router.post("/register", (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
-
-  const queryText = `INSERT INTO "users" (username, password)
-    VALUES ($1, $2) RETURNING id`;
+  const streamKey = generateStreamKey();
+  
+  const queryText = `INSERT INTO "users" (username, password, stream_key)
+    VALUES ($1, $2, $3) RETURNING id`;
   pool
-    .query(queryText, [username, password])
+    .query(queryText, [username, password, streamKey])
     .then(() => res.sendStatus(201))
     .catch((err) => {
       console.log("User registration failed: ", err);
@@ -47,5 +48,13 @@ router.post("/logout", (req, res) => {
   req.logout();
   res.sendStatus(200);
 });
+
+function generateStreamKey() {
+  let streamKey = '';
+  for (let i = 0; i < 20; i++) {
+    streamKey += (Math.random() + 1).toString(36).substring(2, 3);
+  }
+  return streamKey;
+}
 
 module.exports = router;

@@ -7,7 +7,8 @@ CREATE TABLE "users" (
     "id" SERIAL PRIMARY KEY,
     "username" VARCHAR (80) UNIQUE NOT NULL,
     "password" VARCHAR (1000) NOT NULL,
-    "isAdmin" BOOLEAN DEFAULT FALSE
+    "isAdmin" BOOLEAN DEFAULT FALSE,
+	"stream_key" VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE "products" (
