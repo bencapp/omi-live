@@ -3,10 +3,9 @@ const pool = require("../modules/pool");
 const router = express.Router();
 
 /**
- * GET route template
+ * GET route for getting all streams and their products
  */
 router.get("/", (req, res) => {
-  // GET route code here
   const queryText = `SELECT streams.id, streams.title, streams.description, streams.scheduled, 
                       JSON_AGG(json_build_object('id', "products".id, 'name', "products".name, 'image_url', "products".image_url, 'description', "products".description, 'coupon_code', "products".coupon_code, 'coupon_expiration', "products".coupon_expiration, 'url', "products".url, 'order', "streams_products".order)) AS products
                       FROM "streams" 
@@ -15,6 +14,25 @@ router.get("/", (req, res) => {
                       GROUP BY streams.id;`;
   pool
     .query(queryText)
+    .then((result) => res.send(result.rows))
+    .catch((err) => {
+      console.log("Error executing SQL query", queryText, " : ", err);
+      res.sendStatus(500);
+    });
+});
+
+// GET route for getting one stream and all its products
+router.get("/:streamID", (req, res) => {
+  const queryText = `SELECT streams.id, streams.title, streams.description, streams.scheduled, 
+                      JSON_AGG(json_build_object('id', "products".id, 'name', "products".name, 'image_url', "products".image_url, 'description', "products".description, 'coupon_code', "products".coupon_code, 'coupon_expiration', "products".coupon_expiration, 'url', "products".url, 'order', "streams_products".order)) AS products
+                      FROM "streams" 
+                      LEFT JOIN "streams_products" ON streams.id = streams_products.stream_id 
+                      LEFT JOIN products ON streams_products.product_id = products.id 
+                      GROUP BY streams.id
+                      WHERE streams.id = $1;`;
+  const queryParams = [req.params.streamID];
+  pool
+    .query(queryText, queryParams)
     .then((result) => res.send(result.rows))
     .catch((err) => {
       console.log("Error executing SQL query", queryText, " : ", err);
@@ -75,7 +93,7 @@ router.put("/order-change/:streamID", async (req, res) => {
     // first get the product that is adjacent to the one selected
     const getQueryText = `SELECT product_id FROM streams_products WHERE "order" = $1 AND stream_id = $2`;
     const newOrder =
-      req.body.type == "increase" ? req.body.order + 1 : req.body.order - 1;
+      req.body.type == "increase" ? req.body.order - 1 : req.body.order + 1;
     const getQueryParams = [newOrder, req.params.streamID];
 
     console.log("getQueryParams is", getQueryParams);
@@ -85,13 +103,13 @@ router.put("/order-change/:streamID", async (req, res) => {
       Number(req.params.streamID),
     ]);
 
-    const otherProductID = result.rows[0];
+    const otherProductID = result.rows[0].product_id;
     console.log("changing order, other product id is", otherProductID);
 
     // now set the order of that product
     const setOrderQueryText = `UPDATE streams_products SET "order" = $1 WHERE product_id = $2 AND stream_id = $3`;
     const newOtherProductOrder =
-      req.body.type == "increase" ? req.body.order - 1 : req.body.order + 1;
+      req.body.type == "increase" ? req.body.order : req.body.order + 1;
     const firstQueryParams = [
       newOtherProductOrder,
       otherProductID,

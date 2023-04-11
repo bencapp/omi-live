@@ -18,7 +18,17 @@ function EditStreamProduct({ product }) {
     });
   };
 
-  const handleOrderDecrease = () => {};
+  const handleOrderDecrease = () => {
+    dispatch({
+      type: "ORDER_CHANGE",
+      payload: {
+        productID: product.id,
+        order: product.order,
+        currentStream: currentStream,
+        type: "decrease",
+      },
+    });
+  };
 
   return (
     <Box
