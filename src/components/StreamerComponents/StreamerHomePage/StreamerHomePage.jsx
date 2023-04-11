@@ -4,11 +4,22 @@ import { useState } from "react";
 import StreamerProductsList from "../StreamerProductsList/StreamerProductsList";
 import StreamsList from "../StreamsList/StreamsList";
 
-import { Link } from "@mui/material";
+import { Link, Button, Typography } from "@mui/material";
+import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
 
 function StreamerHomePage() {
   const [display, setDisplay] = useState("streams");
+  const [copied, setCopied] = useState(false);
   const user = useSelector((store) => store.user);
+  const streamKey = `?key=${user.stream_key}&user=${user.username}&pass='CHANGE ME'`;
+
+  const copyKey = () => {
+    navigator.clipboard.writeText(streamKey);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
 
   return (
     <div
@@ -19,8 +30,24 @@ function StreamerHomePage() {
         gap: "10px",
       }}
     >
-      <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>
-        STREAMER<br></br>HOME
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}
+      >
+        <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>
+          STREAMER<br></br>HOME
+        </div>
+        <Button
+          startIcon={copied ? '' : <KeyRoundedIcon />}
+          sx={{ height: "2.5em", width: "10em" }}
+          onClick={copied ? null : copyKey}
+        >
+        {copied ? 'Copied!' : 'COPY KEY'}
+        </Button>
       </div>
       <nav
         style={{
