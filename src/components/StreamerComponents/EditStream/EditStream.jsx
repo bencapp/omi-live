@@ -50,8 +50,8 @@ function EditStream() {
                 EDIT INFO
               </Button>
             </Box>
-
-            {currentStream.products[0].name ? (
+            {/* && currentStream.products[0]?.name */}
+            {currentStream ? (
               currentStream.products
                 .sort((a, b) => a.order - b.order)
                 .map((product) => (
