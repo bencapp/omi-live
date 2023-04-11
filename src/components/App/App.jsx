@@ -81,6 +81,7 @@ function App() {
           <AdminProtectedRoute exact path="/edit-stream">
             <EditStream />
           </AdminProtectedRoute>
+
           <ProtectedRoute
             // logged in shows chat else shows LoginPage
             exact
@@ -88,10 +89,6 @@ function App() {
           >
             <Chat />
           </ProtectedRoute>
-
-          <AdminProtectedRoute exact path="/streamer-home">
-            <StreamerHome />
-          </AdminProtectedRoute>
 
           <Route exact path="/login">
             {user.id ? (
