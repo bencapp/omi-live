@@ -1,8 +1,10 @@
-import { all } from 'redux-saga/effects';
-import loginSaga from './login.saga';
-import registrationSaga from './registration.saga';
-import userSaga from './user.saga';
-import streamsSaga from './streams.saga'
+import { all } from "redux-saga/effects";
+import loginSaga from "./login.saga";
+import registrationSaga from "./registration.saga";
+import userSaga from "./user.saga";
+import streamsSaga from "./streams.saga";
+import productsSaga from "./products.saga";
+import usersProductsSaga from "./usersProducts.saga";
 import chatSaga from './chat.saga';
 
 // rootSaga is the primary saga.
@@ -18,6 +20,8 @@ export default function* rootSaga() {
     registrationSaga(),
     userSaga(),
     streamsSaga(),
+    productsSaga(),
+    usersProductsSaga(),
     chatSaga(),
   ]);
 }

@@ -4,6 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { useEffect } from "react";
 import dayjs from "dayjs";
 
 import { useState } from "react";
@@ -34,6 +35,11 @@ function EditStreamInfo({ handleCancelEditInfo }) {
     });
     handleCancelEditInfo();
   };
+
+  useEffect(() => {
+    setNewTitle(currentStream?.title);
+    setNewDescription(currentStream?.description);
+  }, []);
 
   return (
     <Box
