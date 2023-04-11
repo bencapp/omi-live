@@ -35,7 +35,6 @@ server.listen(3001, () => {
 
 // Route includes
 const usersRouter = require("./routes/users.router");
-const streamsRouter = require("./routes/streams.router");
 const productsRouter = require("./routes/products.router");
 const usersProductsRouter = require("./routes/usersProducts.router");
 
@@ -52,7 +51,6 @@ app.use(passport.session());
 
 /* Routes */
 app.use("/api/user", usersRouter);
-app.use("/api/streams", streamsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/users-products", usersProductsRouter);
 

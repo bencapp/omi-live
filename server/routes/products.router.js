@@ -2,18 +2,61 @@ const express = require("express");
 const pool = require("../modules/pool");
 const router = express.Router();
 
-/**
- * GET route for getting all products
- */
-router.get("/", (req, res) => {
-  // GET route code here
+router.get("/", async (req, res) => {
+  const sqlQuery = "SELECT * FROM products";
+  try {
+    const result = await pool.query(sqlQuery);
+    const products = result.rows;
+    console.log("products", products);
+    res.send(products);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
 });
 
-/**
- * POST route template
- */
+// router.get("/", (req, res) => {
+//   const sqlQuery = `
+//   SELECT * FROM products
+//   ;`;
+//   pool
+//     .query(sqlQuery)
+//     .then((result) => {
+//       //console.log("show:", result.rows);
+//       res.send(result.rows);
+//     })
+//     .catch((error) => {
+//       console.error("ERROR", error);
+//       res.sendStatus(500);
+//     });
+// });
+
 router.post("/", (req, res) => {
-  // POST route code here
+  const sqlQuery = `
+    INSERT INTO products 
+      (name, url, description, coupon_code ,image_url)
+    VALUES 
+      ($1, $2, $3, $4, $5)
+  `;
+  //console.log("REQ BODy", req.body);
+  const sqlValues = [
+    req.body.payload.name,
+    req.body.payload.productUrl,
+    req.body.payload.description,
+    req.body.payload.couponCode,
+    req.body.payload.imageUrl,
+  ];
+  console.log("SEE IFIT WORKSD", sqlValues);
+  pool
+    .query(sqlQuery, sqlValues)
+    .then((result) => {
+      const newProduct = result.rows[0];
+      res.status(201).send(newProduct);
+    })
+    .catch((error) => {
+      console.error("Error in post", error);
+      res.sendStatus(500);
+    });
 });
 
 // GET route for getting a single product by ID

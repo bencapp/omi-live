@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   TextField,
@@ -8,11 +8,16 @@ import {
   TextareaAutosize,
   CardMedia,
 } from "@mui/material";
+import Swal from "sweetalert2";
 
 function InfoPage() {
-  const [url, setUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
   const [couponCode, setCouponCode] = useState("");
+  const [productUrl, setProductUrl] = useState("");
+  const [name, setName] = useState("");
+
+  const addProducts = useSelector((store) => store.getProducts);
 
   const dispatch = useDispatch();
 
@@ -20,16 +25,33 @@ function InfoPage() {
     e.preventDefault();
     dispatch({
       type: "ADD_PRODUCT",
-      payload: { url, description, couponCode },
+      payload: { name, productUrl, imageUrl, description, couponCode },
     });
-    setUrl("");
+    setName("");
+    setImageUrl("");
+    setProductUrl("");
     setDescription("");
     setCouponCode("");
   };
 
-  // const handleCopyCouponCode = () => {
-  //   navigator.clipboard.writeText(couponCode);
-  // };
+  const handleCancel = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Your changes will not be saved.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setImageUrl("");
+        setDescription("");
+        setCouponCode("");
+        Swal.fire("Cancelled!", "Your changes have been discarded.", "success");
+      }
+    });
+  };
 
   return (
     <form
@@ -49,20 +71,43 @@ function InfoPage() {
         }}
       >
         <Typography variant="h5"> Add Product</Typography>
-        <Typography> URL: </Typography>
+        <Typography>Name:</Typography>
         <TextField
           id="standard-basic"
           variant="standard"
           type="text"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
-        {url && (
-          <img
-            src={url}
+        <Typography> Product URL: </Typography>
+        <TextField
+          id="product-url"
+          variant="standard"
+          type="text"
+          value={productUrl}
+          onChange={(e) => setProductUrl(e.target.value)}
+        />
+        {productUrl && (
+          <Typography>
+            <a href={productUrl} target="_blank" rel="noreferrer">
+              {productUrl}
+            </a>
+          </Typography>
+        )}
+        <Typography> Image URL: </Typography>
+        <TextField
+          id="standard-basic"
+          variant="standard"
+          type="text"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+        />
+        {imageUrl && (
+          <CardMedia
+            component="img"
+            height="240"
+            image={imageUrl}
             alt="Product Preview"
-            width={240}
-            height={240}
             style={{ marginTop: "20px" }}
           />
         )}
@@ -96,15 +141,17 @@ function InfoPage() {
             type="text"
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value)}
-          />{" "}
-          {/* <Button variant="contained" onClick={handleCopyCouponCode}>
-            Copy
-          </Button> */}
+          />
         </label>
       </div>
-      <Button variant="contained" type="submit" sx={{ cursor: "pointer" }}>
-        Add Product
-      </Button>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Button variant="contained" type="button" onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button variant="contained" type="submit" sx={{ cursor: "pointer" }}>
+          Add Product
+        </Button>
+      </div>
     </form>
   );
 }
