@@ -7,7 +7,8 @@ CREATE TABLE "users" (
     "id" SERIAL PRIMARY KEY,
     "username" VARCHAR (80) UNIQUE NOT NULL,
     "password" VARCHAR (1000) NOT NULL,
-    "isAdmin" BOOLEAN DEFAULT FALSE
+    "isAdmin" BOOLEAN DEFAULT FALSE,
+	"stream_key" VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE "products" (
@@ -29,14 +30,15 @@ CREATE TABLE "users_products" (
 CREATE TABLE "streams" (
 	"id" SERIAL PRIMARY KEY,
 	"title" VARCHAR (255),
+	"description" TEXT,
 	"scheduled" TIMESTAMP
 );
 
-CREATE TABLE "streams_items" (
+CREATE TABLE "streams_products" (
 	"id" SERIAL PRIMARY KEY,
-	"stream_id" VARCHAR (255),
-	"product_id" TIMESTAMP,
-	"order" int
+	"stream_id" INT,
+	"product_id" INT,
+	"order" INT
 );
 
 CREATE TABLE "comments" (

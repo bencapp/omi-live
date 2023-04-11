@@ -9,6 +9,30 @@ const app = express();
 const sessionMiddleware = require("./modules/session-middleware");
 const passport = require("./strategies/user.strategy");
 
+//Socket io set up
+app.use(cors());
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server, {
+  //specify the properties/functionality with cors
+  cors: {
+    origins: ["http://localhost:3000", "http://localhost:3001"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("send_message", (data) => {
+    io.emit("receive_message", data);
+  });
+});
+
+server.listen(3001, () => {
+  console.log("SERVER IS RUNNING");
+});
+
 // Route includes
 const usersRouter = require("./routes/users.router");
 const productsRouter = require("./routes/products.router");

@@ -11,6 +11,9 @@ const theme = createTheme({
     secondary: {
       main: "#CBE5DF", // light green
     },
+    warning: {
+      main: "#FFC3C3", // light pink
+    },
   },
   components: {
     MuiButton: {
