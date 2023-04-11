@@ -1,4 +1,8 @@
 const express = require("express");
+const {
+  rejectUnauthenticated,
+  rejectNonAdminUnauthenticated,
+} = require("../modules/authentication-middleware");
 const pool = require("../modules/pool");
 const router = express.Router();
 
@@ -59,19 +63,24 @@ router.post("/", (req, res) => {
     });
 });
 
-/**
- * GET route for getting all products by stream id
- */
-// router.get("/:streamID", (req, res) => {
-//   const queryText = `SELECT * FROM "products" JOIN "streams_products" ON products.id = streams_products.product_id WHERE stream_id = $1`;
-//   const queryParams = [req.params.streamID];
-//   pool
-//     .query(queryText, queryParams)
-//     .then((response) => res.send(response.rows))
-//     .catch((err) => {
-//       console.log("Error executing SQL query", queryText, " : ", err);
-//       res.sendStatus(500);
-//     });
-// });
+// GET route for getting a single product by ID
+router.get("/:productID", rejectUnauthenticated, (req, res) => {
+  console.log("in product get, req.params is", req.params);
+  const queryText = `SELECT products.id, products.name, products.coupon_code, products.coupon_expiration, products.description, products.image_url, products.url, 
+                      EXISTS (SELECT FROM users_products WHERE users_products.product_id = $1 AND users_products.user_id = $2) AS on_user_wishlist
+                      FROM "products"
+                      WHERE products.id = $1;`;
+  const queryParams = [req.params.productID, req.user.id];
+  pool
+    .query(queryText, queryParams)
+    .then((result) => {
+      // console.log("got product by id, result.rows is", result.rows);
+      res.send(result.rows[0]);
+    })
+    .catch((err) => {
+      console.log("Error executing SQL query", queryText, " : ", err);
+      res.sendStatus(500);
+    });
+});
 
 module.exports = router;

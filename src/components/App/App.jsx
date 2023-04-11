@@ -23,6 +23,7 @@ import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHom
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
 import InfoPage from "../InfoPage/InfoPage";
+import ProductDetail from "../ProductDetail/ProductDetail";
 
 import "./App.css";
 
@@ -72,6 +73,12 @@ function App() {
             path="/info"
           >
             <InfoPage />
+          </ProtectedRoute>
+
+          {/* route for displaying all the information for a specific product.
+          This route will render differently depending on whether the user is a streamer or a viewer  */}
+          <ProtectedRoute exact path="/product/:productID">
+            <ProductDetail />
           </ProtectedRoute>
 
           <AdminProtectedRoute exact path="/home">

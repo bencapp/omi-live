@@ -1,5 +1,5 @@
 // stream data format:
-// {id, title, scheduled}
+// {id, title, scheduled, products}
 
 const currentStream = (state = {}, action) => {
   switch (action.type) {
