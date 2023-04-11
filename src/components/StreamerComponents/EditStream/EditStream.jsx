@@ -50,6 +50,7 @@ function EditStream() {
                 EDIT INFO
               </Button>
             </Box>
+            <Box sx={{ alignSelf: "start" }}>{currentStream.description}</Box>
             {/* && currentStream.products[0]?.name */}
             {currentStream ? (
               currentStream.products
