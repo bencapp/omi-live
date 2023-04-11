@@ -20,7 +20,14 @@ function ProductDetail() {
     // POST to users_products table
     dispatch({
       type: "ADD_PRODUCT_TO_WISHLIST",
-      payload: { productID: currentProduct.id, userID: user.id },
+      payload: currentProduct.id,
+    });
+  };
+
+  const handleUnSaveProduct = () => {
+    dispatch({
+      type: "REMOVE_PRODUCT_FROM_WISHLIST",
+      payload: currentProduct.id,
     });
   };
 
@@ -61,7 +68,11 @@ function ProductDetail() {
         ) : (
           <>
             <Button href={currentProduct.url}>BUY</Button>
-            <Button onClick={handleSaveProduct}>ADD TO WISHLIST</Button>
+            {!currentProduct.on_user_wishlist ? (
+              <Button onClick={handleSaveProduct}>ADD TO WISHLIST</Button>
+            ) : (
+              <Button onClick={handleUnSaveProduct}>ON WISHLIST</Button>
+            )}
           </>
         )}
       </Box>

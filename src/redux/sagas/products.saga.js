@@ -1,4 +1,4 @@
-import { put, takeLatest } from "redux-saga/effects";
+import { put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 
 function* getProducts() {
@@ -14,6 +14,7 @@ function* getProducts() {
 // worker Saga: will be fired on "REGISTER" actions
 function* fetchProductByID(action) {
   try {
+    console.log("in fetch product by id, action.payload is", action.payload);
     const response = yield axios.get(`/api/products/${action.payload}`);
     yield put({ type: "SET_CURRENT_PRODUCT", payload: response.data });
   } catch (error) {
@@ -34,7 +35,7 @@ function* postProduct(action) {
 }
 
 function* productsSaga() {
-  yield takeLatest("FETCH_PRODUCT_BY_ID", fetchProductByID);
+  yield takeEvery("FETCH_PRODUCT_BY_ID", fetchProductByID);
   yield takeEvery("GET_PRODUCT", getProducts);
   yield takeEvery("ADD_PRODUCT", postProduct);
 }

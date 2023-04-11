@@ -1,4 +1,8 @@
 const express = require("express");
+const {
+  rejectUnauthenticated,
+  rejectNonAdminUnauthenticated,
+} = require("../modules/authentication-middleware");
 const pool = require("../modules/pool");
 const router = express.Router();
 
@@ -60,9 +64,13 @@ router.post("/", (req, res) => {
 });
 
 // GET route for getting a single product by ID
-router.get("/:productID", (req, res) => {
-  const queryText = `SELECT * FROM "products" WHERE id = $1`;
-  const queryParams = [req.params.productID];
+router.get("/:productID", rejectUnauthenticated, (req, res) => {
+  console.log("in product get, req.params is", req.params);
+  const queryText = `SELECT products.id, products.name, products.coupon_code, products.coupon_expiration, products.description, products.image_url, products.url, 
+                      EXISTS (SELECT FROM users_products WHERE users_products.product_id = $1 AND users_products.user_id = $2) AS on_user_wishlist
+                      FROM "products"
+                      WHERE products.id = $1;`;
+  const queryParams = [req.params.productID, req.user.id];
   pool
     .query(queryText, queryParams)
     .then((result) => {
