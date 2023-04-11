@@ -38,6 +38,7 @@ server.listen(3001, () => {
 
 // Route includes
 const usersRouter = require("./routes/users.router");
+const chatRouter = require("./routes/chat.router");
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -52,6 +53,7 @@ app.use(passport.session());
 
 /* Routes */
 app.use("/api/user", usersRouter);
+app.use("/api/chat", chatRouter);
 
 // Serve static files
 app.use(express.static("build"));

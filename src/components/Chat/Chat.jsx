@@ -12,7 +12,13 @@ function Chat() {
     const [message, setMessage] = useState("")
     //fullchat is all of the messages
     const [fullchat, setFullChat] = useState([])
-    let timestamp = Date.now(); 
+    
+    let date = Date.now()
+    let timestamp = date.toLocaleString('en-US', {
+        dateStyle: 'short',
+        timeStyle: 'short',
+        // hourCycle: 'h24',
+      })
     const sendMessage = () => {
         socket.emit("send_message", { message, user, timestamp })
         //reset input field
