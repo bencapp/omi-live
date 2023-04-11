@@ -14,6 +14,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AdminProtectedRoute from "../AdminProtectedRoute/AdminProtectedRoute";
 
 import AboutPage from "../AboutPage/AboutPage";
+import Chat from "../Chat/Chat"
 import UserPage from "../UserPage/UserPage";
 import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
@@ -67,6 +68,13 @@ function App() {
           >
             <InfoPage />
           </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows chat else shows LoginPage
+            exact
+            path="/chat">
+                <Chat />
+            </ProtectedRoute>
 
           <AdminProtectedRoute exact path="/streamer-home">
             <StreamerHome />
