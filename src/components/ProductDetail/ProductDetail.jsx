@@ -1,13 +1,17 @@
 import { useParams, useHistory } from "react-router-dom";
 import { Box, Link, useTheme, Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import ConfirmBuyPopup from "./ConfirmBuyPopup/ConfirmBuyPopup";
 
 function ProductDetail() {
   const { productID } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
+
+  const [displayConfirmBuy, setDisplayConfirmBuy] = useState(false);
 
   const user = useSelector((store) => store.user);
   const currentProduct = useSelector((store) => store.currentProduct);
@@ -31,6 +35,10 @@ function ProductDetail() {
     });
   };
 
+  const hideConfirmBuyPopup = () => {
+    setDisplayConfirmBuy(false);
+  };
+
   return (
     <Box
       sx={{
@@ -44,6 +52,10 @@ function ProductDetail() {
         gap: "10px",
       }}
     >
+      {displayConfirmBuy && (
+        <ConfirmBuyPopup hideConfirmBuyPopup={hideConfirmBuyPopup} />
+      )}
+
       {/* <Box>Product Detail view for {productID}</Box>
       <Box>User isAdmin is {JSON.stringify(user.isAdmin)}</Box> */}
       <Box sx={{ fontWeight: "bold", fontSize: "1.5rem", alignSelf: "center" }}>
@@ -67,7 +79,7 @@ function ProductDetail() {
           </>
         ) : (
           <>
-            <Button href={currentProduct.url}>BUY</Button>
+            <Button onClick={() => setDisplayConfirmBuy(true)}>BUY</Button>
             {!currentProduct.on_user_wishlist ? (
               <Button onClick={handleSaveProduct}>ADD TO WISHLIST</Button>
             ) : (
