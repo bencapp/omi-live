@@ -10,6 +10,16 @@ function* fetchStreams() {
   }
 }
 
+function* fetchStreamByID(action) {
+  try {
+    const response = yield axios.get(`/api/streams${action.payload.streamID}`);
+    // set stream to the current stream reducer
+    yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
+  } catch (error) {
+    console.log("Error with fetch streams saga:", error);
+  }
+}
+
 // this saga posts an empty stream to the database in preparation for the user to edit the stream in question
 function* postEmptyStream(action) {
   try {
@@ -48,8 +58,12 @@ function* orderChange(action) {
         type: action.payload.type,
       }
     );
-    // TODO: fetch stream by ID
-    // yield put({ type: "SET_CURRENT_STREAM", payload: currentStream });
+    // TODO: fetch stream by ID after it has been updated
+    const response = yield axios.get(
+      `/api/streams/${action.payload.currentStream.id}`
+    );
+    console.log("changed order and got stream by id, response is", response);
+    yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
   } catch (error) {
     console.log("Error with order change stream saga:", error);
   }
@@ -57,6 +71,7 @@ function* orderChange(action) {
 
 function* streamsSaga() {
   yield takeEvery("FETCH_STREAMS", fetchStreams);
+  yield takeEvery("FETCH_STREAM_BY_ID", fetchStreamByID);
   yield takeEvery("POST_EMPTY_STREAM", postEmptyStream);
   yield takeEvery("UPDATE_STREAM_INFO", updateStreamInfo);
   yield takeEvery("ORDER_CHANGE", orderChange);

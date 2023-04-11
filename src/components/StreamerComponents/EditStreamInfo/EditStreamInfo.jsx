@@ -14,8 +14,8 @@ function EditStreamInfo() {
   const history = useHistory();
 
   const [newDate, setNewDate] = useState();
-  const [newTitle, setNewTitle] = useState("");
-  const [newDescription, setNewDescription] = useState("");
+  const [newTitle, setNewTitle] = useState();
+  const [newDescription, setNewDescription] = useState();
 
   const currentStream = useSelector((store) => store.currentStream);
 
@@ -50,19 +50,21 @@ function EditStreamInfo() {
       <div>CREATE A NEW STREAM</div>
       <InputLabel>TITLE</InputLabel>
       <TextField
+        defaultValue={currentStream?.title}
         value={newTitle}
         onChange={(e) => setNewTitle(e.target.value)}
       ></TextField>
       <InputLabel>DESCRIPTION</InputLabel>
       <TextField
         multiline
+        defaultValue={currentStream?.description}
         value={newDescription}
         onChange={(e) => setNewDescription(e.target.value)}
       ></TextField>
       <InputLabel>DATE</InputLabel>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
-          defaultValue={dayjs()}
+          defaultValue={dayjs(currentStream.scheduled)}
           date={newDate}
           onChange={(date) => setNewDate(date)}
         />

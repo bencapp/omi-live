@@ -28,12 +28,13 @@ router.get("/:streamID", (req, res) => {
                       FROM "streams" 
                       LEFT JOIN "streams_products" ON streams.id = streams_products.stream_id 
                       LEFT JOIN products ON streams_products.product_id = products.id 
-                      GROUP BY streams.id
-                      WHERE streams.id = $1;`;
+                      WHERE streams.id = $1
+                      GROUP BY streams.id;`;
   const queryParams = [req.params.streamID];
+  console.log("in get stream by id, id is", req.params.streamID);
   pool
     .query(queryText, queryParams)
-    .then((result) => res.send(result.rows))
+    .then((result) => res.send(result.rows[0]))
     .catch((err) => {
       console.log("Error executing SQL query", queryText, " : ", err);
       res.sendStatus(500);
@@ -108,8 +109,7 @@ router.put("/order-change/:streamID", async (req, res) => {
 
     // now set the order of that product
     const setOrderQueryText = `UPDATE streams_products SET "order" = $1 WHERE product_id = $2 AND stream_id = $3`;
-    const newOtherProductOrder =
-      req.body.type == "increase" ? req.body.order : req.body.order + 1;
+    const newOtherProductOrder = req.body.order;
     const firstQueryParams = [
       newOtherProductOrder,
       otherProductID,

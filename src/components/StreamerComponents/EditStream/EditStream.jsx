@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { useState } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import EditStreamInfo from "../EditStreamInfo/EditStreamInfo";
 import EditStreamProduct from "./EditStreamProduct/EditStreamProduct";
@@ -8,10 +9,12 @@ function EditStream() {
   const currentStream = useSelector((store) => store.currentStream);
   const theme = useTheme();
 
+  const [displayEditInfo, setDisplayEditInfo] = useState(false);
+
   return (
     <Box sx={{ padding: "0px 20px" }}>
       {/* if stream does not have a date planned, render 'create a new stream'; else render 'edit stream' */}
-      {!currentStream.scheduled ? (
+      {!currentStream.scheduled || displayEditInfo ? (
         <EditStreamInfo />
       ) : (
         <>
@@ -39,7 +42,9 @@ function EditStream() {
                 <b>{currentStream.title}</b>,{" "}
                 {dayjs(currentStream.scheduled).format("DD/MM/YYYY")}
               </Box>
-              <Button size="small">EDIT INFO</Button>
+              <Button size="small" onClick={() => setDisplayEditInfo(true)}>
+                EDIT INFO
+              </Button>
             </Box>
 
             {currentStream.products[0].name ? (
