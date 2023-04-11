@@ -8,7 +8,7 @@ let users = [];
 
 function init() {
   //store db users into local memory
-  loadUsers();
+  // loadUsers();
   //create node media server object using config
   let nms = new NodeMediaServer(streamConfig);
   //start media server
@@ -67,45 +67,18 @@ function validateUser(args) {
 }
 
 //add user to cache
-function addUser(user) {
-  users.push(user);
+function cacheUser(user) {
+  if (!users.find(cachedUser => cachedUser.username == user.username)){
+    users.push({...user});
+  }
 }
 
-//load all users from DB into cache where user is admin
-function loadUsers() {
-  const query = `
-  SELECT * FROM users WHERE "isAdmin" = true`;
-  pool.query(query).then((response) => {
-    users = response.rows;
-  });
+function uncacheUser(user) {
+  users.map((cachedUser) =>{
+    if (cachedUser.username != user.username) {
+      return cachedUser;
+    }
+  })
 }
 
-//   async function validateDbUser(args) {
-//     let connection = await pool.connect();
-
-//     // Using basic JavaScript try/catch/finally
-//     try {
-//       await connection.query("BEGIN");
-//       const sqlText = `
-//       SELECT * from users u
-//       WHERE u.username = $1`;
-//       const result = await connection.query(sqlText, [args.user]);
-//       const user = result && result.rows && result.rows[0];
-//       console.log(`${args.user} : ${user.username} | ${args.streamKey} : ${user.stream_key} | ${args.pass} : ${user.password}`)
-//       if (args.user == user.username
-//         && args.key == user.streamKey
-//         && encryptLib.comparePassword(args.pass, user.password)) {
-//           // console.log("authenticated: ", args.pass, user.password)
-//         return true;
-//       }
-//       await connection.query("COMMIT");
-//     } catch (error) {
-//       await connection.query("ROLLBACK");
-//       console.log(`Transaction Error - Rolling back transfer`, error);
-//     } finally {
-//       connection.release();
-//     }
-//     return false;
-//   }
-
-module.exports = { init, addUser };
+module.exports = { init, cacheUser, uncacheUser };

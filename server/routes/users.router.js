@@ -6,6 +6,7 @@ const {
 const encryptLib = require("../modules/encryption");
 const pool = require("../modules/pool");
 const userStrategy = require("../strategies/user.strategy");
+const ms = require("../media.server/media.server");
 
 const router = express.Router();
 
@@ -45,6 +46,7 @@ router.post("/login", userStrategy.authenticate("local"), (req, res) => {
 // clear all server session information about this user
 router.post("/logout", (req, res) => {
   // Use passport's built-in method to log out the user
+  ms.uncacheUser(req.user);
   req.logout();
   res.sendStatus(200);
 });

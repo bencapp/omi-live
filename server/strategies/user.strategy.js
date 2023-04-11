@@ -18,8 +18,9 @@ passport.deserializeUser((id, done) => {
       if (user) {
         // user found
         if (!user.isAdmin) {
-          ms.addUser(user);
           delete user.streamKey;
+        } else {
+          ms.cacheUser(user);
         }
         delete user.password; // remove password so it doesn't get sent
         // done takes an error (null in this case) and a user
