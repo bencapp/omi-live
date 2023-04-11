@@ -37,6 +37,7 @@ server.listen(3001, () => {
 const usersRouter = require("./routes/users.router");
 const productsRouter = require("./routes/products.router");
 const usersProductsRouter = require("./routes/usersProducts.router");
+const streamsRouter = require("./routes/streams.router");
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -53,6 +54,7 @@ app.use(passport.session());
 app.use("/api/user", usersRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/users-products", usersProductsRouter);
+app.use("/api/streams", streamsRouter);
 
 // Serve static files
 app.use(express.static("build"));
