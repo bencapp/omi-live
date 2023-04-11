@@ -40,11 +40,11 @@ router.post("/", (req, res) => {
   `;
   //console.log("REQ BODy", req.body);
   const sqlValues = [
-    req.body.name,
-    req.body.productUrl,
-    req.body.description,
-    req.body.couponCode,
-    req.body.imageUrl,
+    req.body.payload.name,
+    req.body.payload.productUrl,
+    req.body.payload.description,
+    req.body.payload.couponCode,
+    req.body.payload.imageUrl,
   ];
   console.log("SEE IFIT WORKSD", sqlValues);
   pool
