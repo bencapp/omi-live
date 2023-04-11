@@ -5,7 +5,7 @@ const router = express.Router();
 /**
  * GET route
  */
-router.get('/:id', rejectUnauthenticated, (req, res) => {
+router.get("/:id", rejectUnauthenticated, (req, res) => {
     const queryText = `SELECT "comments".text, "comments".timestamp, "users".username FROM "comments"
                     JOIN "users" ON "users".id = "comments".user_id
                     WHERE "comments".stream_id = 1
@@ -41,13 +41,5 @@ router.post("/", rejectUnauthenticated, (req, res) => {
       });
   });
 
-
-
-router.post('/', (req, res) => {
-    const queryText =
-    `INSERT INTO comments ("user_id", "text", "timestamp")
-    VALUES ($1, $2, current_timestamp)`;
-    pool.query(queryText, [req.body])
-});
 
 module.exports = router;

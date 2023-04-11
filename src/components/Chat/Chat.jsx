@@ -13,14 +13,18 @@ function Chat() {
 
     const [message, setMessage] = useState("")
     //fullchat is all of the messages
-    const [fullchat, setFull Chat] = useState([])
+    const [fullchat, setFullChat] = useState([])
     
     const sendMessage = () => {
-        socket.emit("send_message", { message, user})
+        // socket.emit("send_message", { message, user})
         //reset input field
         dispatch({
             type: 'POST_CHAT',
-            payload: { newSpot},
+            payload: {
+                stream_id: , 
+                text: message, 
+                user_id: user
+            },
         });
         setMessage("");
     };
