@@ -6,8 +6,7 @@ import { useSelector } from "react-redux";
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 
 // A Custom Wrapper Component -- This will keep our code DRY.
-// Responsible for watching redux state, and returning an appropriate component
-// API for this component is the same as a regular route
+// This should wrap ALL COMPONENTS that are only accessible by the admin/streamer account
 
 function AdminProtectedRoute({ component, children, ...props }) {
   const user = useSelector((store) => store.user);
