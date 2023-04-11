@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   TextField,
@@ -8,11 +8,14 @@ import {
   TextareaAutosize,
   CardMedia,
 } from "@mui/material";
+import Swal from "sweetalert2";
 
 function InfoPage() {
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [couponCode, setCouponCode] = useState("");
+
+  const addProducts = useSelector((store) => store.getProducts);
 
   const dispatch = useDispatch();
 
@@ -27,9 +30,24 @@ function InfoPage() {
     setCouponCode("");
   };
 
-  // const handleCopyCouponCode = () => {
-  //   navigator.clipboard.writeText(couponCode);
-  // };
+  const handleCancel = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Your changes will not be saved.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setUrl("");
+        setDescription("");
+        setCouponCode("");
+        Swal.fire("Cancelled!", "Your changes have been discarded.", "success");
+      }
+    });
+  };
 
   return (
     <form
@@ -96,15 +114,17 @@ function InfoPage() {
             type="text"
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value)}
-          />{" "}
-          {/* <Button variant="contained" onClick={handleCopyCouponCode}>
-            Copy
-          </Button> */}
+          />
         </label>
       </div>
-      <Button variant="contained" type="submit" sx={{ cursor: "pointer" }}>
-        Add Product
-      </Button>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Button variant="contained" type="button" onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button variant="contained" type="submit" sx={{ cursor: "pointer" }}>
+          Add Product
+        </Button>
+      </div>
     </form>
   );
 }
