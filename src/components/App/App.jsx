@@ -14,12 +14,14 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AdminProtectedRoute from "../AdminProtectedRoute/AdminProtectedRoute";
 
 import AboutPage from "../AboutPage/AboutPage";
-import Chat from "../Chat/Chat"
+import Chat from "../Chat/Chat";
 import UserPage from "../UserPage/UserPage";
 import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
-import StreamerHome from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
+import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
+import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
+import EditStream from "../StreamerComponents/EditStream/EditStream";
 import InfoPage from "../InfoPage/InfoPage";
 
 import "./App.css";
@@ -36,9 +38,12 @@ function App() {
   return (
     <Router>
       <div>
+        {/* If the user is logged in, display the nav bar */}
+        {user.id && <Nav />}
+
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
-          <Redirect exact from="/" to="/home" />
+          {/* <Redirect exact from="/" to="/home" /> */}
 
           {/* Visiting localhost:3000/about will show the about page. */}
           <Route
@@ -56,9 +61,9 @@ function App() {
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
             exact
-            path="/user"
+            path="/viewer-home"
           >
-            <UserPage />
+            <ViewerHomePage />
           </ProtectedRoute>
 
           <ProtectedRoute
@@ -69,22 +74,27 @@ function App() {
             <InfoPage />
           </ProtectedRoute>
 
+          <AdminProtectedRoute exact path="/home">
+            <StreamerHomePage />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute exact path="/edit-stream">
+            <EditStream />
+          </AdminProtectedRoute>
+
           <ProtectedRoute
             // logged in shows chat else shows LoginPage
             exact
-            path="/chat">
-                <Chat />
-            </ProtectedRoute>
-
-          <AdminProtectedRoute exact path="/streamer-home">
-            <StreamerHome />
-          </AdminProtectedRoute>
+            path="/chat"
+          >
+            <Chat />
+          </ProtectedRoute>
 
           <Route exact path="/login">
             {user.id ? (
               // If the user is already logged in,
               // redirect to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/home" />
             ) : (
               // Otherwise, show the login page
               <LoginPage />
@@ -95,20 +105,22 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/viewer-home" />
             ) : (
               // Otherwise, show the registration page
               <RegisterPage />
             )}
           </Route>
 
-          <Route exact path="/home">
-            {user.id ? (
+          <Route exact path="/">
+            {user.id && user.isAdmin ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/user" />
-            ) : (
+              <Redirect to="/home" />
+            ) : user.id ? (
               // Otherwise, show the Landing page
+              <Redirect to="/viewer-home" />
+            ) : (
               <LandingPage />
             )}
           </Route>
