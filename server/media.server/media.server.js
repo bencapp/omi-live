@@ -25,7 +25,6 @@ function init() {
 
         const validated = validateUser(args);
         //validate parameters passed by streaming environment
-        console.log(validated);
         if (validated) {
           //change current stream path to appIdentifier/username i.e. http://localhost/live/omi
           session.publishStreamPath =
@@ -74,11 +73,7 @@ function cacheUser(user) {
 }
 
 function uncacheUser(user) {
-  users.map((cachedUser) =>{
-    if (cachedUser.username != user.username) {
-      return cachedUser;
-    }
-  })
+  users = users.filter((cached) => cached.id != user.id);
 }
 
 module.exports = { init, cacheUser, uncacheUser };
