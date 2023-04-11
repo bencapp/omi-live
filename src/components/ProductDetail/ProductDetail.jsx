@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 
 import ConfirmBuyPopup from "./ConfirmBuyPopup/ConfirmBuyPopup";
+import ConfirmDeletePopup from "./ConfirmDeletePopup/ConfirmDeletePopup";
+import ViewerOptions from "./ViewerOptions/ViewerOptions";
+import StreamerOptions from "./StreamerOptions/StreamerOptions";
 
 function ProductDetail() {
   const { productID } = useParams();
@@ -12,6 +15,7 @@ function ProductDetail() {
   const theme = useTheme();
 
   const [displayConfirmBuy, setDisplayConfirmBuy] = useState(false);
+  const [displayConfirmDelete, setDisplayConfirmDelete] = useState(false);
 
   const user = useSelector((store) => store.user);
   const currentProduct = useSelector((store) => store.currentProduct);
@@ -19,26 +23,6 @@ function ProductDetail() {
   useEffect(() => {
     dispatch({ type: "FETCH_PRODUCT_BY_ID", payload: productID });
   }, []);
-
-  const handleSaveProduct = () => {
-    // POST to users_products table
-    dispatch({
-      type: "ADD_PRODUCT_TO_WISHLIST",
-      payload: currentProduct.id,
-    });
-  };
-
-  const handleUnSaveProduct = () => {
-    dispatch({
-      type: "REMOVE_PRODUCT_FROM_WISHLIST",
-      payload: currentProduct.id,
-    });
-  };
-
-  const handleClickBuy = () => {
-    setDisplayConfirmBuy(true);
-    navigator.clipboard.writeText(currentProduct.coupon_code);
-  };
 
   const hideConfirmBuyPopup = () => {
     setDisplayConfirmBuy(false);
@@ -61,6 +45,10 @@ function ProductDetail() {
         <ConfirmBuyPopup hideConfirmBuyPopup={hideConfirmBuyPopup} />
       )}
 
+      {displayConfirmDelete && (
+        <ConfirmDeletePopup setDisplayConfirmDelete={setDisplayConfirmDelete} />
+      )}
+
       {/* <Box>Product Detail view for {productID}</Box>
       <Box>User isAdmin is {JSON.stringify(user.isAdmin)}</Box> */}
       <Box sx={{ fontWeight: "bold", fontSize: "1.5rem", alignSelf: "center" }}>
@@ -76,21 +64,9 @@ function ProductDetail() {
       {/* MUI link */}
       <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
         {user.isAdmin ? (
-          <>
-            <Button color="warning" sx={{ color: "black" }}>
-              DELETE PRODUCT
-            </Button>
-            <Button>EDIT PRODUCT INFO</Button>
-          </>
+          <StreamerOptions setDisplayConfirmDelete={setDisplayConfirmDelete} />
         ) : (
-          <>
-            <Button onClick={handleClickBuy}>BUY</Button>
-            {!currentProduct.on_user_wishlist ? (
-              <Button onClick={handleSaveProduct}>ADD TO WISHLIST</Button>
-            ) : (
-              <Button onClick={handleUnSaveProduct}>ON WISHLIST</Button>
-            )}
-          </>
+          <ViewerOptions setDisplayConfirmBuy={setDisplayConfirmBuy} />
         )}
       </Box>
     </Box>
