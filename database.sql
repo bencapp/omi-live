@@ -12,13 +12,13 @@ CREATE TABLE "users" (
 );
 
 CREATE TABLE "products" (
-	"id" SERIAL PRIMARY KEY,
-	"name" VARCHAR (255),
-	"image_url" TEXT,
-	"description" TEXT,
-	"coupon_code" VARCHAR (255),
-	"coupon_expiration" TIMESTAMP,
-	"url" TEXT
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR (255),
+    "image_url" TEXT,
+    "description" TEXT,
+    "coupon_code" VARCHAR (255),
+    "coupon_expiration" TIMESTAMP,
+    "url" TEXT
 );
 
 CREATE TABLE "users_products" (

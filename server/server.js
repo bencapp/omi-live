@@ -35,7 +35,6 @@ server.listen(3001, () => {
 
 // Route includes
 const usersRouter = require("./routes/users.router");
-const streamsRouter = require("./routes/streams.router");
 const productsRouter = require("./routes/products.router");
 
 // Body parser middleware
@@ -51,7 +50,6 @@ app.use(passport.session());
 
 /* Routes */
 app.use("/api/user", usersRouter);
-app.use("/api/streams", streamsRouter);
 app.use("/api/products", productsRouter);
 
 // Serve static files
