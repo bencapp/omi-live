@@ -24,7 +24,7 @@ function* postProduct(action) {
 
 function* fetchProducts() {
   yield takeEvery("GET_PRODUCTS", products);
-  yield takeEvery("POST_PRODUCTS", postProduct);
+  yield takeEvery("ADD_PRODUCT", postProduct);
 }
 
 export default fetchProducts;

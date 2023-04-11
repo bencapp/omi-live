@@ -32,24 +32,21 @@ router.get("/", async (req, res) => {
 // });
 
 router.post("/", (req, res) => {
-  const { name, image_url, description, coupon_code, coupon_expiration, url } =
-    req.body;
-
   const sqlQuery = `
     INSERT INTO products 
-      (name, image_url, description, coupon_code, coupon_expiration, url)
+      (name, image_url, description, coupon_code,url)
     VALUES 
-      ($1, $2, $3, $4, $5, $6)
+      ($1, $2, $3, $4, $5)
   `;
-
+  console.log("REQ BODy", req.body);
   const sqlValues = [
-    name,
-    image_url,
-    description,
-    coupon_code,
-    coupon_expiration,
-    url,
+    req.body.name,
+    req.body.image_url,
+    req.body.description,
+    req.body.couponCode,
+    req.body.url,
   ];
+  console.log("SEE IFIT WORKSD", sqlValues);
   pool
     .query(sqlQuery, sqlValues)
     .then((result) => {

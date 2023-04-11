@@ -1,6 +1,6 @@
 const addProduct = (state = [], action) => {
-  if (action.type === "ADD_PRODUCT") {
-    return [action.payload];
+  if (action.type === "SHOW_PRODUCT") {
+    return [...state, action.payload];
   }
   return state;
 };
