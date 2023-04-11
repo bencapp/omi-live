@@ -8,20 +8,20 @@ const socket = io.connect("http://localhost:3001")
 function Chat() {
     //get current user
     const user = useSelector((store) => store.user)
+    //get current stream id
+    const streamid = useSelector((store) => store.)
 
     const [message, setMessage] = useState("")
     //fullchat is all of the messages
-    const [fullchat, setFullChat] = useState([])
+    const [fullchat, setFull Chat] = useState([])
     
-    let date = Date.now()
-    let timestamp = date.toLocaleString('en-US', {
-        dateStyle: 'short',
-        timeStyle: 'short',
-        // hourCycle: 'h24',
-      })
     const sendMessage = () => {
-        socket.emit("send_message", { message, user, timestamp })
+        socket.emit("send_message", { message, user})
         //reset input field
+        dispatch({
+            type: 'POST_CHAT',
+            payload: { newSpot},
+        });
         setMessage("");
     };
 

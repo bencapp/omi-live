@@ -21,15 +21,20 @@ const io = new Server(server, {
   }
 });
 
+// assign io object to the invite router. That way, we can call the
+// socket functions within express endpoints.
+// middleware
+app.use((req, res, next) => {
+  req.io = io;
+  return next();
+});
+
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`)
 
   socket.on("send_message", (data) => {
     io.emit("receive_message", data); 
   })
-
-  
-
 })
 
 server.listen(3001, () => {
