@@ -62,13 +62,12 @@ function ProductDetail() {
       <Box>DISCOUNT CODE: {currentProduct.coupon_code}</Box>
       <Box>Expires {currentProduct.coupon_expiration}</Box>
       {/* MUI link */}
-      <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
-        {user.isAdmin ? (
-          <StreamerOptions setDisplayConfirmDelete={setDisplayConfirmDelete} />
-        ) : (
-          <ViewerOptions setDisplayConfirmBuy={setDisplayConfirmBuy} />
-        )}
-      </Box>
+
+      {user.isAdmin ? (
+        <StreamerOptions setDisplayConfirmDelete={setDisplayConfirmDelete} />
+      ) : (
+        <ViewerOptions setDisplayConfirmBuy={setDisplayConfirmBuy} />
+      )}
     </Box>
   );
 }

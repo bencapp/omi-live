@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 
 function ViewerOptions({ setDisplayConfirmBuy }) {
@@ -26,14 +26,14 @@ function ViewerOptions({ setDisplayConfirmBuy }) {
   };
 
   return (
-    <>
+    <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
       <Button onClick={handleClickBuy}>BUY</Button>
       {!currentProduct.on_user_wishlist ? (
         <Button onClick={handleSaveProduct}>ADD TO WISHLIST</Button>
       ) : (
         <Button onClick={handleUnSaveProduct}>ON WISHLIST</Button>
       )}
-    </>
+    </Box>
   );
 }
 

@@ -1,8 +1,8 @@
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 
 function StreamerOptions({ setDisplayConfirmDelete }) {
   return (
-    <>
+    <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
       <Button
         color="warning"
         sx={{ color: "black" }}
@@ -11,7 +11,7 @@ function StreamerOptions({ setDisplayConfirmDelete }) {
         DELETE PRODUCT
       </Button>
       <Button>EDIT PRODUCT INFO</Button>
-    </>
+    </Box>
   );
 }
 
