@@ -2,6 +2,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const encryptLib = require("../modules/encryption");
 const pool = require("../modules/pool");
+const ms = require("../media.server/media.server");
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -16,6 +17,11 @@ passport.deserializeUser((id, done) => {
 
       if (user) {
         // user found
+        if (!user.isAdmin) {
+          delete user.streamKey;
+        } else {
+          ms.cacheUser(user);
+        }
         delete user.password; // remove password so it doesn't get sent
         // done takes an error (null in this case) and a user
         done(null, user);
