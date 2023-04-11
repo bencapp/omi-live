@@ -23,8 +23,8 @@ router.get("/:productID", (req, res) => {
   pool
     .query(queryText, queryParams)
     .then((result) => {
-      console.log("got product by id, result.rows is", result.rows);
-      res.send(result.rows);
+      // console.log("got product by id, result.rows is", result.rows);
+      res.send(result.rows[0]);
     })
     .catch((err) => {
       console.log("Error executing SQL query", queryText, " : ", err);
