@@ -32,6 +32,7 @@ function EditStreamInfo({ handleCancelEditInfo }) {
         history: history,
       },
     });
+    handleCancelEditInfo();
   };
 
   return (
