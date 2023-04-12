@@ -22,7 +22,7 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
-import InfoPage from "../InfoPage/InfoPage";
+import AddProduct from "../StreamerComponents/AddProduct/AddProduct";
 import ProductDetail from "../ProductDetail/ProductDetail";
 
 import "./App.css";
@@ -67,14 +67,6 @@ function App() {
             <ViewerHomePage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
-            exact
-            path="/info"
-          >
-            <InfoPage />
-          </ProtectedRoute>
-
           {/* route for displaying all the information for a specific product.
           This route will render differently depending on whether the user is a streamer or a viewer  */}
           <ProtectedRoute exact path="/product/:productID">
@@ -87,6 +79,22 @@ function App() {
 
           <AdminProtectedRoute exact path="/edit-stream">
             <EditStream />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/add-product"
+          >
+            <AddProduct />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/edit-product/:productID"
+          >
+            <AddProduct />
           </AdminProtectedRoute>
 
           <ProtectedRoute

@@ -7,6 +7,7 @@ import ConfirmBuyPopup from "./ConfirmBuyPopup/ConfirmBuyPopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup/ConfirmDeletePopup";
 import ViewerOptions from "./ViewerOptions/ViewerOptions";
 import StreamerOptions from "./StreamerOptions/StreamerOptions";
+import ConfirmRemoveFromStream from "./ConfirmRemoveFromStream/ConfirmRemoveFromStream";
 
 function ProductDetail() {
   const { productID } = useParams();
@@ -16,6 +17,8 @@ function ProductDetail() {
 
   const [displayConfirmBuy, setDisplayConfirmBuy] = useState(false);
   const [displayConfirmDelete, setDisplayConfirmDelete] = useState(false);
+  const [displayConfirmRemoveFromStream, setDisplayConfirmRemoveFromStream] =
+    useState(false);
 
   const user = useSelector((store) => store.user);
   const currentProduct = useSelector((store) => store.currentProduct);
@@ -49,6 +52,13 @@ function ProductDetail() {
         <ConfirmDeletePopup setDisplayConfirmDelete={setDisplayConfirmDelete} />
       )}
 
+      {displayConfirmRemoveFromStream && (
+        <ConfirmRemoveFromStream
+          setDisplayConfirmRemoveFromStream={setDisplayConfirmRemoveFromStream}
+          productID={productID}
+        />
+      )}
+
       {/* <Box>Product Detail view for {productID}</Box>
       <Box>User isAdmin is {JSON.stringify(user.isAdmin)}</Box> */}
       <Box sx={{ fontWeight: "bold", fontSize: "1.5rem", alignSelf: "center" }}>
@@ -64,7 +74,11 @@ function ProductDetail() {
       {/* MUI link */}
 
       {user.isAdmin ? (
-        <StreamerOptions setDisplayConfirmDelete={setDisplayConfirmDelete} />
+        <StreamerOptions
+          setDisplayConfirmDelete={setDisplayConfirmDelete}
+          setDisplayConfirmRemoveFromStream={setDisplayConfirmRemoveFromStream}
+          productID={productID}
+        />
       ) : (
         <ViewerOptions setDisplayConfirmBuy={setDisplayConfirmBuy} />
       )}

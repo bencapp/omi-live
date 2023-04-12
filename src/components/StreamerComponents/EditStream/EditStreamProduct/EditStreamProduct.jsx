@@ -1,7 +1,9 @@
 import { Grid, Box, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 function EditStreamProduct({ product }) {
+  const history = useHistory();
   const theme = useTheme();
   const dispatch = useDispatch();
   const currentStream = useSelector((store) => store.currentStream);
@@ -30,6 +32,10 @@ function EditStreamProduct({ product }) {
     });
   };
 
+  const handleClickProduct = () => {
+    history.push(`/product/${product.id}`);
+  };
+
   return (
     <Box
       sx={{
@@ -51,13 +57,14 @@ function EditStreamProduct({ product }) {
             alignItems: "center",
             justifyContent: "center",
           }}
+          onClick={handleClickProduct}
         >
           <div>{product.order}</div>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={2} onClick={handleClickProduct}>
           <img src={product.image_url} />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={8} onClick={handleClickProduct}>
           <b>{product.name}</b>
           <br></br>
           {product.description}
