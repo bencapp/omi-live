@@ -63,12 +63,19 @@ function Chat() {
 
     return (
         <div>
-            <h2>Chatroom</h2>
-            {console.log(allChats)}
             {allChats?.map(chat => {
-                return <Box key={chat.id}>
-                        <Typography variant='body1'>  {chat.username}: {chat.text}</Typography>
-                        <Typography variant='body2'>  sent at {dayjs(chat.timestamp).format('h:mm:ss A')} </Typography>
+                return <Box 
+                        key={chat.id}
+                        sx={{
+                            backgroundColor: theme.palette.secondary.main,
+                            ml: "10px",
+                            p: "10px", 
+                            borderRadius: "5px",
+                        }}
+                        
+                        >
+                        <Typography sx={{ fontSize: ".8em", fontWeight: "bold" }} >  {chat.username}: <Typography sx= {{fontSize: "1em"}}> {chat.text} </Typography> </Typography>
+                        <Typography sx= {{fontSize: ".75em", fontStyle: 'italic' }}>  {dayjs(chat.timestamp).format('h:mm:ss A')} </Typography>
                         </Box>
             })}
             <input placeholder="Message..." value={message} onChange={(event) => { setMessage(event.target.value) }} />
