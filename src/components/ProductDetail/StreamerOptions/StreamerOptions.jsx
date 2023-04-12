@@ -1,12 +1,30 @@
 import { Button, Box } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 function StreamerOptions({
   setDisplayConfirmDelete,
   setDisplayConfirmRemoveFromStream,
   productID,
 }) {
+  const dispatch = useDispatch();
+  const inCurrentStream = useSelector(
+    (store) => store.currentProduct.inCurrentStream
+  );
+
   const currentStream = useSelector((store) => store.currentStream);
+
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_PRODUCT_IN_STREAM",
+      payload: { productID: productID, streamID: currentStream.id },
+    });
+  }, []);
+
+  const handleAddToStream = () => {
+    dispatch({ type: "" });
+  };
+
   return (
     <>
       {/* if current stream has a scheduled time, display the remove  */}
@@ -16,9 +34,14 @@ function StreamerOptions({
             alignSelf: "end",
           }}
         >
-          <Button onClick={() => setDisplayConfirmRemoveFromStream(true)}>
-            REMOVE FROM STREAM
-          </Button>
+          {JSON.stringify(inCurrentStream)}
+          {inCurrentStream ? (
+            <Button onClick={() => setDisplayConfirmRemoveFromStream(true)}>
+              REMOVE FROM STREAM
+            </Button>
+          ) : (
+            <Button onClick={handleAddToStream}>ADD TO STREAM</Button>
+          )}
         </Box>
       )}
 

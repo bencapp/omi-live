@@ -13,6 +13,7 @@ function ConfirmRemoveFromStream({
       type: "REMOVE_PRODUCT_FROM_STREAM",
       payload: { streamID: currentStream.id, productID: productID },
     });
+    setDisplayConfirmRemoveFromStream(false);
   };
 
   return (
