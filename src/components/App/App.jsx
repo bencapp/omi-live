@@ -39,7 +39,7 @@ function App() {
     <Router>
       <div>
         {/* If the user is logged in, display the nav bar */}
-        {user.id && <Nav />}
+        {/* {user.id &&} */}
 
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
@@ -63,6 +63,8 @@ function App() {
             exact
             path="/viewer-home"
           >
+            {" "}
+            <Nav />
             <ViewerHomePage />
           </ProtectedRoute>
 
@@ -71,14 +73,21 @@ function App() {
             exact
             path="/info"
           >
+            <Nav />
             <InfoPage />
           </ProtectedRoute>
 
+          <ProtectedRoute exact path="/live/:username">
+            <UserPage />
+          </ProtectedRoute>
+
           <AdminProtectedRoute exact path="/home">
+            <Nav />
             <StreamerHomePage />
           </AdminProtectedRoute>
 
           <AdminProtectedRoute exact path="/edit-stream">
+            <Nav />
             <EditStream />
           </AdminProtectedRoute>
 
@@ -87,6 +96,7 @@ function App() {
             exact
             path="/chat"
           >
+            <Nav />
             <Chat />
           </ProtectedRoute>
 

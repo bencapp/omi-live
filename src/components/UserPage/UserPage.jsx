@@ -1,20 +1,17 @@
-import React from 'react';
-import LogOutButton from '../LogOutButton/LogOutButton';
-import Video from '../VideoJS/Video';
-import {useSelector} from 'react-redux';
+import React from "react";
+import LogOutButton from "../LogOutButton/LogOutButton";
+import Video from "../VideoJS/Video";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 function UserPage() {
-  // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
+  const { username } = useParams();
   return (
-    <div className="container">
-      <h2>Welcome, {user.username}!</h2>
-      <p>Your ID is: {user.id}</p>
-      <Video/>
-      <LogOutButton className="btn" />
+    <div style={{backgroundColor: "#000000", height: "100vh"}}>
+      <Video username={username} />
     </div>
   );
 }
 
-// this allows us to use <App /> in index.js
 export default UserPage;

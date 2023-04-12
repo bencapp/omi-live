@@ -1,8 +1,9 @@
 import React, {useEffect, useRef} from 'react';
 import videojs from '!video.js';
 import "video.js/dist/video-js.css";
+import "./Video.css"
 
-function Video() {
+function Video({username}) {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
 
@@ -27,11 +28,12 @@ function Video() {
     controls: true,
     responsive: true,
     fluid: true,
+    muted: true,
     sources: [{
-      src: '/live/omi/index.mpd',
+      src: `/live/${username}/index.mpd`,
       type: 'application/dash+xml'
     }, {
-      src: '/live/omi/index.m3u8',
+      src: `/live/${username}/index.m3u8`,
       type: 'application/x-mpegURL'
     }]
   };
@@ -76,7 +78,7 @@ function Video() {
   console.log('rendered');
   return (
     <div data-vjs-player>
-      <div ref={videoRef} />
+      <div ref={videoRef}/>
     </div>
   );
 }
