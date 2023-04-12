@@ -17,8 +17,6 @@ function InfoPage() {
   const [productUrl, setProductUrl] = useState("");
   const [name, setName] = useState("");
 
-  const addProducts = useSelector((store) => store.getProducts);
-
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -105,7 +103,7 @@ function InfoPage() {
         {imageUrl && (
           <CardMedia
             component="img"
-            height="240"
+            height="250"
             image={imageUrl}
             alt="Product Preview"
             style={{ marginTop: "20px" }}

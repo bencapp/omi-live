@@ -1,8 +1,10 @@
 const addProduct = (state = [], action) => {
-  if (action.type === "SHOW_PRODUCT") {
-    return [...state, action.payload];
+  switch (action.type) {
+    case "ADD_PRODUCT":
+      return [...state, action.payload];
+    default:
+      return state;
   }
-  return state;
 };
 
 export default addProduct;
