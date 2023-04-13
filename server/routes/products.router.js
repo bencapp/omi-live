@@ -68,6 +68,29 @@ router.get("/:productID", rejectUnauthenticated, (req, res) => {
     });
 });
 
+//PUT for updating product info
+router.put("/:id", rejectNonAdminUnauthenticated, (req, res) => {
+  const queryText = 
+    `UPDATE products 
+    SET name = $1,
+    image_url = $2, 
+    description = $3, 
+    coupon_code = $4, 
+    coupon_expiration = $5, 
+    url = $6
+    WHERE id = $7`;
+  const queryParams = [req.body.name, req.body.imageUrl, req.body.description, req.body.couponCode, req.body.couponExpiration, req.body.productUrl, req.params.id];
+  pool
+    .query(queryText, queryParams)
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch((err) => {
+      console.log("Error executing SQL query", queryText, " : ", err);
+      res.sendStatus(500);
+    });
+});
+
 // PUT route for changing whether product is public
 router.put("/public/:productID", rejectNonAdminUnauthenticated, (req, res) => {
   const queryText = `UPDATE products SET public = $1 WHERE id = $2`;
@@ -82,5 +105,7 @@ router.put("/public/:productID", rejectNonAdminUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
+
+
 
 module.exports = router;

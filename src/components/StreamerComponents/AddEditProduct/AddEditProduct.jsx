@@ -58,7 +58,7 @@ function AddEditProduct() {
     e.preventDefault(); 
     dispatch({
       type: "UPDATE_PRODUCT", 
-      payload: {name: name, productUrl: productUrl, imageUrl: imageUrl, description: description, couponCode: couponCode, couponExpiration: couponExpiration}
+      payload: {id: currentProductID.id, name: name, productUrl: productUrl, imageUrl: imageUrl, description: description, couponCode: couponCode, couponExpiration: couponExpiration}
     })
     dispatch({
       type: "UNSET_CURRENT_PRODUCT"
