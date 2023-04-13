@@ -72,6 +72,7 @@ function App() {
           {/* route for displaying all the information for a specific product.
           This route will render differently depending on whether the user is a streamer or a viewer  */}
           <ProtectedRoute exact path="/product/:productID">
+            <Nav />
             <ProductDetail />
           </ProtectedRoute>
 
@@ -85,6 +86,8 @@ function App() {
             exact
             path="/add-product"
           >
+            <Nav />
+
             <AddEditProduct />
           </AdminProtectedRoute>
 
@@ -93,6 +96,8 @@ function App() {
             exact
             path="/edit-product/:productID"
           >
+            <Nav />
+
             <AddEditProduct />
           </AdminProtectedRoute>
 

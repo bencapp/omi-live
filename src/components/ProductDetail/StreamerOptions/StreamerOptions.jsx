@@ -1,6 +1,6 @@
-import { Button, Box } from "@mui/material";
+import { Button, Box, Checkbox, FormLabel } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function StreamerOptions({
   setDisplayConfirmDelete,
@@ -12,13 +12,18 @@ function StreamerOptions({
     (store) => store.currentProduct.inCurrentStream
   );
 
+  const [publicBool, setPublicBool] = useState(false);
+
   const currentStream = useSelector((store) => store.currentStream);
+  const currentProduct = useSelector((store) => store.currentProduct);
 
   useEffect(() => {
-    dispatch({
-      type: "FETCH_PRODUCT_IN_STREAM",
-      payload: { productID: productID, streamID: currentStream.id },
-    });
+    if (currentStream.id) {
+      dispatch({
+        type: "FETCH_PRODUCT_IN_STREAM",
+        payload: { productID: productID, streamID: currentStream.id },
+      });
+    }
   }, []);
 
   const handleAddToStream = () => {
@@ -33,24 +38,39 @@ function StreamerOptions({
     history.push("/edit-stream");
   };
 
+  const handleChangePublic = (checked) => {
+    dispatch({
+      type: "UPDATE_PRODUCT_PUBLIC_STATUS",
+      payload: { public: checked, productID: productID },
+    });
+    setPublicBool(checked);
+  };
+
   return (
     <>
       {/* if current stream has a scheduled time, display the remove  */}
-      {Object.keys(currentStream).length > 0 && (
-        <Box
-          sx={{
-            alignSelf: "end",
-          }}
-        >
-          {inCurrentStream ? (
-            <Button onClick={() => setDisplayConfirmRemoveFromStream(true)}>
-              REMOVE FROM STREAM
-            </Button>
-          ) : (
-            <Button onClick={handleAddToStream}>ADD TO STREAM</Button>
-          )}
-        </Box>
-      )}
+      <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
+        <FormLabel>
+          PUBLIC
+          <Checkbox
+            defaultChecked={currentProduct.public}
+            checked={publicBool}
+            onChange={(e) => handleChangePublic(e.target.checked)}
+            // inputProps={{ "aria-label": "controlled" }}
+          />
+        </FormLabel>
+        {Object.keys(currentStream).length > 0 && (
+          <Box>
+            {inCurrentStream ? (
+              <Button onClick={() => setDisplayConfirmRemoveFromStream(true)}>
+                REMOVE FROM STREAM
+              </Button>
+            ) : (
+              <Button onClick={handleAddToStream}>ADD TO STREAM</Button>
+            )}
+          </Box>
+        )}
+      </Box>
 
       <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
         <Button
