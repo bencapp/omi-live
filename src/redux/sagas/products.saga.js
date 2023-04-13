@@ -5,7 +5,6 @@ function* getProducts() {
   try {
     let response = yield axios.get("/api/products");
     yield put({ type: "SET_ALL_PRODUCTS", payload: response.data });
-    console.log("prodiucst", response.data);
   } catch (error) {
     console.log("error with element get request", error);
     yield put({ type: "FETCH_ERROR", payload: error });

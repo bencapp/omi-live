@@ -24,6 +24,7 @@ import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
 import ProductDetail from "../ProductDetail/ProductDetail";
 import AddEditProduct from "../StreamerComponents/AddEditProduct/AddEditProduct";
+import ViewerProductsList from "../ViewerComponents/ViewerHomePage/ViewerProductsList";
 
 import "./App.css";
 
@@ -67,6 +68,11 @@ function App() {
           <ProtectedRoute exact path="/home">
             <Nav />
             {user.isAdmin ? <StreamerHomePage /> : <ViewerHomePage />}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/viewer-products">
+            <Nav />
+            {<ViewerProductsList />}
           </ProtectedRoute>
 
           {/* route for displaying all the information for a specific product.

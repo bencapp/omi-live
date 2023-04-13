@@ -1,6 +1,7 @@
 import { Button, Box, Checkbox, FormLabel } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
 function StreamerOptions({
   setDisplayConfirmDelete,
@@ -13,6 +14,8 @@ function StreamerOptions({
   );
 
   const [publicBool, setPublicBool] = useState(false);
+
+  const history = useHistory();
 
   const currentStream = useSelector((store) => store.currentStream);
   const currentProduct = useSelector((store) => store.currentProduct);
