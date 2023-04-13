@@ -7,6 +7,7 @@ import EditStreamProduct from "./EditStreamProduct/EditStreamProduct";
 import dayjs from "dayjs";
 
 import ConfirmRemoveFromStream from "./ConfirmRemoveFromStream/ConfirmRemoveFromStream";
+import ConfirmGoLive from "./ConfirmGoLive/ConfirmGoLive";
 
 function EditStream() {
   const { streamID } = useParams();
@@ -18,6 +19,7 @@ function EditStream() {
   const [displayEditInfo, setDisplayEditInfo] = useState(false);
   const [displayConfirmRemoveFromStream, setDisplayConfirmRemoveFromStream] =
     useState(false);
+  const [displayConfirmGoLive, setDisplayConfirmGoLive] = useState(false);
   const [productToRemove, setProductToRemove] = useState();
 
   useEffect(() => {
@@ -103,7 +105,13 @@ function EditStream() {
               </Button>
               <Button size="small">ADD NEW PRODUCT</Button>
             </Box>
-            <Button sx={{ alignSelf: "end" }} color="warning">
+            <Button
+              onClick={() => {
+                setDisplayConfirmGoLive(true);
+              }}
+              sx={{ alignSelf: "end" }}
+              color="warning"
+            >
               GO LIVE
             </Button>
           </Box>
@@ -113,6 +121,12 @@ function EditStream() {
         <ConfirmRemoveFromStream
           setDisplayConfirmRemoveFromStream={setDisplayConfirmRemoveFromStream}
           productToRemove={productToRemove}
+        />
+      )}
+      {displayConfirmGoLive && (
+        <ConfirmGoLive
+          setDisplayConfirmGoLive={setDisplayConfirmGoLive}
+          streamID={streamID}
         />
       )}
     </Box>
