@@ -22,7 +22,15 @@ function StreamerOptions({
   }, []);
 
   const handleAddToStream = () => {
-    dispatch({ type: "" });
+    dispatch({
+      type: "ADD_PRODUCT_TO_STREAM",
+      payload: { productID: productID, streamID: currentStream.id },
+    });
+    dispatch({
+      type: "FETCH_STREAM_BY_ID",
+      payload: { streamID: currentStream.id },
+    });
+    history.push("/edit-stream");
   };
 
   return (
@@ -34,7 +42,6 @@ function StreamerOptions({
             alignSelf: "end",
           }}
         >
-          {JSON.stringify(inCurrentStream)}
           {inCurrentStream ? (
             <Button onClick={() => setDisplayConfirmRemoveFromStream(true)}>
               REMOVE FROM STREAM

@@ -5,9 +5,9 @@ import { put, takeEvery } from "redux-saga/effects";
 function* fetchProductInStream(action) {
   try {
     console.log("fetching product in stream, action.payload:", action.payload);
-    const response = yield axios.get("/api/streams-products", {
-      payload: action.payload,
-    });
+    const response = yield axios.get(
+      `/api/streams-products/${action.payload.streamID}/${action.payload.productID}`
+    );
     yield put({ type: "SET_PRODUCT_IN_STREAM", payload: response.data });
   } catch (error) {
     console.log("Error with fetchProductInStream saga:", error);
@@ -20,17 +20,31 @@ function* removeProductFromStream(action) {
       "in remove from stream saga, action.payload is",
       action.payload
     );
-    yield axios.delete(
+    const response = yield axios.delete(
       `/api/streams-products/${action.payload.streamID}/${action.payload.productID}`
     );
+    yield put({ type: "SET_PRODUCT_IN_STREAM", payload: response.data });
   } catch (error) {
     console.log("Error with removeProductFromStream saga:", error);
+  }
+}
+
+function* addProductToStream(action) {
+  try {
+    yield axios.post("/api/streams-products", {
+      streamID: action.payload.streamID,
+      productID: action.payload.productID,
+    });
+    yield put({ type: "SET_PRODUCT_IN_STREAM", payload: true });
+  } catch (error) {
+    console.log("Error with addProductToStream saga:", error);
   }
 }
 
 function* streamsProductsSaga() {
   yield takeEvery("FETCH_PRODUCT_IN_STREAM", fetchProductInStream);
   yield takeEvery("REMOVE_PRODUCT_FROM_STREAM", removeProductFromStream);
+  yield takeEvery("ADD_PRODUCT_TO_STREAM", addProductToStream);
 }
 
 export default streamsProductsSaga;

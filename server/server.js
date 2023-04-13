@@ -9,7 +9,7 @@ const app = express();
 const sessionMiddleware = require("./modules/session-middleware");
 const passport = require("./strategies/user.strategy");
 
-//Socket io set up
+// Socket io set up
 app.use(cors());
 const http = require("http");
 const server = http.createServer(app);

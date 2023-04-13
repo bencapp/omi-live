@@ -12,7 +12,7 @@ function* fetchStreams() {
 
 function* fetchStreamByID(action) {
   try {
-    const response = yield axios.get(`/api/streams${action.payload.streamID}`);
+    const response = yield axios.get(`/api/streams/${action.payload.streamID}`);
     // set stream to the current stream reducer
     yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
   } catch (error) {

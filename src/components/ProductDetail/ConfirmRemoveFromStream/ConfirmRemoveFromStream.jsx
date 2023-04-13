@@ -1,10 +1,12 @@
 import { Box, Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 function ConfirmRemoveFromStream({
   setDisplayConfirmRemoveFromStream,
   productID,
 }) {
+  const history = useHistory();
   const currentStream = useSelector((store) => store.currentStream);
   const dispatch = useDispatch();
 
@@ -14,6 +16,11 @@ function ConfirmRemoveFromStream({
       payload: { streamID: currentStream.id, productID: productID },
     });
     setDisplayConfirmRemoveFromStream(false);
+    dispatch({
+      type: "FETCH_STREAM_BY_ID",
+      payload: { streamID: currentStream.id },
+    });
+    history.push("/edit-stream");
   };
 
   return (

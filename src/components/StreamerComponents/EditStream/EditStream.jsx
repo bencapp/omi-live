@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import EditStreamInfo from "../EditStreamInfo/EditStreamInfo";
 import EditStreamProduct from "./EditStreamProduct/EditStreamProduct";
@@ -8,12 +8,15 @@ import dayjs from "dayjs";
 function EditStream() {
   const currentStream = useSelector((store) => store.currentStream);
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const [displayEditInfo, setDisplayEditInfo] = useState(false);
 
   const handleCancelEditInfo = () => {
     setDisplayEditInfo(false);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <Box sx={{ padding: "0px 20px" }}>
