@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Button,
-  TextField,
-  Typography,
-  Box,
-  TextareaAutosize,
-  CardMedia,
-} from "@mui/material";
+import {Button, TextField, InputLabel, Typography, Box, TextareaAutosize, CardMedia, useTheme} from "@mui/material";
 import Swal from "sweetalert2";
 //imports for picking date 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -16,14 +9,15 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 
 function AddEditProduct() {
+  const theme = useTheme(); 
+  const dispatch = useDispatch();
+
   const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [productUrl, setProductUrl] = useState("");
   const [name, setName] = useState("");
-  const []
-
-  const dispatch = useDispatch();
+  const [couponExpiration, setCouponExpiration] = useState();
 
   const currentProduct = useSelector((store) => store.currentProduct)
 
@@ -37,13 +31,14 @@ function AddEditProduct() {
     e.preventDefault();
     dispatch({
       type: "ADD_PRODUCT",
-      payload: { name, productUrl, imageUrl, description, couponCode },
+      payload: { name, productUrl, imageUrl, description, couponCode, couponExpiration },
     });
     setName("");
     setImageUrl("");
     setProductUrl("");
     setDescription("");
     setCouponCode("");
+    setCouponExpiration("");
   };
 
   const handleCancel = () => {
@@ -83,19 +78,21 @@ function AddEditProduct() {
         }}
       >
         <Typography variant="h5"> Add Product</Typography>
-        <Typography>Name:</Typography>
+        <InputLabel>Name:</InputLabel>
         <TextField
           id="standard-basic"
           variant="standard"
           type="text"
+          defaultValue={currentProduct?.name}
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <Typography> Product URL: </Typography>
+        <InputLabel> Product URL: </InputLabel>
         <TextField
           id="product-url"
           variant="standard"
           type="text"
+          defaultValue={currentProduct?.productUrl}
           value={productUrl}
           onChange={(e) => setProductUrl(e.target.value)}
         />
@@ -106,11 +103,12 @@ function AddEditProduct() {
             </a>
           </Typography>
         )}
-        <Typography> Image URL: </Typography>
+        <InputLabel> Image URL: </InputLabel>
         <TextField
           id="standard-basic"
           variant="standard"
           type="text"
+          defaultValue={currentProduct?.imageUrl}
           value={imageUrl}
           onChange={(e) => setImageUrl(e.target.value)}
         />
@@ -133,8 +131,9 @@ function AddEditProduct() {
         }}
       >
         <label style={{ marginBottom: "60px" }}>
-          <Typography sx={{ margin: 1 }}> Description: </Typography>
+          <InputLabel sx={{ margin: 1 }}> Description: </InputLabel>
           <TextareaAutosize
+            defaultValue={currentProduct?.description}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             sx={{
@@ -148,13 +147,22 @@ function AddEditProduct() {
         <label style={{ marginBottom: "20px" }}>
           <Typography sx={{ margin: 1 }}> Coupon Code: </Typography>
           <TextField
-            id="standard-basic"
+            // id="standard-basic"
             variant="standard"
             type="text"
+            defaultValue={currentProduct?.couponCode}
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value)}
           />
         </label>
+        <InputLabel>Set Coupon Code Expiration</InputLabel>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          defaultValue={dayjs(currentProduct?.couponExpiration)}
+          date={couponExpiration}
+          onChange={(date) => setCouponExpiration(date)}
+        />
+      </LocalizationProvider>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Button variant="contained" type="button" onClick={handleCancel}>
