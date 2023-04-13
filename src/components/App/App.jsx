@@ -81,6 +81,11 @@ function App() {
             <EditStream />
           </AdminProtectedRoute>
 
+          <AdminProtectedRoute exact path="/edit-product/:productID">
+            <Nav />
+            <AddEditProduct />
+          </AdminProtectedRoute>
+
           <ProtectedRoute
             // logged in shows chat else shows LoginPage
             exact

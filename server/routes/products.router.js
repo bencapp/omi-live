@@ -22,9 +22,9 @@ router.get("/", async (req, res) => {
 router.post("/", (req, res) => {
   const sqlQuery = `
     INSERT INTO products 
-      (name, url, description, coupon_code, image_url)
+      (name, url, description, coupon_code, image_url, coupon_expiration)
     VALUES 
-      ($1, $2, $3, $4, $5)
+      ($1, $2, $3, $4, $5, $6)
   `;
   //console.log("REQ BODy", req.body);
   const sqlValues = [
@@ -33,6 +33,7 @@ router.post("/", (req, res) => {
     req.body.payload.description,
     req.body.payload.couponCode,
     req.body.payload.imageUrl,
+    req.body.payload.couponExpiration
   ];
   console.log(sqlValues);
   pool

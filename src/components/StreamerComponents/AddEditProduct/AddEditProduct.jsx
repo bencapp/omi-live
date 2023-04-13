@@ -9,6 +9,11 @@ import {
   CardMedia,
 } from "@mui/material";
 import Swal from "sweetalert2";
+//imports for picking date 
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 function AddEditProduct() {
   const [imageUrl, setImageUrl] = useState("");
@@ -16,8 +21,17 @@ function AddEditProduct() {
   const [couponCode, setCouponCode] = useState("");
   const [productUrl, setProductUrl] = useState("");
   const [name, setName] = useState("");
+  const []
 
   const dispatch = useDispatch();
+
+  const currentProduct = useSelector((store) => store.currentProduct)
+
+  // * FOR SETTING VALUES ON PAGE LOAD* 
+  // useEffect(() => {
+  //   setNewTitle(currentStream?.title);
+  //   setNewDescription(currentStream?.description);
+  // }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
