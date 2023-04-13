@@ -45,7 +45,7 @@ router.post("/", async (req, res) => {
     const queryParams = [
       req.body.streamID,
       req.body.productID,
-      numberOfProducts + 1,
+      Number(numberOfProducts) + 1,
     ];
 
     await connection.query(queryText, queryParams);

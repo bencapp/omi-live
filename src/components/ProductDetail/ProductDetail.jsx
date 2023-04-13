@@ -66,7 +66,6 @@ function ProductDetail() {
       {user.isAdmin ? (
         <StreamerOptions
           setDisplayConfirmDelete={setDisplayConfirmDelete}
-          setDisplayConfirmRemoveFromStream={setDisplayConfirmRemoveFromStream}
           productID={productID}
         />
       ) : (

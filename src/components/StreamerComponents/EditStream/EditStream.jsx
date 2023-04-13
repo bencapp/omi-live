@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { Box, Button, useTheme } from "@mui/material";
 import EditStreamInfo from "../EditStreamInfo/EditStreamInfo";
 import EditStreamProduct from "./EditStreamProduct/EditStreamProduct";
@@ -13,6 +13,7 @@ function EditStream() {
   const currentStream = useSelector((store) => store.currentStream);
   const theme = useTheme();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [displayEditInfo, setDisplayEditInfo] = useState(false);
   const [displayConfirmRemoveFromStream, setDisplayConfirmRemoveFromStream] =
@@ -64,7 +65,7 @@ function EditStream() {
             >
               <Box>
                 <b>{currentStream.title}</b>,{" "}
-                {dayjs(currentStream.scheduled).format("DD/MM/YYYY")}
+                {dayjs(currentStream.scheduled).format("MM/DD/YYYY")}
               </Box>
               <Button size="small" onClick={() => setDisplayEditInfo(true)}>
                 EDIT INFO
@@ -92,8 +93,15 @@ function EditStream() {
                 width: "100%",
               }}
             >
-              <Button>ADD EXISTING ITEM</Button>
-              <Button>ADD NEW ITEM</Button>
+              <Button
+                onClick={() =>
+                  history.push(`/add-existing-product/${currentStream.id}`)
+                }
+                size="small"
+              >
+                ADD EXISTING PRODUCT
+              </Button>
+              <Button size="small">ADD NEW PRODUCT</Button>
             </Box>
             <Button sx={{ alignSelf: "end" }} color="warning">
               GO LIVE
