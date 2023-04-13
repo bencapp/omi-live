@@ -3,6 +3,7 @@ const currentProduct = (state = {}, action) => {
     case "SET_CURRENT_PRODUCT":
       return {
         ...state,
+        id: action.payload.id,
         name: action.payload.name,
         image_url: action.payload.image_url,
         description: action.payload.description,
