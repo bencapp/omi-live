@@ -7,7 +7,6 @@ import ConfirmBuyPopup from "./ConfirmBuyPopup/ConfirmBuyPopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup/ConfirmDeletePopup";
 import ViewerOptions from "./ViewerOptions/ViewerOptions";
 import StreamerOptions from "./StreamerOptions/StreamerOptions";
-import ConfirmRemoveFromStream from "./ConfirmRemoveFromStream/ConfirmRemoveFromStream";
 
 function ProductDetail() {
   const { productID } = useParams();
@@ -17,8 +16,6 @@ function ProductDetail() {
 
   const [displayConfirmBuy, setDisplayConfirmBuy] = useState(false);
   const [displayConfirmDelete, setDisplayConfirmDelete] = useState(false);
-  const [displayConfirmRemoveFromStream, setDisplayConfirmRemoveFromStream] =
-    useState(false);
 
   const user = useSelector((store) => store.user);
   const currentProduct = useSelector((store) => store.currentProduct);
@@ -50,13 +47,6 @@ function ProductDetail() {
 
       {displayConfirmDelete && (
         <ConfirmDeletePopup setDisplayConfirmDelete={setDisplayConfirmDelete} />
-      )}
-
-      {displayConfirmRemoveFromStream && (
-        <ConfirmRemoveFromStream
-          setDisplayConfirmRemoveFromStream={setDisplayConfirmRemoveFromStream}
-          productID={productID}
-        />
       )}
 
       {/* <Box>Product Detail view for {productID}</Box>
