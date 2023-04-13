@@ -24,7 +24,7 @@ import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
 import ProductDetail from "../ProductDetail/ProductDetail";
 import AddEditProduct from "../StreamerComponents/AddEditProduct/AddEditProduct";
-import ViewerProductsList from "../ViewerComponents/ViewerHomePage/ViewerProductsList";
+import ViewerProductsList from "../ViewerComponents/ViewerProductsList/ViewerProductsList";
 import AddExistingProduct from "../StreamerComponents/AddExistingProduct/AddExistingProduct";
 
 import "./App.css";
