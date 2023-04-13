@@ -19,22 +19,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// router.get("/", (req, res) => {
-//   const sqlQuery = `
-//   SELECT * FROM products
-//   ;`;
-//   pool
-//     .query(sqlQuery)
-//     .then((result) => {
-//       //console.log("show:", result.rows);
-//       res.send(result.rows);
-//     })
-//     .catch((error) => {
-//       console.error("ERROR", error);
-//       res.sendStatus(500);
-//     });
-// });
-
 router.post("/", (req, res) => {
   const sqlQuery = `
     INSERT INTO products 
@@ -76,6 +60,21 @@ router.get("/:productID", rejectUnauthenticated, (req, res) => {
     .then((result) => {
       // console.log("got product by id, result.rows is", result.rows);
       res.send(result.rows[0]);
+    })
+    .catch((err) => {
+      console.log("Error executing SQL query", queryText, " : ", err);
+      res.sendStatus(500);
+    });
+});
+
+// PUT route for changing whether product is public
+router.put("/public/:productID", rejectNonAdminUnauthenticated, (req, res) => {
+  const queryText = `UPDATE products SET public = $1 WHERE id = $2`;
+  const queryParams = [req.body.public, req.params.productID];
+  pool
+    .query(queryText, queryParams)
+    .then(() => {
+      res.sendStatus(204);
     })
     .catch((err) => {
       console.log("Error executing SQL query", queryText, " : ", err);
