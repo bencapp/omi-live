@@ -81,7 +81,7 @@ function App() {
             <EditStream />
           </AdminProtectedRoute>
 
-          <AdminProtectedRoute exact path="/edit-product">
+          <AdminProtectedRoute exact path="/edit-product/:id">
             <Nav />
             <AddEditProduct />
           </AdminProtectedRoute>

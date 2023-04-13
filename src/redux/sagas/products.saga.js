@@ -15,8 +15,8 @@ function* getProducts() {
 // worker Saga: will be fired on "REGISTER" actions
 function* fetchProductByID(action) {
   try {
-    console.log("in fetch product by id, action.payload is", action.payload);
-    const response = yield axios.get(`/api/products/${action.payload}`);
+    console.log("in fetch product by id, action.payload is", action.payload.id);
+    const response = yield axios.get(`/api/products/${action.payload.id}`);
     yield put({ type: "SET_CURRENT_PRODUCT", payload: response.data });
   } catch (error) {
     console.log("Error with get product by ID:", error);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {Button, TextField, InputLabel, Typography, Box, TextareaAutosize, CardMedia, useTheme} from "@mui/material";
 import Swal from "sweetalert2";
 //imports for picking date 
@@ -12,6 +13,11 @@ function AddEditProduct() {
   const theme = useTheme(); 
   const dispatch = useDispatch();
 
+  // id of product from the URL
+  const currentProductID = useParams();
+  const currentProduct = useSelector((store) => store.currentProduct)
+  console.log("currentProduct", currentProduct) 
+
   const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
   const [couponCode, setCouponCode] = useState("");
@@ -19,13 +25,20 @@ function AddEditProduct() {
   const [name, setName] = useState("");
   const [couponExpiration, setCouponExpiration] = useState();
 
-  const currentProduct = useSelector((store) => store.currentProduct)
+
 
   // * FOR SETTING VALUES ON PAGE LOAD* 
-  // useEffect(() => {
-  //   setNewTitle(currentStream?.title);
-  //   setNewDescription(currentStream?.description);
-  // }, []);
+  useEffect(() => {
+    dispatch ({
+      type: "FETCH_PRODUCT_BY_ID", payload: currentProductID
+    })
+    setName(currentProduct?.name)
+    setImageUrl(currentProduct?.image_url);
+    setDescription(currentProduct?.description);
+    setCouponCode(currentProduct?.coupon_code);
+    setProductUrl(currentProduct?.url);
+    setCouponExpiration(currentProduct?.coupon_expiration);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,6 +53,17 @@ function AddEditProduct() {
     setCouponCode("");
     setCouponExpiration("");
   };
+
+  const handleUpdate = (e) => {
+    e.preventDefault(); 
+    dispatch({
+      type: "UPDATE_PRODUCT", 
+      payload: {name: name, productUrl: productUrl, imageUrl: imageUrl, description: description, couponCode: couponCode, couponExpiration: couponExpiration}
+    })
+    dispatch({
+      type: "UNSET_CURRENT_PRODUCT"
+    })
+  }
 
   const handleCancel = () => {
     Swal.fire({
@@ -77,7 +101,27 @@ function AddEditProduct() {
           alignItems: "center",
         }}
       >
-        <Typography variant="h5"> Add Product</Typography>
+        {currentProductID
+        ? <Typography  variant="h5"> Edit Product </Typography>
+        : <Typography variant="h5"> Add Product</Typography>}
+        <InputLabel> Image URL: </InputLabel>
+        <TextField
+          id="standard-basic"
+          variant="standard"
+          type="text"
+          defaultValue={currentProduct?.imageUrl}
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+        />
+        {imageUrl && (
+          <CardMedia
+            component="img"
+            height="250"
+            image={imageUrl}
+            alt="Product Preview"
+            style={{ marginTop: "20px" }}
+          />
+        )}
         <InputLabel>Name:</InputLabel>
         <TextField
           id="standard-basic"
@@ -103,24 +147,7 @@ function AddEditProduct() {
             </a>
           </Typography>
         )}
-        <InputLabel> Image URL: </InputLabel>
-        <TextField
-          id="standard-basic"
-          variant="standard"
-          type="text"
-          defaultValue={currentProduct?.imageUrl}
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
-        {imageUrl && (
-          <CardMedia
-            component="img"
-            height="250"
-            image={imageUrl}
-            alt="Product Preview"
-            style={{ marginTop: "20px" }}
-          />
-        )}
+        
       </Box>
       <div
         style={{
@@ -132,7 +159,20 @@ function AddEditProduct() {
       >
         <label style={{ marginBottom: "60px" }}>
           <InputLabel sx={{ margin: 1 }}> Description: </InputLabel>
-          <TextareaAutosize
+          <TextField
+           multiline
+           defaultValue={currentProduct?.description}
+           value={description}
+           onChange={(e) => setDescription(e.target.value)}
+           sx={{
+             marginLeft: "10px",
+             padding: "5px",
+             borderRadius: "3px",
+            //  border: "1px solid #ccc",
+           }}
+           >
+          </TextField>
+          {/* <TextareaAutosize
             defaultValue={currentProduct?.description}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -142,7 +182,7 @@ function AddEditProduct() {
               borderRadius: "3px",
               border: "1px solid #ccc",
             }}
-          />
+          /> */}
         </label>
         <label style={{ marginBottom: "20px" }}>
           <Typography sx={{ margin: 1 }}> Coupon Code: </Typography>
@@ -168,9 +208,14 @@ function AddEditProduct() {
         <Button variant="contained" type="button" onClick={handleCancel}>
           Cancel
         </Button>
-        <Button variant="contained" type="submit" sx={{ cursor: "pointer" }}>
-          Add Product
-        </Button>
+        {currentProduct.id
+        ? <Button variant="contained" onClick={handleUpdate} sx={{ cursor: "pointer" }}>
+            Save Changes
+          </Button>
+        : <Button variant="contained" type="submit" sx={{ cursor: "pointer" }}>
+            Add Product
+          </Button>}
+
       </div>
     </form>
   );
