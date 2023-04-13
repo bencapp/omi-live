@@ -3,9 +3,8 @@ import videojs from '!video.js';
 import "video.js/dist/video-js.css";
 import "./Video.css"
 
-function Video({username}) {
+function Video({username, playerRef}) {
   const videoRef = useRef(null);
-  const playerRef = useRef(null);
 
   const onReady = (player) => {
     playerRef.current = player;
@@ -26,7 +25,7 @@ function Video({username}) {
   const options = {
     liveui: true,
     autoplay: 'play',
-    controls: true,
+    // controls: true,
     responsive: true,
     fluid: true,
     preferFullWindow: true,
