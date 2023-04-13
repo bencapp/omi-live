@@ -30,7 +30,7 @@ function StreamerProductsList() {
               sx={{ border: "1px solid grey", mb: 1, borderRadius: "10px" }}
               onClick={() => handleClick(product)}
             >
-              <Avatar alt={product.name} src={product.imageUrl} />
+              <Avatar alt={product.name} src={product.image_url} />
               <ListItemText
                 primary={product.name}
                 secondary={product.description}

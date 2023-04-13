@@ -85,14 +85,19 @@ function App() {
             exact
             path="/add-product"
           >
+            <Nav />
+
             <AddEditProduct />
           </AdminProtectedRoute>
 
           <AdminProtectedRoute
             // logged in shows InfoPage else shows LoginPage
+
             exact
             path="/edit-product/:productID"
           >
+            <Nav />
+
             <AddEditProduct />
           </AdminProtectedRoute>
 
