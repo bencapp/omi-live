@@ -24,10 +24,12 @@ function Video({username}) {
   };
   
   const options = {
-    autoplay: true,
+    liveui: true,
+    autoplay: 'play',
     controls: true,
     responsive: true,
     fluid: true,
+    preferFullWindow: true,
     muted: true,
     sources: [{
       src: `/live/${username}/index.mpd`,

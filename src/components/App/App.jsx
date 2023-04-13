@@ -59,16 +59,6 @@ function App() {
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
           <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/viewer-home"
-          >
-            {" "}
-            <Nav />
-            <ViewerHomePage />
-          </ProtectedRoute>
-
-          <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
             path="/info"
@@ -81,10 +71,10 @@ function App() {
             <UserPage />
           </ProtectedRoute>
 
-          <AdminProtectedRoute exact path="/home">
+          <ProtectedRoute exact path="/home">
             <Nav />
-            <StreamerHomePage />
-          </AdminProtectedRoute>
+            {user.isAdmin ? <StreamerHomePage/> : <ViewerHomePage/>}
+          </ProtectedRoute>
 
           <AdminProtectedRoute exact path="/edit-stream">
             <Nav />
@@ -115,7 +105,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/viewer-home" />
+              <Redirect to="/home" />
             ) : (
               // Otherwise, show the registration page
               <RegisterPage />
@@ -123,13 +113,8 @@ function App() {
           </Route>
 
           <Route exact path="/">
-            {user.id && user.isAdmin ? (
-              // If the user is already logged in,
-              // redirect them to the /user page
+            {user.id ? (
               <Redirect to="/home" />
-            ) : user.id ? (
-              // Otherwise, show the Landing page
-              <Redirect to="/viewer-home" />
             ) : (
               <LandingPage />
             )}
