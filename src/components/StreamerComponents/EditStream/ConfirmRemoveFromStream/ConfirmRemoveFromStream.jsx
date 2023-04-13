@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 function ConfirmRemoveFromStream({
   setDisplayConfirmRemoveFromStream,
-  productID,
+  productToRemove,
 }) {
   const history = useHistory();
   const currentStream = useSelector((store) => store.currentStream);
@@ -13,14 +13,13 @@ function ConfirmRemoveFromStream({
   const removeFromStream = () => {
     dispatch({
       type: "REMOVE_PRODUCT_FROM_STREAM",
-      payload: { streamID: currentStream.id, productID: productID },
+      payload: { streamID: currentStream.id, productID: productToRemove.id },
     });
     setDisplayConfirmRemoveFromStream(false);
     dispatch({
       type: "FETCH_STREAM_BY_ID",
       payload: { streamID: currentStream.id },
     });
-    history.push("/edit-stream");
   };
 
   return (
@@ -31,7 +30,7 @@ function ConfirmRemoveFromStream({
         position: "absolute",
         borderRadius: "5px",
         backgroundColor: "white",
-        margin: "225px auto",
+        margin: "-50px auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -39,6 +38,7 @@ function ConfirmRemoveFromStream({
         gap: "20px",
         padding: "20px",
         fontSize: "1.3rem",
+        border: "1px solid black",
       }}
     >
       <Box>

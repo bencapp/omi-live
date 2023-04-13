@@ -1,150 +1,215 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Button, Typography, useTheme, alpha, TextField, OutlinedInput, IconButton } from "@mui/material";
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import {
+  Box,
+  Button,
+  Typography,
+  useTheme,
+  alpha,
+  Input,
+  IconButton,
+} from "@mui/material";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-import io from 'socket.io-client'
-const socket = io.connect("http://localhost:3001")
-
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:3001");
 
 function Chat() {
-    //get current user
-    const user = useSelector((store) => store.user)
-    //get all chats from db/store
-    const allChats = useSelector((store) => store.chat)
-    console.log('allChats:', allChats)
-    //get dayjs
-    const dayjs = require('dayjs')
-    //get mui theme
-    const theme = useTheme();
+  //html ref for scrolling to bottom of comments
+  const scrollRef = useRef(null);
 
-    //get current stream id
-    // const streamId = useSelector((store) => store.currentStream)
-    // console.log(streamId);
+  //get current user
+  const user = useSelector((store) => store.user);
+  //get all chats from db/store
+  const allChats = useSelector((store) => store.chat);
+  console.log("allChats:", allChats);
+  //get dayjs
+  const dayjs = require("dayjs");
+  //get mui theme
+  const theme = useTheme();
 
-    const dispatch = useDispatch();
+  //get current stream id
+  // const streamId = useSelector((store) => store.currentStream)
+  // console.log(streamId);
 
-    //set chat open or closed
-    const [chatOpen, setChatOpen] = useState(false)
+  const dispatch = useDispatch();
 
+  //set chat open or closed
+  const [chatOpen, setChatOpen] = useState(false);
 
-    const [message, setMessage] = useState("")
-    //fullchat is all of the messages
-    // const [fullchat, setFullChat] = useState([])
+  const [message, setMessage] = useState("");
+  //fullchat is all of the messages
+  // const [fullchat, setFullChat] = useState([])
 
-    const sendMessage = () => {
-        // socket.emit("send_message", { message, user})
-        dispatch({
-            type: 'POST_CHAT',
-            payload: {
-                // stream_id: , 
-                text: message,
-                user: user
-            },
-        });
-        //reset input field
-        setMessage("");
+  const sendMessage = () => {
+    // socket.emit("send_message", { message, user})
+    dispatch({
+      type: "POST_CHAT",
+      payload: {
+        // stream_id: ,
+        text: message,
+        user: user,
+      },
+    });
+    //reset input field
+    setMessage("");
+  };
 
+  const scrollToBottom = () => {
+    scrollRef.current?.scrollIntoView();
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatOpen]);
+
+  useEffect(() => {
+    if (!chatOpen) {
+      scrollToBottom();
+    }
+  }, [allChats]);
+
+  useEffect(() => {
+    dispatch({
+      type: "GET_CHAT",
+    });
+
+    const receiveMessage = () => {
+      dispatch({
+        type: "GET_CHAT",
+      });
     };
+    socket.on("add_text", receiveMessage);
+    return () => {
+      socket.off("add_text", receiveMessage);
+    };
+  }, []);
 
-    useEffect(() => {
-        dispatch({
-            type: 'GET_CHAT'
-        })
-
-
-        const receiveMessage = () => {
-            dispatch({
-                type: 'GET_CHAT'
-            })
-        }
-        socket.on("add_text", receiveMessage)
-        return () => {
-            socket.off("add_text", receiveMessage)
-        }
-
-    }, [])
-
-    return (
-        chatOpen === true ? (
-            <Box
-                sx={{
-                    backgroundColor: alpha(theme.palette.primary.main, 0.7),
+  return (
+    <div>
+      <Box
+        sx={{
+          backgroundColor: alpha(theme.palette.primary.main, 0.7),
+          borderRadius: "5px",
+          pt: "5px",
+        }}
+      >
+        <IconButton
+          size="large"
+          edge="start"
+          color="#000000"
+          aria-label="logo"
+          onClick={() => setChatOpen(!chatOpen)}
+          sx={{
+            alignSelf: "center",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "flex-start",
+            width: "100vw",
+            color: chatOpen ? "primary" : "#FFFFFF",
+          }}
+        >
+          {chatOpen ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
+        </IconButton>
+        <Box
+          sx={{
+            maxHeight: chatOpen ? "60vh" : "15vh",
+            overflow: chatOpen ? "scroll" : "hidden",
+          }}
+        >
+          {allChats?.map((chat, i) => {
+            if (i >= allChats.length - 3 || chatOpen) {
+              return (
+                <Box
+                  key={chat.id}
+                  sx={{
+                    backgroundColor: alpha(theme.palette.secondary.main, 0.7),
+                    mx: "10px",
+                    my: "3px",
+                    p: "10px",
                     borderRadius: "5px",
-                    pt: "5px"
-                }}
-            >
-                <IconButton
-                    size='large'
-                    edge='start'
-                    color='#000000'
-                    aria-label='logo'
-                    onClick={() => setChatOpen(false)}
-                    sx={{
-                        alignSelf: "stretch",
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        alignItems: "flex-start",
-                    }}
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
                 >
-                    <ArrowDropDownIcon />
-                </IconButton>
-                {allChats?.map(chat => {
-                    return <Box
-                        key={chat.id}
-                        sx={{
-                            backgroundColor: alpha(theme.palette.secondary.main, 0.7),
-                            mx: "10px",
-                            my: "3px",
-                            p: "10px",
-                            borderRadius: "5px",
-                        }}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        p: "5px",
+                        fontSize: ".8em",
+                        fontWeight: "bold",
+                        display: "inline",
+                        alignSelf: "flex-start",
+                      }}
                     >
-                        <Typography sx={{ fontSize: ".8em", fontWeight: "bold", display: "inline" }} >  {chat.username}: </Typography> <Typography component="div" sx={{ fontSize: ".8em", display: "inline" }}> {chat.text} </Typography>
-                        <Typography sx={{ fontSize: ".7em", fontStyle: 'italic' }}>  {dayjs(chat.timestamp).format('h:mm:ss A')} </Typography>
-                    </Box>
-                })}
-                <Box sx={{ py: "10px" }} >
-                    <TextField sx={{ pl: "10px", width: 170, "& .MuiInputBase-root": { height: 40 }, }} pl="10px" id="outlined-basic" label="Chat here" variant="outlined" value={message} onChange={(event) => { setMessage(event.target.value) }} />
-                    <Button sx={{ ml: "15px", mr: "10px", fontSize: ".75em" }} size="small" onClick={sendMessage}>Send Message</Button>
-                </Box>
-            </Box>
-        ) : (
-            <Box
-                sx={{
-                    borderRadius: "5px",
-                    backgroundColor: alpha(theme.palette.primary.main, 0.7),
-                    display: "flex"
-                }}
-            >
-                    <Typography variant="body1">
-                        Chat
+                      {chat.username}:
                     </Typography>
-                    <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        alignSelf: "center",
-                        
-                    }}
+                    <Typography
+                      component="div"
+                      sx={{
+                        p: "5px",
+                        fontSize: ".8em",
+                        display: "inline-block",
+                        wordBreak: "break-word",
+                        whiteSpace: "pre-line",
+                        maxWidth: "18em",
+                      }}
                     >
-                <IconButton
-                    size='large'
-                    edge='start'
-                    aria-label='logo'
-                    onClick={() => setChatOpen(true)}
-                    sx={{color: '#FFFFFF'}}
-                >
-                    <ArrowDropUpIcon />
-                </IconButton>
+                      {chat.text}
+                    </Typography>
+                  </Box>
+                  <Typography sx={{ fontSize: ".7em", fontStyle: "italic" }}>
+                    {dayjs(chat.timestamp).format("h:mm:ss A")}
+                  </Typography>
                 </Box>
-            </Box>
-        )
-
-    )
-
+              );
+            }
+          })}
+          <Box ref={scrollRef} />
+        </Box>
+        <Box sx={{ py: "10px", display: "flex", flexDirection: "row" }}>
+          <Input
+            sx={{
+              ml: "10px",
+              width: "stretch",
+              height: "2em",
+              "& .MuiInputBase-root": { height: 40 },
+              backgroundColor: "#FFFFFF",
+              borderRadius: ".5em",
+              pl: "10px",
+            }}
+            id="outlined-basic"
+            placeholder="Chat here"
+            variant="outlined"
+            value={message}
+            type="text"
+            onKeyPress={(e) => {
+                if (e.key == 'Enter') {
+                    sendMessage();
+                }
+            }}
+            onChange={(event) => {
+              setMessage(event.target.value);
+            }}
+          />
+          <Button
+            sx={{ ml: "10px", mr: "10px", fontSize: ".75em" }}
+            size="small"
+            onClick={sendMessage}
+          >
+            Send
+          </Button>
+        </Box>
+      </Box>
+    </div>
+  );
 }
 
-export default Chat; 
+export default Chat;

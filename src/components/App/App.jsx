@@ -25,6 +25,7 @@ import EditStream from "../StreamerComponents/EditStream/EditStream";
 import ProductDetail from "../ProductDetail/ProductDetail";
 import AddEditProduct from "../StreamerComponents/AddEditProduct/AddEditProduct";
 import ViewerProductsList from "../ViewerComponents/ViewerHomePage/ViewerProductsList";
+import AddExistingProduct from "../StreamerComponents/AddExistingProduct/AddExistingProduct";
 
 import "./App.css";
 
@@ -82,7 +83,7 @@ function App() {
             <ProductDetail />
           </ProtectedRoute>
 
-          <AdminProtectedRoute exact path="/edit-stream">
+          <AdminProtectedRoute exact path="/edit-stream/:streamID">
             <Nav />
             <EditStream />
           </AdminProtectedRoute>
@@ -106,6 +107,16 @@ function App() {
             <Nav />
 
             <AddEditProduct />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+
+            exact
+            path="/add-existing-product/:streamID"
+          >
+            <Nav />
+            <AddExistingProduct />
           </AdminProtectedRoute>
 
           <ProtectedRoute
