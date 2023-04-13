@@ -38,7 +38,7 @@ router.get("/", async (req, res) => {
 router.post("/", (req, res) => {
   const sqlQuery = `
     INSERT INTO products 
-      (name, url, description, coupon_code ,image_url)
+      (name, url, description, coupon_code, image_url)
     VALUES 
       ($1, $2, $3, $4, $5)
   `;
@@ -50,7 +50,7 @@ router.post("/", (req, res) => {
     req.body.payload.couponCode,
     req.body.payload.imageUrl,
   ];
-  console.log("SEE IFIT WORKSD", sqlValues);
+  console.log(sqlValues);
   pool
     .query(sqlQuery, sqlValues)
     .then((result) => {

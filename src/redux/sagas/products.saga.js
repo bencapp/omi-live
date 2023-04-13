@@ -34,10 +34,21 @@ function* postProduct(action) {
   }
 }
 
+// DELETE route for streamer to remove a product from the DB
+function* deleteProduct(action) {
+  try {
+    yield axios.delete(`/api/products/${action.payload}`);
+  } catch (error) {
+    console.log("error with element get request", error);
+    yield put({ type: "FETCH_ERROR", payload: error });
+  }
+}
+
 function* productsSaga() {
   yield takeEvery("FETCH_PRODUCT_BY_ID", fetchProductByID);
   yield takeEvery("GET_PRODUCT", getProducts);
   yield takeEvery("ADD_PRODUCT", postProduct);
+  yield takeEvery("DELETE_PRODUCT", deleteProduct);
 }
 
 export default productsSaga;

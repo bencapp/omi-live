@@ -22,8 +22,8 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
-import InfoPage from "../InfoPage/InfoPage";
 import ProductDetail from "../ProductDetail/ProductDetail";
+import AddEditProduct from "../StreamerComponents/AddEditProduct/AddEditProduct";
 
 import "./App.css";
 
@@ -59,14 +59,6 @@ function App() {
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
-          <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
-            exact
-            path="/info"
-          >
-            <Nav />
-            <InfoPage />
-          </ProtectedRoute>
 
           <ProtectedRoute exact path="/live/:username">
             <UserPage />
@@ -74,9 +66,9 @@ function App() {
 
           <ProtectedRoute exact path="/home">
             <Nav />
-            {user.isAdmin ? <StreamerHomePage/> : <ViewerHomePage/>}
+            {user.isAdmin ? <StreamerHomePage /> : <ViewerHomePage />}
           </ProtectedRoute>
-          
+
           {/* route for displaying all the information for a specific product.
           This route will render differently depending on whether the user is a streamer or a viewer  */}
           <ProtectedRoute exact path="/product/:productID">
@@ -86,6 +78,22 @@ function App() {
           <AdminProtectedRoute exact path="/edit-stream">
             <Nav />
             <EditStream />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/add-product"
+          >
+            <AddEditProduct />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/edit-product/:productID"
+          >
+            <AddEditProduct />
           </AdminProtectedRoute>
 
           <ProtectedRoute
@@ -120,11 +128,7 @@ function App() {
           </Route>
 
           <Route exact path="/">
-            {user.id ? (
-              <Redirect to="/home" />
-            ) : (
-              <LandingPage />
-            )}
+            {user.id ? <Redirect to="/home" /> : <LandingPage />}
           </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}
