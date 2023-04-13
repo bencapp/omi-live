@@ -10,14 +10,12 @@ import {
 } from "@mui/material";
 import Swal from "sweetalert2";
 
-function AddEditProductPage() {
+function AddEditProduct() {
   const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [productUrl, setProductUrl] = useState("");
   const [name, setName] = useState("");
-
-  const addProducts = useSelector((store) => store.getProducts);
 
   const dispatch = useDispatch();
 
@@ -26,7 +24,7 @@ function AddEditProductPage() {
     dispatch({
       type: "ADD_PRODUCT",
       payload: { name, productUrl, imageUrl, description, couponCode },
-    }); 
+    });
     setName("");
     setImageUrl("");
     setProductUrl("");
@@ -105,7 +103,7 @@ function AddEditProductPage() {
         {imageUrl && (
           <CardMedia
             component="img"
-            height="240"
+            height="250"
             image={imageUrl}
             alt="Product Preview"
             style={{ marginTop: "20px" }}
@@ -156,4 +154,4 @@ function AddEditProductPage() {
   );
 }
 
-export default AddEditProductPage;
+export default AddEditProduct;

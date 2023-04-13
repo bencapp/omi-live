@@ -9,7 +9,7 @@ const app = express();
 const sessionMiddleware = require("./modules/session-middleware");
 const passport = require("./strategies/user.strategy");
 
-//Socket io set up
+// Socket io set up
 app.use(cors());
 const http = require("http");
 const server = http.createServer(app);
@@ -43,6 +43,7 @@ const chatRouter = require("./routes/chat.router");
 const productsRouter = require("./routes/products.router");
 const usersProductsRouter = require("./routes/usersProducts.router");
 const streamsRouter = require("./routes/streams.router");
+const streamsProductsRouter = require("./routes/streamsProducts.router");
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -61,6 +62,7 @@ app.use("/api/chat", chatRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/users-products", usersProductsRouter);
 app.use("/api/streams", streamsRouter);
+app.use("/api/streams-products", streamsProductsRouter);
 
 // Serve static files
 app.use(express.static("build"));

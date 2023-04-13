@@ -4,7 +4,8 @@ import axios from "axios";
 function* getProducts() {
   try {
     let response = yield axios.get("/api/products");
-    yield put({ type: "SHOW_PRODUCT", payload: response.data });
+    yield put({ type: "SET_ALL_PRODUCTS", payload: response.data });
+    console.log("prodiucst", response.data);
   } catch (error) {
     console.log("error with element get request", error);
     yield put({ type: "FETCH_ERROR", payload: error });
@@ -34,10 +35,33 @@ function* postProduct(action) {
   }
 }
 
+// DELETE route for streamer to remove a product from the DB
+function* deleteProduct(action) {
+  try {
+    yield axios.delete(`/api/products/${action.payload}`);
+  } catch (error) {
+    console.log("error with element get request", error);
+    yield put({ type: "FETCH_ERROR", payload: error });
+  }
+}
+
+function* updateProductPublicStatus(action) {
+  try {
+    yield axios.put(`/api/products/public/${action.payload.productID}`, {
+      public: action.payload.public,
+    });
+  } catch (error) {
+    console.log("error with product PUT request", error);
+    yield put({ type: "FETCH_ERROR", payload: error });
+  }
+}
+
 function* productsSaga() {
   yield takeEvery("FETCH_PRODUCT_BY_ID", fetchProductByID);
   yield takeEvery("GET_PRODUCT", getProducts);
   yield takeEvery("ADD_PRODUCT", postProduct);
+  yield takeEvery("DELETE_PRODUCT", deleteProduct);
+  yield takeEvery("UPDATE_PRODUCT_PUBLIC_STATUS", updateProductPublicStatus);
 }
 
 export default productsSaga;
