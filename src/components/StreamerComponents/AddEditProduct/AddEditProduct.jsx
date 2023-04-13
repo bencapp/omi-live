@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import Swal from "sweetalert2";
 
-function AddProduct() {
+function AddEditProduct() {
   const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
   const [couponCode, setCouponCode] = useState("");
@@ -154,4 +154,4 @@ function AddProduct() {
   );
 }
 
-export default AddProduct;
+export default AddEditProduct;

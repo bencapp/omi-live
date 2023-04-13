@@ -18,7 +18,8 @@ CREATE TABLE "products" (
     "description" TEXT,
     "coupon_code" VARCHAR (255),
     "coupon_expiration" TIMESTAMP,
-    "url" TEXT
+    "url" TEXT,
+	"public" BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE "users_products" (

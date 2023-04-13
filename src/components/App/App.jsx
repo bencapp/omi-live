@@ -22,8 +22,8 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
-import AddProduct from "../StreamerComponents/AddProduct/AddProduct";
 import ProductDetail from "../ProductDetail/ProductDetail";
+import AddEditProduct from "../StreamerComponents/AddEditProduct/AddEditProduct";
 
 import "./App.css";
 
@@ -59,14 +59,6 @@ function App() {
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
-          <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
-            exact
-            path="/info"
-          >
-            <Nav />
-            <InfoPage />
-          </ProtectedRoute>
 
           <ProtectedRoute exact path="/live/:username">
             <UserPage />
@@ -93,7 +85,7 @@ function App() {
             exact
             path="/add-product"
           >
-            <AddProduct />
+            <AddEditProduct />
           </AdminProtectedRoute>
 
           <AdminProtectedRoute
@@ -101,7 +93,7 @@ function App() {
             exact
             path="/edit-product/:productID"
           >
-            <AddProduct />
+            <AddEditProduct />
           </AdminProtectedRoute>
 
           <ProtectedRoute
