@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 import { useEffect } from "react";
 
 function StreamerProductsList() {
-  const products = useSelector((store) => store.addProduct);
+  const products = useSelector((store) => store.allProduct);
 
   const history = useHistory();
   const dispatch = useDispatch();
