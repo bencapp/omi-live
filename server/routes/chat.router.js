@@ -11,7 +11,7 @@ const {rejectUnauthenticated} = require(`../modules/authentication-middleware`);
 
  */
 router.get("/", rejectUnauthenticated, (req, res) => {
-    const queryText = `SELECT "comments".text, "comments".timestamp, "users".username FROM "comments"
+    const queryText = `SELECT "comments".id, "comments".text, "comments".timestamp, "users".username FROM "comments"
                     JOIN "users" ON "users".id = "comments".user_id
                     ORDER BY "comments".timestamp ASC`;
     // const queryParams = [req.params.stream_id]
