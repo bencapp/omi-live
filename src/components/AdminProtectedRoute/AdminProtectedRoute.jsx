@@ -27,7 +27,7 @@ function AdminProtectedRoute({ component, children, ...props }) {
         <ProtectedComponent />
       ) : user.id ? (
         // If the user is logged in but is not the admin, show the viewer home page
-        <ViewerHomePage />
+        <Redirect to="/home" />
       ) : (
         // Otherwise, redirect to the Loginpage
         <LoginPage />
