@@ -19,7 +19,7 @@ function StreamsList() {
   const handleStreamClick = (stream) => {
     console.log("in handle stream click, stream is", stream);
     dispatch({ type: "SET_CURRENT_STREAM", payload: stream });
-    history.push("/edit-stream");
+    history.push(`/edit-stream/${stream.id}`);
   };
 
   const handlePlanNewStream = () => {

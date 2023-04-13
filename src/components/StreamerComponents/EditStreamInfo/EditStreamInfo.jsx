@@ -37,8 +37,10 @@ function EditStreamInfo({ handleCancelEditInfo }) {
   };
 
   useEffect(() => {
-    setNewTitle(currentStream?.title);
-    setNewDescription(currentStream?.description);
+    if (currentStream.id) {
+      setNewTitle(currentStream.title);
+      setNewDescription(currentStream.description);
+    }
   }, []);
 
   return (

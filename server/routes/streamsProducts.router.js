@@ -45,7 +45,7 @@ router.post("/", async (req, res) => {
     const queryParams = [
       req.body.streamID,
       req.body.productID,
-      numberOfProducts + 1,
+      Number(numberOfProducts) + 1,
     ];
 
     await connection.query(queryText, queryParams);
@@ -62,17 +62,33 @@ router.post("/", async (req, res) => {
 /**
  * DELETE route for removing product from a stream
  */
-router.delete("/:streamID/:productID", (req, res) => {
-  console.log("in delete product from stream, req.params is", req.params);
-  const queryText = `DELETE FROM streams_products WHERE stream_id = $1 AND product_id = $2`;
-  const queryParams = [req.params.streamID, req.params.productID];
-  pool
-    .query(queryText, queryParams)
-    .then((result) => res.sendStatus(204))
-    .catch((err) => {
-      console.log("Error executing SQL query", queryText, " : ", err);
-      res.sendStatus(500);
-    });
+router.delete("/:streamID/:productID", async (req, res) => {
+  const connection = await pool.connect();
+  try {
+    // first, get the order of the product being deleted
+    const getOrderQueryText = `SELECT "order" FROM streams_products WHERE stream_id = $1 AND product_id = $2`;
+    const queryParams = [req.params.streamID, req.params.productID];
+    const response = await connection.query(getOrderQueryText, queryParams);
+    console.log("got order, response is", response);
+    const order = response.rows[0].order;
+
+    // then, subtract 1 from the order for all products that are ordered after the product to delete
+    const changeOrderQueryText = `UPDATE streams_products SET "order" = "order" - 1 WHERE stream_id = $1 AND "order" > $2`;
+    const changeOrderQueryParams = [req.params.streamID, order];
+
+    await connection.query(changeOrderQueryText, changeOrderQueryParams);
+
+    // finally, delete the product relationship from the table
+    const deleteQueryText = `DELETE FROM streams_products WHERE stream_id = $1 AND product_id = $2`;
+    await connection.query(deleteQueryText, queryParams);
+    res.sendStatus(204);
+  } catch (error) {
+    // await connection.query("FAILED STREAM PUT");
+    console.log(`Error in streamsProducts DELETE: `, error);
+    res.sendStatus(500);
+  } finally {
+    connection.release();
+  }
 });
 
 module.exports = router;
