@@ -4,7 +4,7 @@ import { useState } from "react";
 import StreamerProductsList from "../StreamerProductsList/StreamerProductsList";
 import StreamsList from "../StreamsList/StreamsList";
 
-import { Link, Button, Typography } from "@mui/material";
+import { Link, Button } from "@mui/material";
 import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
 
 function StreamerHomePage() {

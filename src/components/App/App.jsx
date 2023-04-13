@@ -40,7 +40,7 @@ function App() {
     <Router>
       <div>
         {/* If the user is logged in, display the nav bar */}
-        {user.id && <Nav />}
+        {/* {user.id &&} */}
 
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
@@ -60,32 +60,31 @@ function App() {
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
           <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/viewer-home"
-          >
-            <ViewerHomePage />
-          </ProtectedRoute>
-
-          <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
             path="/info"
           >
+            <Nav />
             <InfoPage />
           </ProtectedRoute>
 
+          <ProtectedRoute exact path="/live/:username">
+            <UserPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/home">
+            <Nav />
+            {user.isAdmin ? <StreamerHomePage/> : <ViewerHomePage/>}
+          </ProtectedRoute>
+          
           {/* route for displaying all the information for a specific product.
           This route will render differently depending on whether the user is a streamer or a viewer  */}
           <ProtectedRoute exact path="/product/:productID">
             <ProductDetail />
           </ProtectedRoute>
 
-          <AdminProtectedRoute exact path="/home">
-            <StreamerHomePage />
-          </AdminProtectedRoute>
-
           <AdminProtectedRoute exact path="/edit-stream">
+            <Nav />
             <EditStream />
           </AdminProtectedRoute>
 
@@ -94,6 +93,7 @@ function App() {
             exact
             path="/chat"
           >
+            <Nav />
             <Chat />
           </ProtectedRoute>
 
@@ -112,7 +112,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/viewer-home" />
+              <Redirect to="/home" />
             ) : (
               // Otherwise, show the registration page
               <RegisterPage />
@@ -120,13 +120,8 @@ function App() {
           </Route>
 
           <Route exact path="/">
-            {user.id && user.isAdmin ? (
-              // If the user is already logged in,
-              // redirect them to the /user page
+            {user.id ? (
               <Redirect to="/home" />
-            ) : user.id ? (
-              // Otherwise, show the Landing page
-              <Redirect to="/viewer-home" />
             ) : (
               <LandingPage />
             )}
