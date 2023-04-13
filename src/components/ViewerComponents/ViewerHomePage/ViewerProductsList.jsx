@@ -19,23 +19,31 @@ function ViewerProductsList() {
   }, []);
 
   return (
-    <div>
-      {/* {JSON.stringify(products)} */}
+    <div className="product-list">
       {products && products.length > 0 ? (
         <List>
           {products.map((product, i) => (
             <ListItem
               key={i}
               className="product-item"
-              sx={{ border: "1px solid grey", mb: 1, borderRadius: "10px" }}
+              sx={{
+                border: "1px solid grey",
+                mb: 1,
+                borderRadius: "15px",
+                padding: "1px",
+              }}
               onClick={() => handleClick(product)}
             >
-              <Avatar alt={product.name} src={product.image_url} />
+              <Avatar
+                alt={product.name}
+                src={product.image_url}
+                sx={{ height: "100px", width: "100px" }}
+              />
               <ListItemText
                 primary={product.name}
                 secondary={product.description}
               />
-              <p> Coupon Code: {product.couponCode}</p>
+              <p className="coupon-code"> Coupon Code: {product.couponCode}</p>
             </ListItem>
           ))}
         </List>
