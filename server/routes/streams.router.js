@@ -1,4 +1,8 @@
 const express = require("express");
+const {
+  rejectUnauthenticated,
+  rejectNonAdminUnauthenticated,
+} = require("../modules/authentication-middleware");
 const pool = require("../modules/pool");
 const router = express.Router();
 
@@ -67,12 +71,17 @@ router.put("/:id", (req, res) => {
     req.body.scheduled,
     req.params.id,
   ];
-  console.log(queryParams);
-
+  console.log("in update stream info, queryParams is", queryParams);
   pool
     .query(queryText, queryParams)
     .then(() => {
-      const selectStreamQueryText = `SELECT * FROM "streams" WHERE id = $1`;
+      const selectStreamQueryText = `SELECT streams.id, streams.title, streams.description, streams.scheduled, 
+                      JSON_AGG(json_build_object('id', "products".id, 'name', "products".name, 'image_url', "products".image_url, 'description', "products".description, 'coupon_code', "products".coupon_code, 'coupon_expiration', "products".coupon_expiration, 'url', "products".url, 'order', "streams_products".order)) AS products
+                      FROM "streams" 
+                      LEFT JOIN "streams_products" ON streams.id = streams_products.stream_id 
+                      LEFT JOIN products ON streams_products.product_id = products.id 
+                      WHERE streams.id = $1
+                      GROUP BY streams.id;`;
       const selectStreamQueryParams = [req.params.id];
       pool
         .query(selectStreamQueryText, selectStreamQueryParams)
