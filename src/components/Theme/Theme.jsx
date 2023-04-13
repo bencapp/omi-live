@@ -25,15 +25,17 @@ const theme = createTheme({
         },
       },
     },
-    // NOTE: this would be for changing the background color
-    // of input fields
-    // MuiOutlinedInput: {
-    //   styleOverrides: {
-    //     root: {
-    //       backgroundColor: "#E9E2D8",
-    //     },
-    //   },
-    // },
+    //  NOTE: this would be for changing the background color
+    //  of input fields
+     MuiOutlinedInput: {
+       styleOverrides: {
+         root: {
+          backgroundColor: "#FFFFFF",
+          fontColor: "#000000"
+          // commenting this out for now backgroundColor: "#E9E2D8",
+         },
+       },
+    },
   },
 });
 

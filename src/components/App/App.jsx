@@ -22,8 +22,8 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
-import InfoPage from "../InfoPage/InfoPage";
 import ProductDetail from "../ProductDetail/ProductDetail";
+import AddEditProduct from "../StreamerComponents/AddEditProduct/AddEditProduct";
 
 import "./App.css";
 
@@ -40,7 +40,7 @@ function App() {
     <Router>
       <div>
         {/* If the user is logged in, display the nav bar */}
-        {user.id && <Nav />}
+        {/* {user.id &&} */}
 
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
@@ -59,20 +59,14 @@ function App() {
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
-          <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/viewer-home"
-          >
-            <ViewerHomePage />
+
+          <ProtectedRoute exact path="/live/:username">
+            <UserPage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
-            exact
-            path="/info"
-          >
-            <InfoPage />
+          <ProtectedRoute exact path="/home">
+            <Nav />
+            {user.isAdmin ? <StreamerHomePage /> : <ViewerHomePage />}
           </ProtectedRoute>
 
           {/* route for displaying all the information for a specific product.
@@ -81,12 +75,25 @@ function App() {
             <ProductDetail />
           </ProtectedRoute>
 
-          <AdminProtectedRoute exact path="/home">
-            <StreamerHomePage />
+          <AdminProtectedRoute exact path="/edit-stream">
+            <Nav />
+            <EditStream />
           </AdminProtectedRoute>
 
-          <AdminProtectedRoute exact path="/edit-stream">
-            <EditStream />
+          <AdminProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/add-product"
+          >
+            <AddEditProduct />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/edit-product/:productID"
+          >
+            <AddEditProduct />
           </AdminProtectedRoute>
 
           <ProtectedRoute
@@ -94,6 +101,7 @@ function App() {
             exact
             path="/chat"
           >
+            <Nav />
             <Chat />
           </ProtectedRoute>
 
@@ -112,7 +120,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/viewer-home" />
+              <Redirect to="/home" />
             ) : (
               // Otherwise, show the registration page
               <RegisterPage />
@@ -120,16 +128,7 @@ function App() {
           </Route>
 
           <Route exact path="/">
-            {user.id && user.isAdmin ? (
-              // If the user is already logged in,
-              // redirect them to the /user page
-              <Redirect to="/home" />
-            ) : user.id ? (
-              // Otherwise, show the Landing page
-              <Redirect to="/viewer-home" />
-            ) : (
-              <LandingPage />
-            )}
+            {user.id ? <Redirect to="/home" /> : <LandingPage />}
           </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}

@@ -9,7 +9,7 @@ const app = express();
 const sessionMiddleware = require("./modules/session-middleware");
 const passport = require("./strategies/user.strategy");
 
-//Socket io set up
+// Socket io set up
 app.use(cors());
 const http = require("http");
 const server = http.createServer(app);
@@ -17,17 +17,21 @@ const { Server } = require("socket.io");
 const io = new Server(server, {
   //specify the properties/functionality with cors
   cors: {
-    origins: ["http://localhost:3000", "http://localhost:3001"],
+    origins: ["http://localhost:3000", "http://localhost:3001"]
   },
 });
 
-io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
-
-  socket.on("send_message", (data) => {
-    io.emit("receive_message", data);
-  });
+// assign io object to the invite router. That way, we can call the
+// socket functions within express endpoints.
+// middleware
+app.use((req, res, next) => {
+  req.io = io;
+  return next();
 });
+
+
+
+
 
 server.listen(3001, () => {
   console.log("SERVER IS RUNNING");
@@ -35,9 +39,11 @@ server.listen(3001, () => {
 
 // Route includes
 const usersRouter = require("./routes/users.router");
+const chatRouter = require("./routes/chat.router");
 const productsRouter = require("./routes/products.router");
 const usersProductsRouter = require("./routes/usersProducts.router");
 const streamsRouter = require("./routes/streams.router");
+const streamsProductsRouter = require("./routes/streamsProducts.router");
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -52,9 +58,11 @@ app.use(passport.session());
 
 /* Routes */
 app.use("/api/user", usersRouter);
+app.use("/api/chat", chatRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/users-products", usersProductsRouter);
 app.use("/api/streams", streamsRouter);
+app.use("/api/streams-products", streamsProductsRouter);
 
 // Serve static files
 app.use(express.static("build"));

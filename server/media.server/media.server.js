@@ -1,14 +1,11 @@
 const NodeMediaServer = require("node-media-server");
 const streamConfig = require("../constants/stream_config");
 const globalConfig = require("../config/config.json");
-const pool = require("../modules/pool");
 const encryptLib = require("../modules/encryption");
 
 let users = [];
 
 function init() {
-  //store db users into local memory
-  // loadUsers();
   //create node media server object using config
   let nms = new NodeMediaServer(streamConfig);
   //start media server
@@ -20,11 +17,8 @@ function init() {
     try {
       //check if user and key parameters exist in passed url
       if (args && args.user && args.streamKey && args.pass) {
-        // const streamKey = args.streamKey;
-        // const validated = streamKey == process.env.STREAM_KEY;
-
-        const validated = validateUser(args);
         //validate parameters passed by streaming environment
+        const validated = validateUser(args);
         if (validated) {
           //change current stream path to appIdentifier/username i.e. http://localhost/live/omi
           session.publishStreamPath =
@@ -33,7 +27,6 @@ function init() {
           //throw error if key is not validated
           throw "Stream was not validated";
         }
-
         //log stream info
         console.log(
           `[New Stream] id=${id} StreamPath=${session.publishStreamPath} user=${args.user}`
@@ -72,6 +65,7 @@ function cacheUser(user) {
   }
 }
 
+//remove user from cache
 function uncacheUser(user) {
   users = users.filter((cached) => cached.id != user.id);
 }
