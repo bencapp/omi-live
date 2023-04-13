@@ -93,6 +93,7 @@ function App() {
 
           <AdminProtectedRoute
             // logged in shows InfoPage else shows LoginPage
+
             exact
             path="/edit-product/:productID"
           >

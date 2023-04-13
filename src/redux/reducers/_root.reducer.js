@@ -3,7 +3,7 @@ import errors from "./errors.reducer";
 import user from "./user.reducer";
 import streams from "./streams.reducer";
 import currentStream from "./currentStream.reducer";
-import addProduct from "./addProduct.reducer";
+import allProduct from "./allProduct.reducer";
 import currentProduct from "./currentProduct.reducer";
 import chat from "./chat.reducer";
 // rootReducer is the primary reducer for our entire project
@@ -17,9 +17,9 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   streams,
   currentStream,
-  addProduct,
+  allProduct,
   currentProduct,
-  chat
+  chat,
 });
 
 export default rootReducer;

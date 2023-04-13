@@ -103,7 +103,7 @@ function AddEditProduct() {
         {imageUrl && (
           <CardMedia
             component="img"
-            height="240"
+            height="250"
             image={imageUrl}
             alt="Product Preview"
             style={{ marginTop: "20px" }}
