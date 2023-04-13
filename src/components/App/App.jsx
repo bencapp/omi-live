@@ -22,7 +22,7 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHomePage";
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
-import InfoPage from "../InfoPage/InfoPage";
+import InfoPage from "../AddEditProductPage/AddEditProductPage";
 import ProductDetail from "../ProductDetail/ProductDetail";
 
 import "./App.css";
@@ -65,7 +65,6 @@ function App() {
             path="/info"
           >
             <Nav />
-            <InfoPage />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/live/:username">
@@ -87,6 +86,13 @@ function App() {
             <Nav />
             <EditStream />
           </AdminProtectedRoute>
+
+          <AdminProtectedRoute 
+            exact 
+            path="/add-edit-product"
+            >
+              <InfoPage />
+            </AdminProtectedRoute>
 
           <ProtectedRoute
             // logged in shows chat else shows LoginPage
