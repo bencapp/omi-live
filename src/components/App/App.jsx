@@ -95,7 +95,7 @@ function App() {
             <EditStream />
           </AdminProtectedRoute>
 
-          <AdminProtectedRoute exact path="/productform/:id">
+          <AdminProtectedRoute exact path="/productform/:productID">
             <Nav />
             <EditProduct />
           </AdminProtectedRoute>
@@ -113,7 +113,7 @@ function App() {
             <Nav />
 
             <AddEditProduct />
-          </AdminProtectedRoute> */}
+          </AdminProtectedRoute>
 
           <AdminProtectedRoute
             // logged in shows InfoPage else shows LoginPage
@@ -124,7 +124,7 @@ function App() {
             <Nav />
 
             <AddEditProduct />
-          </AdminProtectedRoute>
+          </AdminProtectedRoute> */}
 
           <AdminProtectedRoute
             // logged in shows InfoPage else shows LoginPage

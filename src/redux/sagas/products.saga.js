@@ -48,6 +48,7 @@ function* deleteProduct(action) {
 function* updateProduct(action) {
   try {
     yield axios.put(`/api/products/${action.payload.id}`, action.payload);
+    console.log('in updateProduct', action.payload)
     yield put({type: "GET_PRODUCT"})
   } catch (error) {
     console.log("error in product PUT", error); 

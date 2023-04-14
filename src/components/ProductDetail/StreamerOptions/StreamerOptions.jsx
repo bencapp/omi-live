@@ -59,7 +59,9 @@ function StreamerOptions({
         >
           DELETE PRODUCT
         </Button>
-        <Button>EDIT PRODUCT INFO</Button>
+        <Button
+          onClick={() => history.push(`/productform/${productID}`)}
+        >EDIT PRODUCT INFO</Button>
       </Box>
     </>
   );

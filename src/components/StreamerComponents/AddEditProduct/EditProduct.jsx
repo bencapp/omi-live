@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import {Button, TextField, InputLabel, Typography, Box, TextareaAutosize, CardMedia, useTheme} from "@mui/material";
 import Swal from "sweetalert2";
@@ -12,20 +13,22 @@ import dayjs from "dayjs";
 function EditProduct() {
   const theme = useTheme(); 
   const dispatch = useDispatch();
+  const history = useHistory(); 
 
   // id of product from the URL
-  const {productId} = useParams();
-  console.log("productId", productId)
+  const {productID} = useParams();
+  console.log("productID", productID)
   const currentProduct = useSelector((store) => store.currentProduct)
   console.log("currentProduct", currentProduct) 
 
   // const [editMode, setEditMode] = useState(false)
 
-  // if(productId) {
+  // if(productID) {
   //   setEditMode(true);
   // }
 
   const [newProduct, setNewProduct] = useState({
+      id: productID, 
       name: '', 
       image_url: '',
       description: '',
@@ -38,11 +41,13 @@ function EditProduct() {
   // * FOR SETTING VALUES ON PAGE LOAD* 
   useEffect(() => {
     dispatch ({
-      type: "FETCH_PRODUCT_BY_ID", payload: productId
+      type: "FETCH_PRODUCT_BY_ID", payload: productID
     })
-
-    setNewProduct(currentProduct)
   }, []);
+
+  useEffect(() => {
+    setNewProduct(currentProduct)
+  }, [currentProduct]);
 
   const handleChange = (e, key) => {
     setNewProduct({ ...newProduct, [key]: e.target.value })
@@ -52,11 +57,13 @@ function EditProduct() {
     e.preventDefault(); 
     dispatch({
       type: "UPDATE_PRODUCT", 
-      payload: {...newProduct, coupon_expiration: couponExpiration}
+      payload: {...newProduct, coupon_expiration: couponExpiration}, 
     })
-    dispatch({
-      type: "UNSET_CURRENT_PRODUCT"
-    })
+    // dispatch({
+    //   type: "UNSET_CURRENT_PRODUCT"
+    // })
+    history.push(`/product/${productID}`)
+
   }
 
   const handleCancel = () => {
@@ -104,7 +111,7 @@ function EditProduct() {
           id="standard-basic"
           variant="standard"
           type="text"
-          defaultValue={currentProduct.image_url}
+          defaultValue={currentProduct?.image_url}
           value={newProduct.image_url}
           onChange={(e) => handleChange(e, 'image_url')}
         />
@@ -112,7 +119,7 @@ function EditProduct() {
           <CardMedia
             component="img"
             height="250"
-            image={newProduct.image_url}
+            image={currentProduct?.image_url}
             alt="Product Preview"
             style={{ marginTop: "20px" }}
           />
@@ -196,7 +203,6 @@ function EditProduct() {
         <Button variant="contained" type="submit" sx={{ cursor: "pointer" }}>
             Save Changes
           </Button>
-     
 
       </div>
     </form>

@@ -49,13 +49,13 @@ router.post("/", (req, res) => {
 });
 
 // GET route for getting a single product by ID
-router.get("/:productId", rejectUnauthenticated, (req, res) => {
+router.get("/:productID", rejectUnauthenticated, (req, res) => {
   console.log("in product get, req.params is", req.params);
   const queryText = `SELECT products.id, products.name, products.coupon_code, products.coupon_expiration, products.description, products.image_url, products.url, 
                       EXISTS (SELECT FROM users_products WHERE users_products.product_id = $1 AND users_products.user_id = $2) AS on_user_wishlist
                       FROM "products"
                       WHERE products.id = $1;`;
-  const queryParams = [req.params.productId, req.user.id];
+  const queryParams = [req.params.productID, req.user.id];
   pool
     .query(queryText, queryParams)
     .then((result) => {
@@ -70,6 +70,7 @@ router.get("/:productId", rejectUnauthenticated, (req, res) => {
 
 //PUT for updating all product info
 router.put("/:id", rejectNonAdminUnauthenticated, (req, res) => {
+  console.log('in put, req.body is', req.body)
   const queryText = 
     `UPDATE products 
     SET name = $1,
@@ -79,7 +80,7 @@ router.put("/:id", rejectNonAdminUnauthenticated, (req, res) => {
     coupon_expiration = $5, 
     url = $6
     WHERE id = $7`;
-  const queryParams = [req.body.name, req.body.imageUrl, req.body.description, req.body.couponCode, req.body.couponExpiration, req.body.productUrl, req.params.id];
+  const queryParams = [req.body.name, req.body.image_url, req.body.description, req.body.coupon_code, req.body.coupon_expiration, req.body.product_url, req.params.id];
   pool
     .query(queryText, queryParams)
     .then(() => {
