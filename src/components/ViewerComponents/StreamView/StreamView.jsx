@@ -1,17 +1,16 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import Video from "../VideoJS/Video";
+import LiveVideo from "../LiveVideo/LiveVideo";
 import { useParams, useHistory } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { IconButton, Typography } from "@mui/material";
-import Chat from "../Chat/Chat";
+import Chat from "../../Chat/Chat";
 
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:3001");
+import { socket } from "../../../socket";
 
-function UserPage() {
+function StreamView() {
   const history = useHistory();
   const { username } = useParams();
   const playerRef = useRef(null);
@@ -59,7 +58,7 @@ function UserPage() {
     >
       <div style={{ backgroundColor: "#000000", width: "100vw" }}>
         {live ? (
-          <Video username={username} playerRef={playerRef} setLive={setLive} />
+          <LiveVideo username={username} playerRef={playerRef} setLive={setLive} />
         ) : (
           <div
             style={{
@@ -124,10 +123,10 @@ function UserPage() {
           width: "100vw",
         }}
       >
-        {live ? <Chat /> : ""}
+        {live ? <Chat height={"20vh"}/> : ""}
       </div>
     </div>
   );
 }
 
-export default UserPage;
+export default StreamView;
