@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ShareIcon from "@mui/icons-material/Share";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 import io from "socket.io-client";
 const socket = io.connect("http://localhost:3001");
@@ -36,11 +38,9 @@ function Chat() {
   const dispatch = useDispatch();
 
   //set chat open or closed
-  const [chatOpen, setChatOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(true);
 
   const [message, setMessage] = useState("");
-  //fullchat is all of the messages
-  // const [fullchat, setFullChat] = useState([])
 
   const sendMessage = () => {
     // socket.emit("send_message", { message, user})
@@ -86,6 +86,10 @@ function Chat() {
     };
   }, []);
 
+  const copyUrl = () => {
+    navigator.clipboard.writeText(window.location.href);
+  }
+
   return (
     <div>
       <Box
@@ -95,31 +99,58 @@ function Chat() {
           pt: "5px",
         }}
       >
-        <IconButton
-          size="large"
-          edge="start"
-          color="#000000"
-          aria-label="logo"
-          onClick={() => setChatOpen(!chatOpen)}
-          sx={{
-            alignSelf: "center",
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "flex-start",
-            width: "100vw",
-            color: chatOpen ? "primary" : "#FFFFFF",
-          }}
-        >
-          {chatOpen ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
-        </IconButton>
+        <Box
+              sx={{
+                width: "100vw",
+                display: "flex",
+                justifyContent: "space-between",
+              }}>
+          <Box>
+            <IconButton
+              size="large"
+              edge="end"
+              sx={{
+                color: "#FFFFFF"
+              }}
+              aria-label="logo"
+              onClick={copyUrl}
+            >
+              <ShareIcon/>
+            </IconButton>
+            <IconButton
+              size="large"
+              edge="end"
+              sx={{
+                color: "#FFFFFF"
+              }}
+              aria-label="logo"
+            >
+              <ThumbUpIcon />
+            </IconButton>
+          </Box>
+          <Box>
+            <IconButton
+              size="large"
+              edge="start"
+              aria-label="logo"
+              onClick={() => setChatOpen(!chatOpen)}
+              sx={{
+                alignSelf: "flex-end",
+                color: chatOpen ? "primary" : "#FFFFFF",
+              }}
+            >
+              {chatOpen ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
+            </IconButton>
+          </Box>
+        </Box>
         <Box
           sx={{
-            maxHeight: chatOpen ? "60vh" : "15vh",
+            maxHeight: chatOpen ? "20vh" : '',
             overflow: chatOpen ? "scroll" : "hidden",
           }}
         >
           {allChats?.map((chat, i) => {
-            if (i >= allChats.length - 3 || chatOpen) {
+            if (chatOpen) {
               return (
                 <Box
                   key={chat.id}
@@ -191,9 +222,9 @@ function Chat() {
             value={message}
             type="text"
             onKeyPress={(e) => {
-                if (e.key == 'Enter') {
-                    sendMessage();
-                }
+              if (e.key == "Enter") {
+                sendMessage();
+              }
             }}
             onChange={(event) => {
               setMessage(event.target.value);

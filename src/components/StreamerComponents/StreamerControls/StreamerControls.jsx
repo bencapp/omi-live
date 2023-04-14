@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import Chat from "../../Chat/Chat";
+import Chat from "../Chat/Chat";
 import { Box, useTheme, Button } from "@mui/material";
 
 function StreamerControls() {

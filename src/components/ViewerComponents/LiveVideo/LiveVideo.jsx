@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import videojs from "!video.js";
 import "video.js/dist/video-js.css";
-import "./Video.css";
 
-function Video({ username, playerRef, setLive }) {
+function LiveVideo({ username, playerRef, setLive }) {
   const videoRef = useRef(null);
 
   const onReady = (player) => {
@@ -94,4 +93,4 @@ function Video({ username, playerRef, setLive }) {
   );
 }
 
-export default Video;
+export default LiveVideo;
