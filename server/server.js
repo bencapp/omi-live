@@ -29,52 +29,6 @@ app.use((req, res, next) => {
   return next();
 });
 
-// cached object for storing number of viewers and current item in stream
-const omi = { currentProduct: {}, viewerCount: 0 };
-
-io.on("connection", (socket) => {
-  console.log("a user connected");
-
-  // when a viewer joins the stream
-  socket.on("join stream", (streamID) => {
-    socket.join(`room-stream-${streamID}`);
-    omi.viewerCount++;
-    io.to(`room-stream-${streamID}`).emit(
-      "update viewer count",
-      omi.viewerCount
-    );
-  });
-
-  // when a viewer leaves the stream
-  socket.on("leave stream", (streamID) => {
-    socket.leave(`room-stream-${streamID}`);
-    omi.viewerCount--;
-    io.to(`room-stream-${streamID}`).emit(
-      "update viewer count",
-      omi.viewerCount
-    );
-  });
-
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
-});
-
-// GET endpoint for fetching current product
-app.get("/api/current-product", (req, res) => {
-  res.send(omi.currentProduct);
-});
-
-// PUT endpoint for streamer to update the current product
-app.put("/api/current-product", (req, res) => {
-  console.log("receiving product change, product is", req.body.product);
-  omi.currentProduct = req.body.product;
-  io.to(`room-stream-${req.body.streamID}`).emit(
-    "product change",
-    req.body.product
-  );
-});
-
 // server.listen(3001, () => {
 //   console.log("SERVER IS RUNNING");
 // });
@@ -86,6 +40,10 @@ const productsRouter = require("./routes/products.router");
 const usersProductsRouter = require("./routes/usersProducts.router");
 const streamsRouter = require("./routes/streams.router");
 const streamsProductsRouter = require("./routes/streamsProducts.router");
+const currentProductRouter = require("./routes/currentProduct.router");
+
+// send the io object to the current product router
+currentProductRouter.io = io;
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -105,6 +63,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/users-products", usersProductsRouter);
 app.use("/api/streams", streamsRouter);
 app.use("/api/streams-products", streamsProductsRouter);
+app.use("/api/current-product", currentProductRouter);
 
 // Serve static files
 app.use(express.static("build"));

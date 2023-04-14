@@ -20,7 +20,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
     .query(queryText)
     // queryParams)
     .then((result) => {
-      console.log("result.rows", result.rows);
+      // console.log("result.rows", result.rows);
       res.send(result.rows);
     })
     .catch((err) => {

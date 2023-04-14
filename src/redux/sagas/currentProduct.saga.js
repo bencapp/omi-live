@@ -29,9 +29,13 @@ function* fetchStreamOnStartStream(action) {
     const response = yield axios.get(`/api/streams/${action.payload.streamID}`);
     // set stream to the current stream reducer
     yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
+    // make the first product the first one in the order
     const firstProduct = response.data.products.find(
       (product) => product.order == 1
     );
+    yield axios.post(`/api/current-product/${action.payload.streamID}`, {
+      product: firstProduct,
+    });
     yield put({ type: "SET_CURRENT_PRODUCT", payload: firstProduct });
   } catch (error) {
     console.log("Error with fetchStreamOnStartStream saga:", error);
