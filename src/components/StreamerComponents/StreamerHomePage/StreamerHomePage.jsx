@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 import StreamerProductsList from "../StreamerProductsList/StreamerProductsList";
 import StreamsList from "../StreamsList/StreamsList";
@@ -8,7 +9,9 @@ import { Link, Button } from "@mui/material";
 import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
 
 function StreamerHomePage() {
-  const [display, setDisplay] = useState("streams");
+  const {view} = useParams(); 
+  const [display, setDisplay] = useState(
+    view ? view : "streams");
   const [copied, setCopied] = useState(false);
   const user = useSelector((store) => store.user);
   const streamKey = `?key=${user.stream_key}&user=${user.username}&pass='CHANGE ME'`;

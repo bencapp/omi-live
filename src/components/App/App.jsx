@@ -73,6 +73,11 @@ function App() {
             {user.isAdmin ? <StreamerHomePage /> : <ViewerHomePage />}
           </ProtectedRoute>
 
+          <AdminProtectedRoute exact path="/home/:view">
+            <Nav />
+            <StreamerHomePage />
+          </AdminProtectedRoute>
+
           <ProtectedRoute exact path="/viewer-products">
             <Nav />
             {<ViewerProductsList />}

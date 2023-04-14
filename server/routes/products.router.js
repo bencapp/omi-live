@@ -80,7 +80,7 @@ router.put("/:id", rejectNonAdminUnauthenticated, (req, res) => {
     coupon_expiration = $5, 
     url = $6
     WHERE id = $7`;
-  const queryParams = [req.body.name, req.body.image_url, req.body.description, req.body.coupon_code, req.body.coupon_expiration, req.body.product_url, req.params.id];
+  const queryParams = [req.body.name, req.body.image_url, req.body.description, req.body.coupon_code, req.body.coupon_expiration, req.body.url, req.params.id];
   pool
     .query(queryText, queryParams)
     .then(() => {
@@ -107,6 +107,19 @@ router.put("/public/:productID", rejectNonAdminUnauthenticated, (req, res) => {
     });
 });
 
+router.delete("/:productID", rejectNonAdminUnauthenticated, (req, res) => {
+  const queryText = `DELETE from products WHERE id = $1`;
+  const queryParams = [req.params.productID];
+  pool
+    .query(queryText, queryParams)
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch((err) => {
+      console.log("Error executing SQL query", queryText, " : ", err);
+      res.sendStatus(500);
+    });
+}); 
 
 
 module.exports = router;

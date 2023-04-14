@@ -36,7 +36,7 @@ function EditProduct() {
       coupon_code: '',
   });
 
-  const [couponExpiration, setCouponExpiration] = useState();
+  const [couponExpiration, setCouponExpiration] = useState(currentProduct?.coupon_expiration);
 
   // * FOR SETTING VALUES ON PAGE LOAD* 
   useEffect(() => {
@@ -77,9 +77,7 @@ function EditProduct() {
       confirmButtonText: "Yes, cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch({
-          type: "UNSET_CURRENT_PRODUCT"
-        })
+        history.push(`/product/${productID}`)
         Swal.fire("Cancelled!", "Your changes have been discarded.", "success");
       }
     });

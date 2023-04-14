@@ -71,7 +71,7 @@ app.use(express.static("build"));
 const PORT = process.env.PORT || 5000;
 
 // const allowedOrigins = ['http://localhost:3000'];
-const allowedOrigins = ["http://localhost:3000", "http://localhost:3001"];
+const allowedOrigins = ["http://localhost:3000", "http://localhost:3001", "http://localhost:5000"];
 
 app.use(
   cors({
