@@ -67,10 +67,19 @@ function* orderChange(action) {
   }
 }
 
+// action.payload should be the stream ID to delete
+function* deleteStream(action) {
+  try {
+    yield axios.delete(`/api/streams/${action.payload}`);
+  } catch (error) {
+    console.log("Error with delete stream saga:", error);
+  }
+}
 function* streamsSaga() {
   yield takeEvery("FETCH_STREAMS", fetchStreams);
   yield takeEvery("FETCH_STREAM_BY_ID", fetchStreamByID);
   yield takeEvery("POST_EMPTY_STREAM", postEmptyStream);
+  yield takeEvery("DELETE_STREAM", deleteStream);
   yield takeEvery("UPDATE_STREAM_INFO", updateStreamInfo);
   yield takeEvery("ORDER_CHANGE", orderChange);
 }

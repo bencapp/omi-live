@@ -148,4 +148,18 @@ router.put("/order-change/:streamID", async (req, res) => {
   }
 });
 
+router.delete("/:streamID", (req, res) => {
+  const queryText = `DELETE FROM streams WHERE id = $1`;
+  const queryParams = [req.params.streamID];
+  pool
+    .query(queryText, queryParams)
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch((err) => {
+      console.log("Error executing SQL query", queryText, " : ", err);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

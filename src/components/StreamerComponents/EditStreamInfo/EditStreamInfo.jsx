@@ -70,7 +70,11 @@ function EditStreamInfo({ setDisplayEditInfo }) {
       ></TextField>
       <InputLabel>DATE</InputLabel>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker value={newDate} onChange={(date) => setNewDate(date)} />
+        <DatePicker
+          value={newDate}
+          onChange={(date) => setNewDate(date)}
+          minDate={dayjs()}
+        />
       </LocalizationProvider>
       {displayCancelConfirm ? (
         <>
