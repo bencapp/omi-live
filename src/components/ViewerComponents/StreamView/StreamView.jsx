@@ -27,7 +27,7 @@ function StreamView() {
 
   const eventList = (e) => {
     console.log(e);
-  }
+  };
 
   useEffect(() => {
     //create socket listener for stream closed emit, set live = false
@@ -40,7 +40,7 @@ function StreamView() {
     return () => {
       socket.off("stream_closed");
     };
-  }, [])
+  }, []);
 
   const toggleMute = () => {
     setMuted(!muted);
@@ -58,7 +58,11 @@ function StreamView() {
     >
       <div style={{ backgroundColor: "#000000", width: "100vw" }}>
         {live ? (
-          <LiveVideo username={username} playerRef={playerRef} setLive={setLive} />
+          <LiveVideo
+            username={username}
+            playerRef={playerRef}
+            setLive={setLive}
+          />
         ) : (
           <div
             style={{
@@ -100,19 +104,22 @@ function StreamView() {
           >
             <HomeIcon color="secondary" />
           </IconButton>
-          {live ?
-          <IconButton
-            variant="outlined"
-            size="medium"
-            sx={{ width: "1em", mr: ".75em", mt: ".4em" }}
-            onClick={toggleMute}
-          >
-            {muted ? (
-              <VolumeOffIcon color="secondary" />
-            ) : (
-              <VolumeUpIcon color="secondary" />
-            )}
-          </IconButton> : '' }
+          {live ? (
+            <IconButton
+              variant="outlined"
+              size="medium"
+              sx={{ width: "1em", mr: ".75em", mt: ".4em" }}
+              onClick={toggleMute}
+            >
+              {muted ? (
+                <VolumeOffIcon color="secondary" />
+              ) : (
+                <VolumeUpIcon color="secondary" />
+              )}
+            </IconButton>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div
@@ -123,7 +130,7 @@ function StreamView() {
           width: "100vw",
         }}
       >
-        {live ? <Chat height={"20vh"}/> : ""}
+        {live ? <Chat height={"20vh"} /> : ""}
       </div>
     </div>
   );
