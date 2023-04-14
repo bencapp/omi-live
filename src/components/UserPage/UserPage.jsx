@@ -8,8 +8,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { IconButton, Typography } from "@mui/material";
 import Chat from "../Chat/Chat";
 
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:3001");
+import { socket } from "../../socket";
 
 function UserPage() {
   const history = useHistory();
@@ -28,7 +27,7 @@ function UserPage() {
 
   const eventList = (e) => {
     console.log(e);
-  }
+  };
 
   useEffect(() => {
     //create socket listener for stream closed emit, set live = false
@@ -41,7 +40,7 @@ function UserPage() {
     return () => {
       socket.off("stream_closed");
     };
-  }, [])
+  }, []);
 
   const toggleMute = () => {
     setMuted(!muted);
@@ -101,19 +100,22 @@ function UserPage() {
           >
             <HomeIcon color="secondary" />
           </IconButton>
-          {live ?
-          <IconButton
-            variant="outlined"
-            size="medium"
-            sx={{ width: "1em", mr: ".75em", mt: ".4em" }}
-            onClick={toggleMute}
-          >
-            {muted ? (
-              <VolumeOffIcon color="secondary" />
-            ) : (
-              <VolumeUpIcon color="secondary" />
-            )}
-          </IconButton> : '' }
+          {live ? (
+            <IconButton
+              variant="outlined"
+              size="medium"
+              sx={{ width: "1em", mr: ".75em", mt: ".4em" }}
+              onClick={toggleMute}
+            >
+              {muted ? (
+                <VolumeOffIcon color="secondary" />
+              ) : (
+                <VolumeUpIcon color="secondary" />
+              )}
+            </IconButton>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div
