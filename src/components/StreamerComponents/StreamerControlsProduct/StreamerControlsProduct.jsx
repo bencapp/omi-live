@@ -1,13 +1,16 @@
 import { Box, Grid, Button, useTheme } from "@mui/material";
+import { useSelector } from "react-redux";
 
 function StreamerControlsProduct({ product }) {
   const theme = useTheme();
+  const currentProduct = useSelector((store) => store.currentProduct);
   return (
     <Box
       sx={{
         backgroundColor: "white",
         borderRadius: "5px",
         padding: "10px",
+        border: currentProduct.id == product.id ? "1px solid green" : "",
       }}
     >
       <Grid container key={product.id} alignItems="center">

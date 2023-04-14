@@ -55,18 +55,6 @@ io.on("connection", (socket) => {
     );
   });
 
-  // when a streamer changes the current producdt
-  socket.on("change current product", (product, streamID) => {
-    console.log(
-      "current product is being changed, product is",
-      product,
-      "streamID is",
-      streamID
-    );
-    omi.currentProduct = product;
-    io.to(`room-stream-${streamID}`).emit("product change", currentProduct);
-  });
-
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
@@ -77,9 +65,14 @@ app.get("/api/current-product", (req, res) => {
   res.send(omi.currentProduct);
 });
 
+// PUT endpoint for streamer to update the current product
 app.put("/api/current-product", (req, res) => {
-  console.log("receiving product change, product is");
+  console.log("receiving product change, product is", req.body.product);
   omi.currentProduct = req.body.product;
+  io.to(`room-stream-${req.body.streamID}`).emit(
+    "product change",
+    req.body.product
+  );
 });
 
 // server.listen(3001, () => {

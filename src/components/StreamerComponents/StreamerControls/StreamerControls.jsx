@@ -18,8 +18,11 @@ function StreamerControls() {
   const currentProduct = useSelector((store) => store.currentProduct);
 
   useEffect(() => {
-    dispatch({ type: "FETCH_STREAM_BY_ID", payload: { streamID: streamID } });
-    dispatch({ type: "FETCH_CURRENT_PRODUCT_IN_STREAM" });
+    dispatch({
+      type: "FETCH_STREAM_ON_START_STREAM",
+      payload: { streamID: streamID },
+    });
+
     socket.on("update viewer count", (count) => setViewerCount(count));
     return () => {
       socket.off("update viewer count", (count) => setViewerCount(count));
@@ -47,7 +50,6 @@ function StreamerControls() {
           backgroundColor: theme.palette.secondary.main,
         }}
       >
-        {/* {JSON.stringify(currentStream)} */}
         {/* <Box>{currentStream.products[0].name}</Box> */}
         <Grid
           item
@@ -62,7 +64,7 @@ function StreamerControls() {
           }}
         >
           {/* map over products here */}
-          {currentStream.products.map((product) => (
+          {currentStream.products?.map((product) => (
             <StreamerControlsProduct key={product.id} product={product} />
           ))}
         </Grid>

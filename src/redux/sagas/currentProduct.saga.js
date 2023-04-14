@@ -12,12 +12,29 @@ function* fetchCurrentProductInStream() {
 
 function* setCurrentProductInStream(action) {
   try {
-    const response = yield axios.post("/api/current-product", {
+    const response = yield axios.put("/api/current-product", {
       product: action.payload.product,
       streamID: action.payload.streamID,
     });
+    yield put({ type: "SET_CURRENT_PRODUCT", payload: response });
   } catch (error) {
     console.log("Error with setCurrentProductInStream saga:", error);
+  }
+}
+
+// the samae as the fetch stream by ID saga, but this sets the
+// current product to the first one in the order
+function* fetchStreamOnStartStream(action) {
+  try {
+    const response = yield axios.get(`/api/streams/${action.payload.streamID}`);
+    // set stream to the current stream reducer
+    yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
+    const firstProduct = response.data.products.find(
+      (product) => product.order == 1
+    );
+    yield put({ type: "SET_CURRENT_PRODUCT", payload: firstProduct });
+  } catch (error) {
+    console.log("Error with fetchStreamOnStartStream saga:", error);
   }
 }
 
@@ -27,6 +44,7 @@ function* currentProductSaga() {
     fetchCurrentProductInStream
   );
   yield takeEvery("SET_CURRENT_PRODUCT_IN_STREAM", setCurrentProductInStream);
+  yield takeEvery("FETCH_STREAM_ON_START_STREAM", fetchStreamOnStartStream);
 }
 
 export default currentProductSaga;
