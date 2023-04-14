@@ -14,10 +14,9 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ShareIcon from "@mui/icons-material/Share";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:3001");
+import { socket } from "../../socket";
 
-function Chat() {
+function Chat({height}) {
   //html ref for scrolling to bottom of comments
   const scrollRef = useRef(null);
 
@@ -39,6 +38,8 @@ function Chat() {
 
   //set chat open or closed
   const [chatOpen, setChatOpen] = useState(true);
+  //bool to track if user is scrolling through chats
+  const [scrolling, setScrolling] = useState(false);
 
   const [message, setMessage] = useState("");
 
@@ -54,6 +55,7 @@ function Chat() {
     });
     //reset input field
     setMessage("");
+    scrollToBottom();
   };
 
   const scrollToBottom = () => {
@@ -65,7 +67,7 @@ function Chat() {
   }, [chatOpen]);
 
   useEffect(() => {
-    if (!chatOpen) {
+    if (!scrolling) {
       scrollToBottom();
     }
   }, [allChats]);
@@ -85,6 +87,15 @@ function Chat() {
       socket.off("add_text", receiveMessage);
     };
   }, []);
+
+  const handleScroll = (e) => {
+    const atBottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight
+    if (atBottom) {
+      setScrolling(false);
+    } else {
+      setScrolling(true);
+    }
+  }
 
   const copyUrl = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -145,9 +156,10 @@ function Chat() {
         </Box>
         <Box
           sx={{
-            maxHeight: chatOpen ? "20vh" : '',
+            maxHeight: chatOpen ? height : '',
             overflow: chatOpen ? "scroll" : "hidden",
           }}
+          onScroll={handleScroll}
         >
           {allChats?.map((chat, i) => {
             if (chatOpen) {
@@ -205,6 +217,7 @@ function Chat() {
           })}
           <Box ref={scrollRef} />
         </Box>
+        {chatOpen ?
         <Box sx={{ py: "10px", display: "flex", flexDirection: "row" }}>
           <Input
             sx={{
@@ -238,6 +251,7 @@ function Chat() {
             Send
           </Button>
         </Box>
+         : ''}
       </Box>
     </div>
   );

@@ -6,10 +6,9 @@ import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { IconButton, Typography } from "@mui/material";
-import Chat from "../Chat/Chat";
+import Chat from "../../Chat/Chat";
 
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:3001");
+import { socket } from "../../../socket";
 
 function StreamView() {
   const history = useHistory();
@@ -124,7 +123,7 @@ function StreamView() {
           width: "100vw",
         }}
       >
-        {live ? <Chat /> : ""}
+        {live ? <Chat height={"20vh"}/> : ""}
       </div>
     </div>
   );

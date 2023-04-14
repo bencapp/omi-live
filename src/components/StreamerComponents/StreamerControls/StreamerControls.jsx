@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import Chat from "../Chat/Chat";
+import Chat from "../../Chat/Chat";
 import { Box, useTheme, Button, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -124,7 +124,7 @@ function StreamerControls() {
           width: "100vw",
         }}
       >
-        <Chat />
+        <Chat height={"60vh"}/>
       </div>
       {displayConfirmEndStream && (
         <ConfirmEndStream
