@@ -128,7 +128,7 @@ function StreamerControls() {
           width: "100vw",
         }}
       >
-        <Chat />
+        <Chat height={"60vh"}/>
       </div>
       {displayConfirmEndStream && (
         <ConfirmEndStream
