@@ -7,7 +7,7 @@ import productsSaga from "./products.saga";
 import usersProductsSaga from "./usersProducts.saga";
 import streamsProductsSaga from "./streamsProducts.saga";
 import chatSaga from "./chat.saga";
-import currentProductSaga from "./currentProduct.saga";
+import liveStreamSaga from "./liveStream.saga";
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -26,6 +26,6 @@ export default function* rootSaga() {
     usersProductsSaga(),
     streamsProductsSaga(),
     chatSaga(),
-    currentProductSaga(),
+    liveStreamSaga(),
   ]);
 }

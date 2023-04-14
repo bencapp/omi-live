@@ -47,13 +47,23 @@ function* fetchStreamOnStartStream(action) {
   }
 }
 
-function* currentProductSaga() {
+// payload should be streamID to end
+function* endStream(action) {
+  try {
+    yield axios.put(`/api/live-stream/end-stream/${action.payload}`);
+  } catch (error) {
+    console.log("Error with endStream saga:", error);
+  }
+}
+
+function* liveStreamSaga() {
   yield takeEvery(
     "FETCH_CURRENT_PRODUCT_IN_STREAM",
     fetchCurrentProductInStream
   );
   yield takeEvery("SET_CURRENT_PRODUCT_IN_STREAM", setCurrentProductInStream);
   yield takeEvery("FETCH_STREAM_ON_START_STREAM", fetchStreamOnStartStream);
+  yield takeEvery("END_STREAM", endStream);
 }
 
-export default currentProductSaga;
+export default liveStreamSaga;

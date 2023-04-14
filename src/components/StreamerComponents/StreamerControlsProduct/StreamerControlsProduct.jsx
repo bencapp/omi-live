@@ -17,12 +17,14 @@ function StreamerControlsProduct({ product }) {
         <Grid item xs={3}>
           <img style={{ height: "50px" }} src={product.image_url} />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={9}>
           <b>{product.name}</b>
-        </Grid>
-
-        <Grid item xs={3}>
-          <Box>added</Box>
+          {currentProduct.id == product.id && (
+            <Box>
+              <Box>{product.description}</Box>
+              <Box>Coupon Code: {product.coupon_code}</Box>
+            </Box>
+          )}
         </Grid>
       </Grid>
     </Box>

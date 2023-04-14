@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import StreamerControlsProduct from "../StreamerControlsProduct/StreamerControlsProduct";
+import ConfirmEndStream from "../EditStream/ConfirmEndStream/ConfirmEndStream";
 import { socket } from "../../../socket";
 
 function StreamerControls() {
@@ -13,6 +14,7 @@ function StreamerControls() {
   const dispatch = useDispatch();
 
   const [viewerCount, setViewerCount] = useState();
+  const [displayConfirmEndStream, setDisplayConfirmEndStream] = useState(false);
 
   const currentStream = useSelector((store) => store.currentStream);
   const currentProduct = useSelector((store) => store.currentProduct);
@@ -23,20 +25,18 @@ function StreamerControls() {
       payload: { streamID: streamID },
     });
 
+    // TODO: send socket emit when a viewer joins a stream
     socket.on("update viewer count", (count) => setViewerCount(count));
     return () => {
       socket.off("update viewer count", (count) => setViewerCount(count));
     };
   }, []);
 
-  const handleNextProduct = () => {
-    // the currentProduct reducer does not hold the order in this stream, so we need
-    // to match the product in the currenStream reducer to the currenProduct
-
+  const handleChangeProduct = (type) => {
     const product = currentStream.products.find(
       (product) => product.id == currentProduct.id
     );
-    const newOrder = product.order + 1;
+    const newOrder = type == "previous" ? product.order - 1 : product.order + 1;
     console.log("new order is", newOrder);
     const nextProduct = currentStream.products.find(
       (product) => product.order == newOrder
@@ -91,13 +91,29 @@ function StreamerControls() {
             flexDirection: "column",
             alignItems: "end",
             padding: "20px 10px",
-            gap: "20px",
+            gap: "15px",
           }}
         >
-          <Button onClick={handleNextProduct} size="small" color="primary">
-            Next Item
+          <Button
+            onClick={() => handleChangeProduct("previous")}
+            size="small"
+            color="primary"
+          >
+            Previous
           </Button>
-          <Button size="small" color="warning" sx={{ color: "black" }}>
+          <Button
+            onClick={() => handleChangeProduct("next")}
+            size="small"
+            color="primary"
+          >
+            Next
+          </Button>
+          <Button
+            onClick={() => setDisplayConfirmEndStream(true)}
+            size="small"
+            color="warning"
+            sx={{ color: "black" }}
+          >
             End Stream
           </Button>
           <Box>[i] viewers</Box>
@@ -110,6 +126,12 @@ function StreamerControls() {
       >
         <Chat />
       </div>
+      {displayConfirmEndStream && (
+        <ConfirmEndStream
+          setDisplayConfirmEndStream={setDisplayConfirmEndStream}
+          streamID={streamID}
+        />
+      )}
     </Box>
   );
 }

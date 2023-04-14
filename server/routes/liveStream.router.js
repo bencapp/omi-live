@@ -55,4 +55,14 @@ router.put(
   }
 );
 
+router.put(
+  "/end-stream/:streamID",
+  rejectNonAdminUnauthenticated,
+  (req, res) => {
+    console.log("emitting end stream for stream", req.params.streamID);
+    req.io.to(`room-stream-${req.params.streamID}`).emit("end-stream");
+    res.sendStatus(204);
+  }
+);
+
 module.exports = router;
