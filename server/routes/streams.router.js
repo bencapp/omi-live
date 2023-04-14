@@ -9,7 +9,7 @@ const router = express.Router();
 /**
  * GET route for getting all streams and their products
  */
-router.get("/", (req, res) => {
+router.get("/", rejectUnauthenticated, (req, res) => {
   const queryText = `SELECT streams.id, streams.title, streams.description, streams.scheduled, 
                       JSON_AGG(json_build_object('id', "products".id, 'name', "products".name, 'image_url', "products".image_url, 'description', "products".description, 'coupon_code', "products".coupon_code, 'coupon_expiration', "products".coupon_expiration, 'url', "products".url, 'order', "streams_products".order)) AS products
                       FROM "streams" 
@@ -26,7 +26,7 @@ router.get("/", (req, res) => {
 });
 
 // GET route for getting one stream and all its products
-router.get("/:streamID", (req, res) => {
+router.get("/:streamID", rejectUnauthenticated, (req, res) => {
   const queryText = `SELECT streams.id, streams.title, streams.description, streams.scheduled, 
                       JSON_AGG(json_build_object('id', "products".id, 'name', "products".name, 'image_url', "products".image_url, 'description', "products".description, 'coupon_code', "products".coupon_code, 'coupon_expiration', "products".coupon_expiration, 'url', "products".url, 'order', "streams_products".order)) AS products
                       FROM "streams" 
@@ -46,7 +46,7 @@ router.get("/:streamID", (req, res) => {
 });
 
 // POST route for adding an empty stream in preparation for the user to edit it
-router.post("/", (req, res) => {
+router.post("/", rejectNonAdminUnauthenticated, (req, res) => {
   const queryText = `INSERT INTO "streams" ("title") VALUES ('New Stream')`;
   pool
     .query(queryText)
@@ -63,7 +63,7 @@ router.post("/", (req, res) => {
 });
 
 // PUT route for updating the title, description, and date of the stream
-router.put("/:id", (req, res) => {
+router.put("/:id", rejectNonAdminUnauthenticated, (req, res) => {
   const queryText = `UPDATE "streams" SET title = $1, description = $2, scheduled = $3 WHERE id = $4 `;
   const queryParams = [
     req.body.title,
@@ -96,59 +96,63 @@ router.put("/:id", (req, res) => {
 });
 
 // PUT route for updating the order of the stream's products
-router.put("/order-change/:streamID", async (req, res) => {
-  const connection = await pool.connect();
+router.put(
+  "/order-change/:streamID",
+  rejectNonAdminUnauthenticated,
+  async (req, res) => {
+    const connection = await pool.connect();
 
-  try {
-    // first get the product that is adjacent to the one selected
-    const getQueryText = `SELECT product_id FROM streams_products WHERE "order" = $1 AND stream_id = $2`;
-    const newOrder =
-      req.body.type == "increase" ? req.body.order - 1 : req.body.order + 1;
-    const getQueryParams = [newOrder, req.params.streamID];
+    try {
+      // first get the product that is adjacent to the one selected
+      const getQueryText = `SELECT product_id FROM streams_products WHERE "order" = $1 AND stream_id = $2`;
+      const newOrder =
+        req.body.type == "increase" ? req.body.order - 1 : req.body.order + 1;
+      const getQueryParams = [newOrder, req.params.streamID];
 
-    console.log("getQueryParams is", getQueryParams);
+      console.log("getQueryParams is", getQueryParams);
 
-    const result = await connection.query(getQueryText, [
-      newOrder,
-      Number(req.params.streamID),
-    ]);
+      const result = await connection.query(getQueryText, [
+        newOrder,
+        Number(req.params.streamID),
+      ]);
 
-    const otherProductID = result.rows[0].product_id;
-    console.log("changing order, other product id is", otherProductID);
+      const otherProductID = result.rows[0].product_id;
+      console.log("changing order, other product id is", otherProductID);
 
-    // now set the order of that product
-    const setOrderQueryText = `UPDATE streams_products SET "order" = $1 WHERE product_id = $2 AND stream_id = $3`;
-    const newOtherProductOrder = req.body.order;
-    const firstQueryParams = [
-      newOtherProductOrder,
-      otherProductID,
-      req.params.streamID,
-    ];
-    console.log("firstQueryParams is", firstQueryParams);
+      // now set the order of that product
+      const setOrderQueryText = `UPDATE streams_products SET "order" = $1 WHERE product_id = $2 AND stream_id = $3`;
+      const newOtherProductOrder = req.body.order;
+      const firstQueryParams = [
+        newOtherProductOrder,
+        otherProductID,
+        req.params.streamID,
+      ];
+      console.log("firstQueryParams is", firstQueryParams);
 
-    await connection.query(setOrderQueryText, firstQueryParams);
+      await connection.query(setOrderQueryText, firstQueryParams);
 
-    // set the order of the first product
-    const secondQueryParams = [
-      newOrder,
-      req.body.productID,
-      req.params.streamID,
-    ];
-    console.log("secondQueryParams is", secondQueryParams);
+      // set the order of the first product
+      const secondQueryParams = [
+        newOrder,
+        req.body.productID,
+        req.params.streamID,
+      ];
+      console.log("secondQueryParams is", secondQueryParams);
 
-    await connection.query(setOrderQueryText, secondQueryParams);
+      await connection.query(setOrderQueryText, secondQueryParams);
 
-    res.sendStatus(204);
-  } catch (error) {
-    // await connection.query("FAILED STREAM PUT");
-    console.log(`Error in stream PUT: `, error);
-    res.sendStatus(500);
-  } finally {
-    connection.release();
+      res.sendStatus(204);
+    } catch (error) {
+      // await connection.query("FAILED STREAM PUT");
+      console.log(`Error in stream PUT: `, error);
+      res.sendStatus(500);
+    } finally {
+      connection.release();
+    }
   }
-});
+);
 
-router.delete("/:streamID", (req, res) => {
+router.delete("/:streamID", rejectNonAdminUnauthenticated, (req, res) => {
   const queryText = `DELETE FROM streams WHERE id = $1`;
   const queryParams = [req.params.streamID];
   pool
