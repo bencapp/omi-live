@@ -4,8 +4,8 @@ const config = require("../config/config.json");
 module.exports = {
   rtmp: {
     port: 1935,
-    chunk_size: 128,
-    gop_cache: true,
+    chunk_size: 500,
+    gop_cache: false,
     ping: 30,
     ping_timeout: 60,
   },

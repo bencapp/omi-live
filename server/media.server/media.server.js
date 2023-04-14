@@ -2,10 +2,16 @@ const NodeMediaServer = require("node-media-server");
 const streamConfig = require("../constants/stream_config");
 const globalConfig = require("../config/config.json");
 const encryptLib = require("../modules/encryption");
+let io;
 
 let users = [];
 
-function init() {
+function setSocketIO(socketIo) {
+  io = socketIo;
+}
+
+function init(socketIo) {
+  setSocketIO(socketIo)
   //create node media server object using config
   let nms = new NodeMediaServer(streamConfig);
   //start media server
@@ -41,6 +47,12 @@ function init() {
       );
       session.reject();
     }
+  });
+
+  //broadcast closed stream after connection is closed
+  nms.on("doneConnect", (id, args) => {
+    const session = nms.getSession(id);
+    io.emit("stream_closed", session.publishArgs.user);
   });
 }
 
