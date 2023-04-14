@@ -37,17 +37,21 @@ const omi = { currentProduct: {}, viewerCount: 0 };
 // });
 
 // GET endpoint for fetching current product
-router.get("/", rejectUnauthenticated, (req, res) => {
+router.get("/current-product", rejectUnauthenticated, (req, res) => {
   res.send(omi.viewerCount);
 });
 
 // PUT endpoint for streamer to update the current product
-router.post("/:streamID", rejectNonAdminUnauthenticated, (req, res) => {
-  omi.currentProduct = req.body.product;
-  req.io
-    .to(`room-stream-${req.body.streamID}`)
-    .emit("product change", req.body.product);
-  res.sendStatus(204);
-});
+router.post(
+  "/current-product/:streamID",
+  rejectNonAdminUnauthenticated,
+  (req, res) => {
+    omi.currentProduct = req.body.product;
+    req.io
+      .to(`room-stream-${req.body.streamID}`)
+      .emit("product change", req.body.product);
+    res.sendStatus(204);
+  }
+);
 
 module.exports = router;

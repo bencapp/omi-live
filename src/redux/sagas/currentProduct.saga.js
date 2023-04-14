@@ -3,7 +3,7 @@ import { put, takeEvery } from "redux-saga/effects";
 
 function* fetchCurrentProductInStream() {
   try {
-    const response = yield axios.get("/api/current-product");
+    const response = yield axios.get("/api/live-stream/current-product");
     yield put({ type: "SET_CURRENT_PRODUCT", payload: response });
   } catch (error) {
     console.log("Error with fetchCurrentProductInStream saga:", error);
@@ -12,7 +12,7 @@ function* fetchCurrentProductInStream() {
 
 function* setCurrentProductInStream(action) {
   try {
-    const response = yield axios.put("/api/current-product", {
+    const response = yield axios.put("/api/live-stream/current-product", {
       product: action.payload.product,
       streamID: action.payload.streamID,
     });
@@ -33,9 +33,12 @@ function* fetchStreamOnStartStream(action) {
     const firstProduct = response.data.products.find(
       (product) => product.order == 1
     );
-    yield axios.post(`/api/current-product/${action.payload.streamID}`, {
-      product: firstProduct,
-    });
+    yield axios.post(
+      `/api/live-stream/current-product/${action.payload.streamID}`,
+      {
+        product: firstProduct,
+      }
+    );
     yield put({ type: "SET_CURRENT_PRODUCT", payload: firstProduct });
   } catch (error) {
     console.log("Error with fetchStreamOnStartStream saga:", error);

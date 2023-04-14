@@ -40,10 +40,7 @@ const productsRouter = require("./routes/products.router");
 const usersProductsRouter = require("./routes/usersProducts.router");
 const streamsRouter = require("./routes/streams.router");
 const streamsProductsRouter = require("./routes/streamsProducts.router");
-const currentProductRouter = require("./routes/currentProduct.router");
-
-// send the io object to the current product router
-currentProductRouter.io = io;
+const liveStreamRouter = require("./routes/liveStream.router");
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -63,7 +60,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/users-products", usersProductsRouter);
 app.use("/api/streams", streamsRouter);
 app.use("/api/streams-products", streamsProductsRouter);
-app.use("/api/current-product", currentProductRouter);
+app.use("/api/live-stream", liveStreamRouter);
 
 // Serve static files
 app.use(express.static("build"));
