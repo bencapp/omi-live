@@ -17,11 +17,11 @@ const { Server } = require("socket.io");
 const io = new Server(server, {
   //specify the properties/functionality with cors
   cors: {
-    origins: ["http://localhost:3000", "http://localhost:3001"]
+    origins: ["http://localhost:3000", "http://localhost:3001"],
   },
 });
 
-// assign io object to the invite router. That way, we can call the
+// assign io object to the all routers. That way, we can call the
 // socket functions within express endpoints.
 // middleware
 app.use((req, res, next) => {
@@ -29,13 +29,62 @@ app.use((req, res, next) => {
   return next();
 });
 
+// cached object for storing number of viewers and current item in stream
+const omi = { currentProduct: {}, viewerCount: 0 };
 
+io.on("connection", (socket) => {
+  console.log("a user connected");
 
+  // when a viewer joins the stream
+  socket.on("join stream", (streamID) => {
+    socket.join(`room-stream-${streamID}`);
+    omi.viewerCount++;
+    io.to(`room-stream-${streamID}`).emit(
+      "update viewer count",
+      omi.viewerCount
+    );
+  });
 
+  // when a viewer leaves the stream
+  socket.on("leave stream", (streamID) => {
+    socket.leave(`room-stream-${streamID}`);
+    omi.viewerCount--;
+    io.to(`room-stream-${streamID}`).emit(
+      "update viewer count",
+      omi.viewerCount
+    );
+  });
 
-server.listen(3001, () => {
-  console.log("SERVER IS RUNNING");
+  // when a streamer changes the current producdt
+  socket.on("change current product", (product, streamID) => {
+    console.log(
+      "current product is being changed, product is",
+      product,
+      "streamID is",
+      streamID
+    );
+    omi.currentProduct = product;
+    io.to(`room-stream-${streamID}`).emit("product change", currentProduct);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
 });
+
+// GET endpoint for fetching current product
+app.get("/api/current-product", (req, res) => {
+  res.send(omi.currentProduct);
+});
+
+app.put("/api/current-product", (req, res) => {
+  console.log("receiving product change, product is");
+  omi.currentProduct = req.body.product;
+});
+
+// server.listen(3001, () => {
+//   console.log("SERVER IS RUNNING");
+// });
 
 // Route includes
 const usersRouter = require("./routes/users.router");
@@ -102,7 +151,7 @@ app.use("/live", createProxyMiddleware(proxyOptions));
 console.log(proxyOptions.router);
 
 /** Listen * */
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
 

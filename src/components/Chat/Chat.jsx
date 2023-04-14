@@ -12,8 +12,7 @@ import {
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:3001");
+import { socket } from "../../socket";
 
 function Chat() {
   //html ref for scrolling to bottom of comments
@@ -191,9 +190,9 @@ function Chat() {
             value={message}
             type="text"
             onKeyPress={(e) => {
-                if (e.key == 'Enter') {
-                    sendMessage();
-                }
+              if (e.key == "Enter") {
+                sendMessage();
+              }
             }}
             onChange={(event) => {
               setMessage(event.target.value);
