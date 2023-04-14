@@ -35,7 +35,7 @@ router.get("/:streamID", (req, res) => {
                       WHERE streams.id = $1
                       GROUP BY streams.id;`;
   const queryParams = [req.params.streamID];
-  console.log("in get stream by id, id is", req.params.streamID);
+  // console.log("in get stream by id, id is", req.params.streamID);
   pool
     .query(queryText, queryParams)
     .then((result) => res.send(result.rows[0]))
