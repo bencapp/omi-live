@@ -4,23 +4,50 @@ import { useParams, useHistory } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import { IconButton } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { IconButton, Typography } from "@mui/material";
 import Chat from "../Chat/Chat";
+
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:3001");
 
 function UserPage() {
   const history = useHistory();
   const { username } = useParams();
   const playerRef = useRef(null);
   const [muted, setMuted] = useState(true);
+  const [live, setLive] = useState(true);
 
   useEffect(() => {
-    document.getElementById(playerRef.current.options_.id + '_html5_api').muted = muted;
-  }, [muted, playerRef])
+    if (playerRef?.current?.options_?.id) {
+      document.getElementById(
+        playerRef.current.options_.id + "_html5_api"
+      ).muted = muted;
+    }
+  }, [muted, playerRef]);
+
+  const eventList = (e) => {
+    console.log(e);
+  }
+
+  useEffect(() => {
+    //create socket listener for stream closed emit, set live = false
+    socket.on("stream_closed", (user) => {
+      if (user === username) {
+        // setTimeout(() => setLive(false), 5000)
+        setLive(false);
+      }
+    });
+    return () => {
+      socket.off("stream_closed");
+    };
+  }, [])
 
   const toggleMute = () => {
     setMuted(!muted);
-  }
-  
+  };
+
+  console.log(playerRef);
   return (
     <div
       style={{
@@ -31,7 +58,31 @@ function UserPage() {
       }}
     >
       <div style={{ backgroundColor: "#000000", width: "100vw" }}>
-        <Video username={username} playerRef={playerRef} />
+        {live ? (
+          <Video username={username} playerRef={playerRef} setLive={setLive} />
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column-reverse",
+              height: "50vh",
+            }}
+          >
+            <IconButton
+              variant="outlined"
+              size="large"
+              sx={{
+                alignSelf: "center",
+              }}
+              onClick={() => setLive(true)}
+            >
+              <RefreshIcon color="secondary" />
+            </IconButton>
+            <Typography sx={{ color: "#FFFFFF", alignSelf: "center" }}>
+              Sorry, there's no live stream right now
+            </Typography>
+          </div>
+        )}
       </div>
       <div style={{ position: "fixed", zIndex: 1 }}>
         <div
@@ -50,14 +101,19 @@ function UserPage() {
           >
             <HomeIcon color="secondary" />
           </IconButton>
+          {live ?
           <IconButton
             variant="outlined"
             size="medium"
-            sx={{ width: "1em", mr: ".75em", mt: ".4em"}}
+            sx={{ width: "1em", mr: ".75em", mt: ".4em" }}
             onClick={toggleMute}
           >
-            {muted ? <VolumeOffIcon color="secondary" /> : <VolumeUpIcon color="secondary" /> }
-          </IconButton>
+            {muted ? (
+              <VolumeOffIcon color="secondary" />
+            ) : (
+              <VolumeUpIcon color="secondary" />
+            )}
+          </IconButton> : '' }
         </div>
       </div>
       <div
@@ -68,7 +124,7 @@ function UserPage() {
           width: "100vw",
         }}
       >
-        <Chat />
+        {live ? <Chat /> : ""}
       </div>
     </div>
   );

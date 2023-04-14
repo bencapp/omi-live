@@ -23,7 +23,7 @@ function Chat() {
   const user = useSelector((store) => store.user);
   //get all chats from db/store
   const allChats = useSelector((store) => store.chat);
-  console.log("allChats:", allChats);
+  // console.log("allChats:", allChats);
   //get dayjs
   const dayjs = require("dayjs");
   //get mui theme
