@@ -69,6 +69,8 @@ app.use(express.static("build"));
 
 // App Set //
 const PORT = process.env.PORT || 5000;
+const nms = require("./media.server/media.server");
+nms.init(io);
 
 // const allowedOrigins = ['http://localhost:3000'];
 const allowedOrigins = ["http://localhost:3000", "http://localhost:3001"];
@@ -97,6 +99,7 @@ const proxyOptions = {
     }/live/`,
   },
 };
+
 app.use("/live", createProxyMiddleware(proxyOptions));
 
 console.log(proxyOptions.router);
@@ -105,6 +108,3 @@ console.log(proxyOptions.router);
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
-
-const nms = require("./media.server/media.server");
-nms.init();
