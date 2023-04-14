@@ -15,6 +15,8 @@ function StreamerControls() {
 
   const [viewerCount, setViewerCount] = useState();
   const [displayConfirmEndStream, setDisplayConfirmEndStream] = useState(false);
+  const [onLastProduct, setOnLastProduct] = useState();
+  const [onFirstProduct, setOnFirstProduct] = useState();
 
   const currentStream = useSelector((store) => store.currentStream);
   const currentProduct = useSelector((store) => store.currentProduct);
@@ -79,9 +81,11 @@ function StreamerControls() {
           }}
         >
           {/* map over products here */}
-          {currentStream.products?.map((product) => (
-            <StreamerControlsProduct key={product.id} product={product} />
-          ))}
+          {currentStream.products
+            ?.sort((a, b) => a.order - b.order)
+            .map((product) => (
+              <StreamerControlsProduct key={product.id} product={product} />
+            ))}
         </Grid>
         <Grid
           item

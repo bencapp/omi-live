@@ -28,9 +28,9 @@ function EditStream() {
     }
   }, []);
 
-  const handleCancelEditInfo = () => {
-    setDisplayEditInfo(false);
-  };
+  // const handleCancelEditInfo = () => {
+  //   setDisplayEditInfo(false);
+  // };
 
   const handleRemoveFromStream = (product) => {
     setDisplayConfirmRemoveFromStream(true);
@@ -42,7 +42,7 @@ function EditStream() {
       {/* if stream does not have a date planned, render 'create a new stream'; else render 'edit stream' */}
 
       {!streamID || displayEditInfo ? (
-        <EditStreamInfo handleCancelEditInfo={handleCancelEditInfo} />
+        <EditStreamInfo setDisplayEditInfo={setDisplayEditInfo} />
       ) : (
         <>
           <Box

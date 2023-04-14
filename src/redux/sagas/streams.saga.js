@@ -34,14 +34,12 @@ function* postEmptyStream(action) {
 
 function* updateStreamInfo(action) {
   try {
-    const history = action.payload.history;
     const response = yield axios.put(`/api/streams/${action.payload.id}`, {
       title: action.payload.title,
       description: action.payload.description,
       scheduled: action.payload.scheduled,
     });
     yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
-    yield history.push("/edit-stream");
   } catch (error) {
     console.log("Error with put stream saga:", error);
   }
