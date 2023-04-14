@@ -25,6 +25,9 @@ import EditStream from "../StreamerComponents/EditStream/EditStream";
 import ProductDetail from "../ProductDetail/ProductDetail";
 import EditProduct from "../StreamerComponents/AddEditProduct/EditProduct";
 import AddProduct from "../StreamerComponents/AddEditProduct/AddProduct";
+import ViewerProductsList from "../ViewerComponents/ViewerProductsList/ViewerProductsList";
+import AddExistingProduct from "../StreamerComponents/AddExistingProduct/AddExistingProduct";
+import StreamerControls from "../StreamerComponents/StreamerControls/StreamerControls";
 
 import "./App.css";
 
@@ -70,6 +73,11 @@ function App() {
             {user.isAdmin ? <StreamerHomePage /> : <ViewerHomePage />}
           </ProtectedRoute>
 
+          <ProtectedRoute exact path="/viewer-products">
+            <Nav />
+            {<ViewerProductsList />}
+          </ProtectedRoute>
+
           {/* route for displaying all the information for a specific product.
           This route will render differently depending on whether the user is a streamer or a viewer  */}
           <ProtectedRoute exact path="/product/:productID">
@@ -82,6 +90,11 @@ function App() {
             <EditStream />
           </AdminProtectedRoute>
 
+          <AdminProtectedRoute exact path="/edit-stream/:streamID">
+            <Nav />
+            <EditStream />
+          </AdminProtectedRoute>
+
           <AdminProtectedRoute exact path="/productform/:id">
             <Nav />
             <EditProduct />
@@ -90,6 +103,46 @@ function App() {
           <AdminProtectedRoute exact path="/productform/">
             <Nav />
             <AddProduct />
+          </AdminProtectedRoute>
+
+          {/* <AdminProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/add-product"
+          >
+            <Nav />
+
+            <AddEditProduct />
+          </AdminProtectedRoute> */}
+
+          <AdminProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+
+            exact
+            path="/edit-product/:productID"
+          >
+            <Nav />
+
+            <AddEditProduct />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+
+            exact
+            path="/add-existing-product/:streamID"
+          >
+            <Nav />
+            <AddExistingProduct />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+
+            exact
+            path="/streamer-stream/:streamID"
+          >
+            <StreamerControls />
           </AdminProtectedRoute>
 
           <ProtectedRoute
