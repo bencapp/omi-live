@@ -23,7 +23,8 @@ import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHom
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
 import ProductDetail from "../ProductDetail/ProductDetail";
-import AddEditProduct from "../StreamerComponents/AddEditProduct/AddEditProduct";
+import EditProduct from "../StreamerComponents/AddEditProduct/EditProduct";
+import AddProduct from "../StreamerComponents/AddEditProduct/AddProduct";
 
 import "./App.css";
 
@@ -81,9 +82,14 @@ function App() {
             <EditStream />
           </AdminProtectedRoute>
 
-          <AdminProtectedRoute exact path="/edit-product/:id">
+          <AdminProtectedRoute exact path="/productform/:id">
             <Nav />
-            <AddEditProduct />
+            <EditProduct />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute exact path="/productform/">
+            <Nav />
+            <AddProduct />
           </AdminProtectedRoute>
 
           <ProtectedRoute
