@@ -38,14 +38,15 @@ const omi = { currentProduct: {}, viewerCount: 0 };
 
 // GET endpoint for fetching current product
 router.get("/current-product", rejectUnauthenticated, (req, res) => {
-  res.send(omi.viewerCount);
+  res.send(omi.currentProduct);
 });
 
 // PUT endpoint for streamer to update the current product
-router.post(
+router.put(
   "/current-product/:streamID",
   rejectNonAdminUnauthenticated,
   (req, res) => {
+    console.log("updating product, req.body is", req.body);
     omi.currentProduct = req.body.product;
     req.io
       .to(`room-stream-${req.body.streamID}`)

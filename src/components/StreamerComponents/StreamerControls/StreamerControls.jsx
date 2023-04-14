@@ -30,7 +30,22 @@ function StreamerControls() {
   }, []);
 
   const handleNextProduct = () => {
-    socket.emit("change current product", product, currentStream.id);
+    // the currentProduct reducer does not hold the order in this stream, so we need
+    // to match the product in the currenStream reducer to the currenProduct
+
+    const product = currentStream.products.find(
+      (product) => product.id == currentProduct.id
+    );
+    const newOrder = product.order + 1;
+    console.log("new order is", newOrder);
+    const nextProduct = currentStream.products.find(
+      (product) => product.order == newOrder
+    );
+    console.log("next product is", nextProduct);
+    dispatch({
+      type: "SET_CURRENT_PRODUCT_IN_STREAM",
+      payload: { product: nextProduct, streamID: streamID },
+    });
   };
 
   return (
