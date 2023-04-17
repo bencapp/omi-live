@@ -1,10 +1,20 @@
 import { Box, Button } from "@mui/material";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-function ConfirmDeletePopup({ setDisplayConfirmDelete }) {
+function ConfirmDeletePopup({ setDisplayConfirmDelete, productID }) {
   const currentProduct = useSelector((store) => store.currentProduct);
+  const dispatch = useDispatch(); 
+  const history = useHistory(); 
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    dispatch ({
+      type: "DELETE_PRODUCT", 
+      payload: productID
+    })
+    history.push("/home/:products")
+  };
   return (
     <Box
       sx={{

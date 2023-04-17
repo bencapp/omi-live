@@ -46,7 +46,7 @@ function ProductDetail() {
       )}
 
       {displayConfirmDelete && (
-        <ConfirmDeletePopup setDisplayConfirmDelete={setDisplayConfirmDelete} />
+        <ConfirmDeletePopup  productID={productID} setDisplayConfirmDelete={setDisplayConfirmDelete} />
       )}
 
       {/* <Box>Product Detail view for {productID}</Box>

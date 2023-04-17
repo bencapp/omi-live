@@ -139,7 +139,9 @@ function EditStream() {
               >
                 ADD EXISTING PRODUCT
               </Button>
-              <Button size="small">ADD NEW PRODUCT</Button>
+              <Button size="small" onClick={() => history.push(`/productform`)}>
+                ADD NEW PRODUCT
+              </Button>
             </Box>
             <Button
               onClick={() => {
