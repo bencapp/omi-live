@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import ViewerStreamHome from "../ViewerStreamHome/ViewerStreamHome";
 import ViewerProductsList from "../ViewerProductsList/ViewerProductsList";
+import WishlistPage from "../ViewerProductsList/WishlistPage";
 
 function ViewerHomePage() {
   const [display, setDisplay] = useState("streams");
@@ -39,6 +40,7 @@ function ViewerHomePage() {
       >
         <Link onClick={() => setDisplay("stream")}>WATCH</Link>
         <Link onClick={() => setDisplay("products")}>PRODUCTS</Link>
+        <Link onClick={() => setDisplay("wishlist")}> WISHLIST</Link>
       </nav>
       {display == "streams" ? <ViewerStreamHome /> : <ViewerProductsList />}
     </div>
