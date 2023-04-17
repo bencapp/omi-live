@@ -3,6 +3,8 @@ import { List, ListItem, ListItemText, Avatar } from "@mui/material";
 import { useHistory } from "react-router";
 import { useEffect } from "react";
 
+import {Button} from "@mui/material";
+
 function StreamerProductsList() {
   const products = useSelector((store) => store.allProduct);
 
@@ -42,6 +44,9 @@ function StreamerProductsList() {
       ) : (
         <p>No products added yet.</p>
       )}
+      <Button size="small" onClick={() => history.push(`/productform`)}>
+        ADD NEW PRODUCT
+      </Button>
     </div>
   );
 }

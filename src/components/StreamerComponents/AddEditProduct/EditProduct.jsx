@@ -197,11 +197,9 @@ function EditProduct() {
         <Button variant="contained" type="button" onClick={handleCancel}>
           Cancel
         </Button>
-
         <Button variant="contained" type="submit" sx={{ cursor: "pointer" }}>
             Save Changes
-          </Button>
-
+        </Button>
       </div>
     </form>
     </Box>

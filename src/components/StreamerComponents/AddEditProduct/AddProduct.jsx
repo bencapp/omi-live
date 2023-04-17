@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {Button, TextField, InputLabel, Typography, Box, TextareaAutosize, CardMedia, useTheme} from "@mui/material";
 import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
+
 //imports for picking date 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -11,6 +13,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 
 function AddProduct () {
+    const history = useHistory();
+    const dispatch = useDispatch(); 
 
     const [newProduct, setNewProduct] = useState({
         name: '', 
@@ -19,9 +23,12 @@ function AddProduct () {
         url: '',
         coupon_code: '',
     });
-  
-  
-const [couponExpiration, setCouponExpiration] = useState();
+
+    const [couponExpiration, setCouponExpiration] = useState();
+    
+
+
+const currentStream = useSelector((store) => store.currentStream);
 
   const handleChange = (e, key) => {
     setNewProduct({ ...newProduct, [key]: e.target.value })
@@ -31,10 +38,14 @@ const [couponExpiration, setCouponExpiration] = useState();
         e.preventDefault();
         dispatch({
           type: "ADD_PRODUCT",
-          payload: {...newProduct, coupon_expiration: couponExpiration}
+          payload: {...newProduct, coupon_expiration: couponExpiration, streamID: currentStream?.id}
         });
         setNewProduct({});
-      };
+        if (currentStream.id) {
+              history.push(`/edit-stream/${currentStream.id}`)
+        }
+        else {history.push(`/home/:view`)}
+    }
 
       const handleCancel = () => {
         Swal.fire({
@@ -55,6 +66,7 @@ const [couponExpiration, setCouponExpiration] = useState();
               coupon_code: '',
           }), setCouponExpiration(); 
             Swal.fire("Cancelled!", "Your changes have been discarded.", "success");
+            history.goBack()
           }
         });
       };
@@ -84,7 +96,7 @@ const [couponExpiration, setCouponExpiration] = useState();
               id="standard-basic"
               variant="standard"
               type="text"
-              defaultValue={currentProduct?.image_url}
+            //   defaultValue={currentProduct?.image_url}
               value={newProduct.image_url}
               onChange={(e) => handleChange(e, 'image_url')}
             />
@@ -102,7 +114,7 @@ const [couponExpiration, setCouponExpiration] = useState();
               id="standard-basic"
               variant="standard"
               type="text"
-              defaultValue={currentProduct?.name}
+            //   defaultValue={currentProduct?.name}
               value={newProduct.name}
               onChange={(e) => handleChange(e, 'name')}
             />
@@ -111,7 +123,7 @@ const [couponExpiration, setCouponExpiration] = useState();
               id="product-url"
               variant="standard"
               type="text"
-              defaultValue={currentProduct?.url}
+            //   defaultValue={currentProduct?.url}
               value={newProduct.url}
               onChange={(e) => handleChange(e, 'url')}
             />
@@ -136,7 +148,7 @@ const [couponExpiration, setCouponExpiration] = useState();
               <InputLabel sx={{ margin: 1 }}> Description: </InputLabel>
               <TextField
                multiline
-               defaultValue={currentProduct?.description}
+            //    defaultValue={currentProduct?.description}
                value={newProduct.description}
                onChange={(e) => handleChange(e, 'description')}
                sx={{
@@ -154,7 +166,7 @@ const [couponExpiration, setCouponExpiration] = useState();
                 // id="standard-basic"
                 variant="standard"
                 type="text"
-                defaultValue={currentProduct?.coupon_code}
+                // defaultValue={currentProduct?.coupon_code}
                 value={newProduct.coupon_code}
                 onChange={(e) => handleChange(e, 'coupon_code')}
               />
@@ -162,7 +174,7 @@ const [couponExpiration, setCouponExpiration] = useState();
             <InputLabel>Set Coupon Code Expiration</InputLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              defaultValue={dayjs(currentProduct?.coupon_expiration)}
+            //   defaultValue={dayjs(currentProduct?.coupon_expiration)}
               date={couponExpiration}
               onChange={(date) => setCouponExpiration(date)}
             />

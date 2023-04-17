@@ -19,33 +19,59 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
-  const sqlQuery = `
+router.post("/", async (req, res) => {
+  const connection = await pool.connect();
+
+  try {
+    const sqlQuery = `
     INSERT INTO products 
       (name, url, description, coupon_code, image_url, coupon_expiration)
     VALUES 
       ($1, $2, $3, $4, $5, $6)
+    RETURNING *
   `;
-  //console.log("REQ BODy", req.body);
-  const sqlValues = [
-    req.body.payload.name,
-    req.body.payload.url,
-    req.body.payload.description,
-    req.body.payload.coupon_code,
-    req.body.payload.image_url,
-    req.body.payload.coupon_expiration
-  ];
-  console.log(sqlValues);
-  pool
-    .query(sqlQuery, sqlValues)
-    .then((result) => {
-      const newProduct = result.rows[0];
-      res.status(201).send(newProduct);
-    })
-    .catch((error) => {
-      console.error("Error in post", error);
-      res.sendStatus(500);
-    });
+
+    const sqlValues = [
+      req.body.payload.name,
+      req.body.payload.url,
+      req.body.payload.description,
+      req.body.payload.coupon_code,
+      req.body.payload.image_url,
+      req.body.payload.coupon_expiration
+    ];
+    console.log(sqlValues);
+    const postResult = await connection.query(sqlQuery, sqlValues)
+    if (req.body.payload.streamID) {
+      const getNumberOfProductsQueryText = `SELECT COUNT(*) FROM streams_products WHERE stream_id = $1`;
+      const getNumberOfProductsQueryParams = [req.body.payload.streamID];
+      const result = await connection.query(
+        getNumberOfProductsQueryText,
+        getNumberOfProductsQueryParams
+      );
+
+      const numberOfProducts = result.rows[0].count;
+      console.log("number of products is", numberOfProducts);
+
+      const queryText = `INSERT INTO streams_products ("stream_id", "product_id", "order")
+                        VALUES ($1, $2, $3)`;
+      const queryParams = [
+        req.body.payload.streamID,
+        postResult.rows[0].id,
+        Number(numberOfProducts) + 1,
+      ];
+
+      await connection.query(queryText, queryParams);
+    }
+    const newProduct = postResult.rows[0];
+    res.status(201).send(newProduct);
+
+  } catch (error) {
+    // await connection.query("FAILED STREAM PUT");
+    console.log(`Error in products POST: `, error);
+    res.sendStatus(500);
+  } finally {
+    connection.release();
+  }
 });
 
 // GET route for getting a single product by ID
@@ -71,7 +97,7 @@ router.get("/:productID", rejectUnauthenticated, (req, res) => {
 //PUT for updating all product info
 router.put("/:id", rejectNonAdminUnauthenticated, (req, res) => {
   console.log('in put, req.body is', req.body)
-  const queryText = 
+  const queryText =
     `UPDATE products 
     SET name = $1,
     image_url = $2, 
@@ -119,7 +145,7 @@ router.delete("/:productID", rejectNonAdminUnauthenticated, (req, res) => {
       console.log("Error executing SQL query", queryText, " : ", err);
       res.sendStatus(500);
     });
-}); 
+});
 
 
 module.exports = router;

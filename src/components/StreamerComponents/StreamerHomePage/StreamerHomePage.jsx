@@ -9,7 +9,7 @@ import { Link, Button } from "@mui/material";
 import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
 
 function StreamerHomePage() {
-  const {view} = useParams(); 
+  const { view } = useParams();
   const [display, setDisplay] = useState(
     view ? view : "streams");
   const [copied, setCopied] = useState(false);
@@ -49,7 +49,7 @@ function StreamerHomePage() {
           sx={{ height: "2.5em", width: "10em" }}
           onClick={copied ? null : copyKey}
         >
-        {copied ? 'Copied!' : 'COPY KEY'}
+          {copied ? 'Copied!' : 'COPY KEY'}
         </Button>
       </div>
       <nav
