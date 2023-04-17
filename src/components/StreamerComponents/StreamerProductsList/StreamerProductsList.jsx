@@ -27,7 +27,13 @@ function StreamerProductsList() {
             <ListItem
               key={i}
               className="product-item"
-              sx={{ border: "1px solid grey", mb: 1, borderRadius: "10px" }}
+              sx={{
+                border: "1px solid grey",
+                mb: 1,
+                borderRadius: "10px",
+                padding: "1px",
+                backgroundColor: "#CBE5DF",
+              }}
               onClick={() => handleClick(product)}
             >
               <Avatar alt={product.name} src={product.image_url} />
@@ -35,7 +41,6 @@ function StreamerProductsList() {
                 primary={product.name}
                 secondary={product.description}
               />
-              <p> Coupon Code: {product.couponCode}</p>
             </ListItem>
           ))}
         </List>

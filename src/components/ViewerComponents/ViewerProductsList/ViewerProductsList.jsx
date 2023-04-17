@@ -1,17 +1,38 @@
 import { useSelector, useDispatch } from "react-redux";
-import { List, ListItem, ListItemText, Avatar } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Avatar,
+  IconButton,
+} from "@mui/material";
 import { useHistory } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
-function ViewerProductsList() {
+function StreamerProductsList() {
   const products = useSelector((store) => store.allProduct);
 
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [wishlist, setWishlist] = useState({});
+
   const handleClick = (product) => {
     console.log("Product id", product);
     history.push(`/product/${product.id}`);
+  };
+
+  const handleAddToWishlist = (event, product) => {
+    event.stopPropagation();
+    console.log("Adding to wishlist", product);
+
+    // Toggle the wishlist state for the current product
+    setWishlist((prevWishlist) => ({
+      ...prevWishlist,
+      [product.id]: !prevWishlist[product.id],
+    }));
   };
 
   useEffect(() => {
@@ -19,7 +40,7 @@ function ViewerProductsList() {
   }, []);
 
   return (
-    <div className="product-list">
+    <div>
       {products && products.length > 0 ? (
         <List>
           {products.map((product, i) => (
@@ -29,21 +50,26 @@ function ViewerProductsList() {
               sx={{
                 border: "1px solid grey",
                 mb: 1,
-                borderRadius: "15px",
+                borderRadius: "10px",
                 padding: "1px",
+                backgroundColor: "#CBE5DF",
               }}
               onClick={() => handleClick(product)}
             >
-              <Avatar
-                alt={product.name}
-                src={product.image_url}
-                sx={{ height: "100px", width: "100px" }}
-              />
+              <Avatar alt={product.name} src={product.image_url} />
               <ListItemText
                 primary={product.name}
                 secondary={product.description}
               />
-              <p className="coupon-code"> Coupon Code: {product.couponCode}</p>
+              <IconButton
+                onClick={(event) => handleAddToWishlist(event, product)}
+              >
+                {wishlist[product.id] ? (
+                  <FavoriteIcon />
+                ) : (
+                  <FavoriteBorderOutlinedIcon />
+                )}
+              </IconButton>
             </ListItem>
           ))}
         </List>
@@ -54,4 +80,4 @@ function ViewerProductsList() {
   );
 }
 
-export default ViewerProductsList;
+export default StreamerProductsList;
