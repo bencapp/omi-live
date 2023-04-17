@@ -20,9 +20,7 @@ router.put(
   (req, res) => {
     console.log("updating product, req.body is", req.body);
     omi.currentProduct = req.body.product;
-    req.io
-      .to(`room-stream-${req.body.streamID}`)
-      .emit("product change", req.body.product);
+    req.io.emit("product change", req.body.product);
     res.sendStatus(204);
   }
 );
@@ -33,7 +31,7 @@ router.put(
   rejectNonAdminUnauthenticated,
   (req, res) => {
     console.log("emitting end stream for stream", req.params.streamID);
-    req.io.to(`room-stream-${req.params.streamID}`).emit("end-stream");
+    req.io.emit("end-stream");
     res.sendStatus(204);
   }
 );

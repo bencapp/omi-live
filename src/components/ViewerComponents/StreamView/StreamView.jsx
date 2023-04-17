@@ -31,6 +31,18 @@ function StreamView() {
   };
 
   useEffect(() => {
+    // STARTING CODE FOR JOINING STREAM AND UPDATING VIEWER COUNTS
+    //  socket.emit("join stream");
+    //  const handleViewerCountUpdate = (count) => {
+    //    console.log("updated viewer count, count is", count);
+    //  };
+
+    //  socket.on("update viewer count", (count) =>
+    //    handleViewerCountUpdate(count)
+    //  );
+    //  return () => {
+    //    socket.off("update viewer count", handleViewerCountUpdate);
+    //  };
     //create socket listener for stream closed emit, set live = false
     socket.on("stream_closed", (user) => {
       if (user === username) {
