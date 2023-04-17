@@ -44,13 +44,24 @@ function* deleteProduct(action) {
   }
 }
 
+//UPDATE products 
+function* updateProduct(action) {
+  try {
+    yield axios.put(`/api/products/${action.payload.id}`, action.payload);
+    console.log('in updateProduct', action.payload)
+    yield put({type: "GET_PRODUCT"})
+  } catch (error) {
+    console.log("error in product PUT", error); 
+  }
+}
+
 function* updateProductPublicStatus(action) {
   try {
     yield axios.put(`/api/products/public/${action.payload.productID}`, {
       public: action.payload.public,
     });
   } catch (error) {
-    console.log("error with product PUT request", error);
+    console.log("error with product PUT public status request", error);
     yield put({ type: "FETCH_ERROR", payload: error });
   }
 }
@@ -60,6 +71,7 @@ function* productsSaga() {
   yield takeEvery("GET_PRODUCT", getProducts);
   yield takeEvery("ADD_PRODUCT", postProduct);
   yield takeEvery("DELETE_PRODUCT", deleteProduct);
+  yield takeEvery("UPDATE_PRODUCT", updateProduct);
   yield takeEvery("UPDATE_PRODUCT_PUBLIC_STATUS", updateProductPublicStatus);
 }
 
