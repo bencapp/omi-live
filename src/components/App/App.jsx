@@ -22,10 +22,12 @@ import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHom
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
 import ProductDetail from "../ProductDetail/ProductDetail";
-import AddEditProduct from "../StreamerComponents/AddEditProduct/AddEditProduct";
+import EditProduct from "../StreamerComponents/AddEditProduct/EditProduct";
+import AddProduct from "../StreamerComponents/AddEditProduct/AddProduct";
 import ViewerProductsList from "../ViewerComponents/ViewerProductsList/ViewerProductsList";
 import AddExistingProduct from "../StreamerComponents/AddExistingProduct/AddExistingProduct";
 import StreamerControls from "../StreamerComponents/StreamerControls/StreamerControls";
+import WishlistPage from "../ViewerComponents/ViewerProductsList/WishlistPage";
 
 import "./App.css";
 
@@ -71,9 +73,19 @@ function App() {
             {user.isAdmin ? <StreamerHomePage /> : <ViewerHomePage />}
           </ProtectedRoute>
 
+          <AdminProtectedRoute exact path="/home/:view">
+            <Nav />
+            <StreamerHomePage />
+          </AdminProtectedRoute>
+
           <ProtectedRoute exact path="/viewer-products">
             <Nav />
             {<ViewerProductsList />}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/wishlist">
+            <Nav />
+            {<WishlistPage />}
           </ProtectedRoute>
 
           {/* route for displaying all the information for a specific product.
@@ -93,7 +105,17 @@ function App() {
             <EditStream />
           </AdminProtectedRoute>
 
-          <AdminProtectedRoute
+          <AdminProtectedRoute exact path="/productform/:productID">
+            <Nav />
+            <EditProduct />
+          </AdminProtectedRoute>
+
+          <AdminProtectedRoute exact path="/productform/">
+            <Nav />
+            <AddProduct />
+          </AdminProtectedRoute>
+
+          {/* <AdminProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
             path="/add-product"
@@ -112,7 +134,7 @@ function App() {
             <Nav />
 
             <AddEditProduct />
-          </AdminProtectedRoute>
+          </AdminProtectedRoute> */}
 
           <AdminProtectedRoute
             // logged in shows InfoPage else shows LoginPage
