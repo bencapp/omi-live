@@ -1,32 +1,35 @@
 import { Button } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 // type should be either 'add' or 'remove'
-function WishlistButton() {
+function WishlistButton({ product }) {
   const dispatch = useDispatch();
-  const currentProduct = useSelector((store) => store.currentProduct);
 
   const handleSaveProduct = () => {
     // POST to users_products table
     dispatch({
       type: "ADD_PRODUCT_TO_WISHLIST",
-      payload: currentProduct.id,
+      payload: product.id,
     });
   };
 
   const handleUnSaveProduct = () => {
     dispatch({
       type: "REMOVE_PRODUCT_FROM_WISHLIST",
-      payload: currentProduct.id,
+      payload: product.id,
     });
   };
 
   return (
     <>
-      {!currentProduct.on_user_wishlist ? (
-        <Button onClick={handleSaveProduct}>ADD TO WISHLIST</Button>
+      {!product.on_user_wishlist ? (
+        <Button size="small" onClick={handleSaveProduct}>
+          ADD TO WISHLIST
+        </Button>
       ) : (
-        <Button onClick={handleUnSaveProduct}>ON WISHLIST</Button>
+        <Button size="small" onClick={handleUnSaveProduct}>
+          ON WISHLIST
+        </Button>
       )}
     </>
   );

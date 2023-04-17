@@ -4,7 +4,15 @@ import { put, takeEvery } from "redux-saga/effects";
 function* fetchCurrentProductInStream() {
   try {
     const response = yield axios.get("/api/live-stream/current-product");
+    console.log(
+      "got current product in stream, reponse.data is",
+      response.data
+    );
     yield put({ type: "FETCH_PRODUCT_BY_ID", payload: response.data.id });
+    yield put({
+      type: "SET_CURRENT_PRODUCT_ORDER",
+      payload: response.data.order,
+    });
   } catch (error) {
     console.log("Error with fetchCurrentProductInStream saga:", error);
   }

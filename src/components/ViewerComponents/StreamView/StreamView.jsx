@@ -13,7 +13,7 @@ import { socket } from "../../../socket";
 
 function StreamView() {
   const history = useHistory();
-  const { username } = useParams();
+  const { username, streamID } = useParams();
   const playerRef = useRef(null);
   const [muted, setMuted] = useState(true);
   const [live, setLive] = useState(true);

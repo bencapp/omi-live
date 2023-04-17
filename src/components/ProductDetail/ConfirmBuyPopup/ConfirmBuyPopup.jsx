@@ -19,6 +19,7 @@ function ConfirmBuyPopup({ hideConfirmBuyPopup }) {
         gap: "20px",
         padding: "20px",
         fontSize: "1.3rem",
+        zIndex: "10",
       }}
     >
       <Box>

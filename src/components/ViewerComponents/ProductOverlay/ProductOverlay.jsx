@@ -1,20 +1,27 @@
 import { useTheme, alpha, Box, Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import WishlistButton from "../WishlistButton/WishlistButton";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { socket } from "../../../socket";
+
+import DefaultView from "./DefaultView/DefaultView";
+import ExpandedView from "./ExpandedView/ExpandedView";
+import UpcomingView from "./UpcomingView/UpcomingView";
 
 function ProductOverlay() {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const { username, streamID } = useParams();
+
   const currentProduct = useSelector((store) => store.currentProduct);
   const currentStream = useSelector((store) => store.currentStream);
 
+  const [overlayView, setOverlayView] = useState("default");
+
   useEffect(() => {
     dispatch({ type: "FETCH_CURRENT_PRODUCT_IN_STREAM" });
+    dispatch({ type: "FETCH_STREAM_BY_ID", payload: { streamID: streamID } });
 
     const handleProductChange = () => {
       dispatch({ type: "FETCH_CURRENT_PRODUCT_IN_STREAM" });
@@ -32,40 +39,17 @@ function ProductOverlay() {
         borderBottomLeftRadius: "0px",
         borderBottomRightRadius: "0px",
         padding: "5px 15px",
-        height: "140px",
+        height: overlayView == "default" ? "140px" : "375px",
         border: `1px solid ${theme.palette.secondary.dark}`,
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <ExpandMoreIcon sx={{ alignSelf: "center" }} />
-        <Box
-          sx={{
-            backgroundColor: alpha(theme.palette.secondary.main, 0.9),
-            // width: "100%",
-            height: "100%",
-            border: `1px solid ${theme.palette.secondary.dark}`,
-            borderRadius: "5px",
-            padding: "5px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "10px",
-          }}
-        >
-          <b>Now Featuring</b>
-          <Box sx={{ display: "flex", gap: "10px" }}>
-            <img
-              style={{ height: "65px" }}
-              src={currentProduct.image_url}
-            ></img>
-            <Box>
-              <b>{currentProduct.name}</b>
-              <br></br>
-              {currentProduct.description}
-            </Box>
-            <WishlistButton />
-          </Box>
-        </Box>
-      </Box>
+      {overlayView == "default" ? (
+        <DefaultView setOverlayView={setOverlayView} />
+      ) : overlayView == "expanded" ? (
+        <ExpandedView setOverlayView={setOverlayView} />
+      ) : (
+        <UpcomingView setOverlayView={setOverlayView} />
+      )}
     </Box>
   );
 }
