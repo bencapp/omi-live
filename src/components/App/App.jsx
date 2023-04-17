@@ -26,6 +26,7 @@ import AddEditProduct from "../StreamerComponents/AddEditProduct/AddEditProduct"
 import ViewerProductsList from "../ViewerComponents/ViewerProductsList/ViewerProductsList";
 import AddExistingProduct from "../StreamerComponents/AddExistingProduct/AddExistingProduct";
 import StreamerControls from "../StreamerComponents/StreamerControls/StreamerControls";
+import WishlistPage from "../ViewerComponents/ViewerProductsList/WishlistPage";
 
 import "./App.css";
 
@@ -74,6 +75,11 @@ function App() {
           <ProtectedRoute exact path="/viewer-products">
             <Nav />
             {<ViewerProductsList />}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/wishlist">
+            <Nav />
+            {<WishlistPage />}
           </ProtectedRoute>
 
           {/* route for displaying all the information for a specific product.
