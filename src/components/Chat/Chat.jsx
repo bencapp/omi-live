@@ -13,10 +13,11 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ShareIcon from "@mui/icons-material/Share";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import { socket } from "../../socket";
 
-function Chat({height}) {
+function Chat({ height }) {
   //html ref for scrolling to bottom of comments
   const scrollRef = useRef(null);
 
@@ -88,18 +89,27 @@ function Chat({height}) {
     };
   }, []);
 
+  const deleteComment = (id) => {
+    dispatch({
+      type: "DELETE_CHAT",
+      payload: id
+    })
+  }
+
   const handleScroll = (e) => {
-    const atBottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight
+    console.log("im scrollllllling")
+    const atBottom =
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
     if (atBottom) {
       setScrolling(false);
     } else {
       setScrolling(true);
     }
-  }
+  };
 
   const copyUrl = () => {
     navigator.clipboard.writeText(window.location.href);
-  }
+  };
 
   return (
     <div>
@@ -111,28 +121,29 @@ function Chat({height}) {
         }}
       >
         <Box
-              sx={{
-                width: "100vw",
-                display: "flex",
-                justifyContent: "space-between",
-              }}>
+          sx={{
+            width: "100vw",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <Box>
             <IconButton
               size="large"
               edge="end"
               sx={{
-                color: "#FFFFFF"
+                color: "#FFFFFF",
               }}
               aria-label="logo"
               onClick={copyUrl}
             >
-              <ShareIcon/>
+              <ShareIcon />
             </IconButton>
             <IconButton
               size="large"
               edge="end"
               sx={{
-                color: "#FFFFFF"
+                color: "#FFFFFF",
               }}
               aria-label="logo"
             >
@@ -156,7 +167,7 @@ function Chat({height}) {
         </Box>
         <Box
           sx={{
-            maxHeight: chatOpen ? height : '',
+            maxHeight: chatOpen ? height : "",
             overflow: chatOpen ? "scroll" : "hidden",
           }}
           onScroll={handleScroll}
@@ -208,50 +219,72 @@ function Chat({height}) {
                       {chat.text}
                     </Typography>
                   </Box>
-                  <Typography sx={{ fontSize: ".7em", fontStyle: "italic" }}>
-                    {dayjs(chat.timestamp).format("h:mm:ss A")}
-                  </Typography>
+                  <Box sx={{
+                    display: "flex",
+                    flexDirection: "row"
+                  }}>
+                    <Typography sx={{ fontSize: ".7em", fontStyle: "italic" }}>
+                      {dayjs(chat.timestamp).format("h:mm:ss A")}
+                    </Typography>
+                    {user.isAdmin ? (
+                      <IconButton
+                        size="small"
+                        // edge="end"
+                        sx={{
+                          color: "#FF0000",
+                        }}
+                        aria-label="logo"
+                        onClick={(e) => deleteComment(chat.id)}
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    ) : (
+                      ""
+                    )}
+                  </Box>
                 </Box>
               );
             }
           })}
           <Box ref={scrollRef} />
         </Box>
-        {chatOpen ?
-        <Box sx={{ py: "10px", display: "flex", flexDirection: "row" }}>
-          <Input
-            sx={{
-              ml: "10px",
-              width: "stretch",
-              height: "2em",
-              "& .MuiInputBase-root": { height: 40 },
-              backgroundColor: "#FFFFFF",
-              borderRadius: ".5em",
-              pl: "10px",
-            }}
-            id="outlined-basic"
-            placeholder="Chat here"
-            variant="outlined"
-            value={message}
-            type="text"
-            onKeyPress={(e) => {
-              if (e.key == "Enter") {
-                sendMessage();
-              }
-            }}
-            onChange={(event) => {
-              setMessage(event.target.value);
-            }}
-          />
-          <Button
-            sx={{ ml: "10px", mr: "10px", fontSize: ".75em" }}
-            size="small"
-            onClick={sendMessage}
-          >
-            Send
-          </Button>
-        </Box>
-         : ''}
+        {chatOpen ? (
+          <Box sx={{ py: "10px", display: "flex", flexDirection: "row" }}>
+            <Input
+              sx={{
+                ml: "10px",
+                width: "stretch",
+                height: "2em",
+                "& .MuiInputBase-root": { height: 40 },
+                backgroundColor: "#FFFFFF",
+                borderRadius: ".5em",
+                pl: "10px",
+              }}
+              id="outlined-basic"
+              placeholder="Chat here"
+              variant="outlined"
+              value={message}
+              type="text"
+              onKeyPress={(e) => {
+                if (e.key == "Enter") {
+                  sendMessage();
+                }
+              }}
+              onChange={(event) => {
+                setMessage(event.target.value);
+              }}
+            />
+            <Button
+              sx={{ ml: "10px", mr: "10px", fontSize: ".75em" }}
+              size="small"
+              onClick={sendMessage}
+            >
+              Send
+            </Button>
+          </Box>
+        ) : (
+          ""
+        )}
       </Box>
     </div>
   );
