@@ -38,7 +38,6 @@ function EditProduct() {
 
   const [couponExpiration, setCouponExpiration] = useState(currentProduct?.coupon_expiration);
 
-  // * FOR SETTING VALUES ON PAGE LOAD* 
   useEffect(() => {
     dispatch ({
       type: "FETCH_PRODUCT_BY_ID", payload: productID
