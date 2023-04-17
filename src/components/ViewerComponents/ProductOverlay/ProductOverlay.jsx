@@ -1,4 +1,4 @@
-import { useTheme, alpha, Box } from "@mui/material";
+import { useTheme, alpha, Box, Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -45,11 +45,24 @@ function ProductOverlay() {
             border: `1px solid ${theme.palette.secondary.dark}`,
             borderRadius: "5px",
             padding: "5px",
-            fontWeight: "bold",
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
           }}
         >
-          Now Featuring
-          <img></img>
+          <b>Now Featuring</b>
+          <Box sx={{ display: "flex", gap: "10px" }}>
+            <img
+              style={{ height: "65px" }}
+              src={currentProduct.image_url}
+            ></img>
+            <Box>
+              <b>{currentProduct.name}</b>
+              <br></br>
+              {currentProduct.description}
+            </Box>
+            <Button sx={{ alignSelf: "end" }}>ADD TO WISHLIST</Button>
+          </Box>
         </Box>
       </Box>
     </Box>
