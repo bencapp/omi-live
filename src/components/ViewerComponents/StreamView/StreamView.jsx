@@ -5,8 +5,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { IconButton, Typography } from "@mui/material";
+import { IconButton, Typography, Box } from "@mui/material";
 import Chat from "../../Chat/Chat";
+import ProductOverlay from "../ProductOverlay/ProductOverlay";
 
 import { socket } from "../../../socket";
 
@@ -58,12 +59,16 @@ function StreamView() {
     >
       <div style={{ backgroundColor: "#000000", width: "100vw" }}>
         {live ? (
-          <LiveVideo
-            username={username}
-            playerRef={playerRef}
-            setLive={setLive}
-          />
+          <Box
+            sx={{ width: "100vw", height: "100vh", backgroundColor: "white" }}
+          ></Box>
         ) : (
+          // <LiveVideo
+          //   username={username}
+          //   playerRef={playerRef}
+          //   setLive={setLive}
+          // />
+
           <div
             style={{
               display: "flex",
@@ -130,7 +135,14 @@ function StreamView() {
           width: "100vw",
         }}
       >
-        {live ? <Chat height={"20vh"} /> : ""}
+        {live ? (
+          <div>
+            <Chat height={"20vh"} />
+            <ProductOverlay />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
