@@ -28,12 +28,26 @@ function StreamerProductsList() {
     event.stopPropagation();
     console.log("Adding to wishlist", product);
 
-    // Toggle the wishlist state for the current product
+    const isOnWishlist = wishlist[product.id];
+    if (isOnWishlist) {
+      dispatch({
+        type: "REMOVE_PRODUCT_FROM_WISHLIST",
+        payload: product.id,
+      });
+    } else {
+      dispatch({
+        type: "ADD_PRODUCT_TO_WISHLIST",
+        payload: product.id,
+      });
+    }
+
     setWishlist((prevWishlist) => ({
       ...prevWishlist,
-      [product.id]: !prevWishlist[product.id],
+      [product.id]: !isOnWishlist,
     }));
   };
+
+  console.log("SETWISHLIST", handleAddToWishlist);
 
   useEffect(() => {
     dispatch({ type: "GET_PRODUCT" });
