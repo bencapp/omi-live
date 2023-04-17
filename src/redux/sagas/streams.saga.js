@@ -34,14 +34,12 @@ function* postEmptyStream(action) {
 
 function* updateStreamInfo(action) {
   try {
-    const history = action.payload.history;
     const response = yield axios.put(`/api/streams/${action.payload.id}`, {
       title: action.payload.title,
       description: action.payload.description,
       scheduled: action.payload.scheduled,
     });
     yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
-    yield history.push("/edit-stream");
   } catch (error) {
     console.log("Error with put stream saga:", error);
   }
@@ -69,10 +67,19 @@ function* orderChange(action) {
   }
 }
 
+// action.payload should be the stream ID to delete
+function* deleteStream(action) {
+  try {
+    yield axios.delete(`/api/streams/${action.payload}`);
+  } catch (error) {
+    console.log("Error with delete stream saga:", error);
+  }
+}
 function* streamsSaga() {
   yield takeEvery("FETCH_STREAMS", fetchStreams);
   yield takeEvery("FETCH_STREAM_BY_ID", fetchStreamByID);
   yield takeEvery("POST_EMPTY_STREAM", postEmptyStream);
+  yield takeEvery("DELETE_STREAM", deleteStream);
   yield takeEvery("UPDATE_STREAM_INFO", updateStreamInfo);
   yield takeEvery("ORDER_CHANGE", orderChange);
 }

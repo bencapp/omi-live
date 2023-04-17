@@ -4,6 +4,7 @@ import axios from "axios";
 function* chatSaga () {
     yield takeEvery('GET_CHAT', getChat)
     yield takeEvery('POST_CHAT', postChat)
+    yield takeEvery('DELETE_CHAT', deleteChat)
 }
 
 function* getChat() {
@@ -22,6 +23,15 @@ function* postChat(action) {
         yield put({type:'GET_CHAT'})
     } catch (error) {
         console.log("Error in postChat saga:", error);
+    }
+}
+
+function* deleteChat(action) {
+    try {
+        yield axios.delete(`/api/chat/${action.payload}`);
+        yield put({type:'GET_CHAT'});
+    } catch (error) {
+        console.log(error);
     }
 }
 

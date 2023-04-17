@@ -17,11 +17,11 @@ const { Server } = require("socket.io");
 const io = new Server(server, {
   //specify the properties/functionality with cors
   cors: {
-    origins: ["http://localhost:3000", "http://localhost:3001"]
+    origins: [`http://localhost:3000`, "http://localhost:3001", `http://localhost:${process.env.PORT}` || `http://localhost:5000`],
   },
 });
 
-// assign io object to the invite router. That way, we can call the
+// assign io object to the all routers. That way, we can call the
 // socket functions within express endpoints.
 // middleware
 app.use((req, res, next) => {
@@ -29,13 +29,9 @@ app.use((req, res, next) => {
   return next();
 });
 
-
-
-
-
-server.listen(3001, () => {
-  console.log("SERVER IS RUNNING");
-});
+// server.listen(3001, () => {
+//   console.log("SERVER IS RUNNING");
+// });
 
 // Route includes
 const usersRouter = require("./routes/users.router");
@@ -44,6 +40,7 @@ const productsRouter = require("./routes/products.router");
 const usersProductsRouter = require("./routes/usersProducts.router");
 const streamsRouter = require("./routes/streams.router");
 const streamsProductsRouter = require("./routes/streamsProducts.router");
+const liveStreamRouter = require("./routes/liveStream.router");
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -63,12 +60,15 @@ app.use("/api/products", productsRouter);
 app.use("/api/users-products", usersProductsRouter);
 app.use("/api/streams", streamsRouter);
 app.use("/api/streams-products", streamsProductsRouter);
+app.use("/api/live-stream", liveStreamRouter);
 
 // Serve static files
 app.use(express.static("build"));
 
 // App Set //
 const PORT = process.env.PORT || 5000;
+const nms = require("./media.server/media.server");
+nms.init(io);
 
 // const allowedOrigins = ['http://localhost:3000'];
 const allowedOrigins = ["http://localhost:3000", "http://localhost:3001", "http://localhost:5000"];
@@ -97,14 +97,12 @@ const proxyOptions = {
     }/live/`,
   },
 };
+
 app.use("/live", createProxyMiddleware(proxyOptions));
 
 console.log(proxyOptions.router);
 
 /** Listen * */
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
-
-const nms = require("./media.server/media.server");
-nms.init();

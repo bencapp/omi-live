@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import { useTheme } from "@mui/material";
+import dayjs from "dayjs";
 
 function StreamsList() {
   const theme = useTheme();
@@ -39,9 +40,9 @@ function StreamsList() {
           }}
           key={stream.id}
         >
-          {stream.title}
+          <b>{stream.title}</b>
           <br></br>
-          {stream.scheduled}
+          {dayjs(stream.scheduled).format("MM/DD/YYYY")}
         </Box>
       ))}
       <Button onClick={() => handlePlanNewStream()}>PLAN NEW STREAM</Button>

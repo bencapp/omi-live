@@ -11,11 +11,13 @@ import {
 } from "@mui/material";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ShareIcon from "@mui/icons-material/Share";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ClearIcon from "@mui/icons-material/Clear";
 
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:3001");
+import { socket } from "../../socket";
 
-function Chat() {
+function Chat({ height }) {
   //html ref for scrolling to bottom of comments
   const scrollRef = useRef(null);
 
@@ -23,7 +25,7 @@ function Chat() {
   const user = useSelector((store) => store.user);
   //get all chats from db/store
   const allChats = useSelector((store) => store.chat);
-  console.log("allChats:", allChats);
+  // console.log("allChats:", allChats);
   //get dayjs
   const dayjs = require("dayjs");
   //get mui theme
@@ -36,11 +38,11 @@ function Chat() {
   const dispatch = useDispatch();
 
   //set chat open or closed
-  const [chatOpen, setChatOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(true);
+  //bool to track if user is scrolling through chats
+  const [scrolling, setScrolling] = useState(false);
 
   const [message, setMessage] = useState("");
-  //fullchat is all of the messages
-  // const [fullchat, setFullChat] = useState([])
 
   const sendMessage = () => {
     // socket.emit("send_message", { message, user})
@@ -54,6 +56,7 @@ function Chat() {
     });
     //reset input field
     setMessage("");
+    scrollToBottom();
   };
 
   const scrollToBottom = () => {
@@ -65,7 +68,7 @@ function Chat() {
   }, [chatOpen]);
 
   useEffect(() => {
-    if (!chatOpen) {
+    if (!scrolling) {
       scrollToBottom();
     }
   }, [allChats]);
@@ -86,6 +89,28 @@ function Chat() {
     };
   }, []);
 
+  const deleteComment = (id) => {
+    dispatch({
+      type: "DELETE_CHAT",
+      payload: id
+    })
+  }
+
+  const handleScroll = (e) => {
+    console.log("im scrollllllling")
+    const atBottom =
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (atBottom) {
+      setScrolling(false);
+    } else {
+      setScrolling(true);
+    }
+  };
+
+  const copyUrl = () => {
+    navigator.clipboard.writeText(window.location.href);
+  };
+
   return (
     <div>
       <Box
@@ -95,31 +120,60 @@ function Chat() {
           pt: "5px",
         }}
       >
-        <IconButton
-          size="large"
-          edge="start"
-          color="#000000"
-          aria-label="logo"
-          onClick={() => setChatOpen(!chatOpen)}
-          sx={{
-            alignSelf: "center",
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "flex-start",
-            width: "100vw",
-            color: chatOpen ? "primary" : "#FFFFFF",
-          }}
-        >
-          {chatOpen ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
-        </IconButton>
         <Box
           sx={{
-            maxHeight: chatOpen ? "60vh" : "15vh",
-            overflow: chatOpen ? "scroll" : "hidden",
+            width: "100vw",
+            display: "flex",
+            justifyContent: "space-between",
           }}
         >
+          <Box>
+            <IconButton
+              size="large"
+              edge="end"
+              sx={{
+                color: "#FFFFFF",
+              }}
+              aria-label="logo"
+              onClick={copyUrl}
+            >
+              <ShareIcon />
+            </IconButton>
+            <IconButton
+              size="large"
+              edge="end"
+              sx={{
+                color: "#FFFFFF",
+              }}
+              aria-label="logo"
+            >
+              <ThumbUpIcon />
+            </IconButton>
+          </Box>
+          <Box>
+            <IconButton
+              size="large"
+              edge="start"
+              aria-label="logo"
+              onClick={() => setChatOpen(!chatOpen)}
+              sx={{
+                alignSelf: "flex-end",
+                color: chatOpen ? "primary" : "#FFFFFF",
+              }}
+            >
+              {chatOpen ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
+            </IconButton>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            maxHeight: chatOpen ? height : "",
+            overflow: chatOpen ? "scroll" : "hidden",
+          }}
+          onScroll={handleScroll}
+        >
           {allChats?.map((chat, i) => {
-            if (i >= allChats.length - 3 || chatOpen) {
+            if (chatOpen) {
               return (
                 <Box
                   key={chat.id}
@@ -165,48 +219,72 @@ function Chat() {
                       {chat.text}
                     </Typography>
                   </Box>
-                  <Typography sx={{ fontSize: ".7em", fontStyle: "italic" }}>
-                    {dayjs(chat.timestamp).format("h:mm:ss A")}
-                  </Typography>
+                  <Box sx={{
+                    display: "flex",
+                    flexDirection: "row"
+                  }}>
+                    <Typography sx={{ fontSize: ".7em", fontStyle: "italic" }}>
+                      {dayjs(chat.timestamp).format("h:mm:ss A")}
+                    </Typography>
+                    {user.isAdmin ? (
+                      <IconButton
+                        size="small"
+                        // edge="end"
+                        sx={{
+                          color: "#FF0000",
+                        }}
+                        aria-label="logo"
+                        onClick={(e) => deleteComment(chat.id)}
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    ) : (
+                      ""
+                    )}
+                  </Box>
                 </Box>
               );
             }
           })}
           <Box ref={scrollRef} />
         </Box>
-        <Box sx={{ py: "10px", display: "flex", flexDirection: "row" }}>
-          <Input
-            sx={{
-              ml: "10px",
-              width: "stretch",
-              height: "2em",
-              "& .MuiInputBase-root": { height: 40 },
-              backgroundColor: "#FFFFFF",
-              borderRadius: ".5em",
-              pl: "10px",
-            }}
-            id="outlined-basic"
-            placeholder="Chat here"
-            variant="outlined"
-            value={message}
-            type="text"
-            onKeyPress={(e) => {
-                if (e.key == 'Enter') {
-                    sendMessage();
+        {chatOpen ? (
+          <Box sx={{ py: "10px", display: "flex", flexDirection: "row" }}>
+            <Input
+              sx={{
+                ml: "10px",
+                width: "stretch",
+                height: "2em",
+                "& .MuiInputBase-root": { height: 40 },
+                backgroundColor: "#FFFFFF",
+                borderRadius: ".5em",
+                pl: "10px",
+              }}
+              id="outlined-basic"
+              placeholder="Chat here"
+              variant="outlined"
+              value={message}
+              type="text"
+              onKeyPress={(e) => {
+                if (e.key == "Enter") {
+                  sendMessage();
                 }
-            }}
-            onChange={(event) => {
-              setMessage(event.target.value);
-            }}
-          />
-          <Button
-            sx={{ ml: "10px", mr: "10px", fontSize: ".75em" }}
-            size="small"
-            onClick={sendMessage}
-          >
-            Send
-          </Button>
-        </Box>
+              }}
+              onChange={(event) => {
+                setMessage(event.target.value);
+              }}
+            />
+            <Button
+              sx={{ ml: "10px", mr: "10px", fontSize: ".75em" }}
+              size="small"
+              onClick={sendMessage}
+            >
+              Send
+            </Button>
+          </Box>
+        ) : (
+          ""
+        )}
       </Box>
     </div>
   );

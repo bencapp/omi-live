@@ -2,10 +2,16 @@ const NodeMediaServer = require("node-media-server");
 const streamConfig = require("../constants/stream_config");
 const globalConfig = require("../config/config.json");
 const encryptLib = require("../modules/encryption");
+let io;
 
 let users = [];
 
-function init() {
+function setSocketIO(socketIo) {
+  io = socketIo;
+}
+
+function init(socketIo) {
+  setSocketIO(socketIo)
   //create node media server object using config
   let nms = new NodeMediaServer(streamConfig);
   //start media server
@@ -16,7 +22,7 @@ function init() {
     const session = nms.getSession(id);
     try {
       //check if user and key parameters exist in passed url
-      if (args && args.user && args.streamKey && args.pass) {
+      if (args && args.user && args.key && args.pass) {
         //validate parameters passed by streaming environment
         const validated = validateUser(args);
         if (validated) {
@@ -36,11 +42,19 @@ function init() {
         throw "Stream variables not valid";
       }
     } catch (error) {
+      console.log(users)
+      console.log(args);
       console.error(
         `[STREAM-AUTH]: ${error} | ${session.ip} | ${session.connectTime}`
       );
       session.reject();
     }
+  });
+
+  //broadcast closed stream after connection is closed
+  nms.on("doneConnect", (id, args) => {
+    const session = nms.getSession(id);
+    io.emit("stream_closed", session.publishArgs.user);
   });
 }
 
@@ -49,7 +63,7 @@ function validateUser(args) {
     //check stream args against cached users array
     if (
       args.user == user.username &&
-      args.streamKey == user.stream_key &&
+      args.key == user.stream_key &&
       encryptLib.comparePassword(args.pass, user.password)
     ) {
       return true;

@@ -14,8 +14,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AdminProtectedRoute from "../AdminProtectedRoute/AdminProtectedRoute";
 
 import AboutPage from "../AboutPage/AboutPage";
-import Chat from "../Chat/Chat";
-import UserPage from "../UserPage/UserPage";
+import StreamView from "../ViewerComponents/StreamView/StreamView";
 import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
@@ -65,7 +64,7 @@ function App() {
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
 
           <ProtectedRoute exact path="/live/:username">
-            <UserPage />
+            <StreamView />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/home">
@@ -149,15 +148,6 @@ function App() {
           >
             <StreamerControls />
           </AdminProtectedRoute>
-
-          <ProtectedRoute
-            // logged in shows chat else shows LoginPage
-            exact
-            path="/chat"
-          >
-            <Nav />
-            <Chat />
-          </ProtectedRoute>
 
           <Route exact path="/login">
             {user.id ? (

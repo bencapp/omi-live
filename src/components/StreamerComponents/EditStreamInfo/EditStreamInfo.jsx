@@ -3,20 +3,18 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import dayjs from "dayjs";
 
 import { useState } from "react";
 
-function EditStreamInfo({ handleCancelEditInfo }) {
+function EditStreamInfo({ setDisplayEditInfo }) {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const history = useHistory();
 
-  const [newDate, setNewDate] = useState();
-  const [newTitle, setNewTitle] = useState();
-  const [newDescription, setNewDescription] = useState();
+  const [newDate, setNewDate] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
 
   const [displayCancelConfirm, setDisplayCancelConfirm] = useState(false);
 
@@ -30,16 +28,16 @@ function EditStreamInfo({ handleCancelEditInfo }) {
         title: newTitle,
         description: newDescription,
         scheduled: dayjs(newDate).toJSON(),
-        history: history,
       },
     });
-    handleCancelEditInfo();
+    setDisplayEditInfo(false);
   };
 
   useEffect(() => {
     if (currentStream.id) {
       setNewTitle(currentStream.title);
       setNewDescription(currentStream.description);
+      setNewDate(dayjs(currentStream.scheduled));
     }
   }, []);
 
@@ -61,32 +59,30 @@ function EditStreamInfo({ handleCancelEditInfo }) {
       <div>CREATE A NEW STREAM</div>
       <InputLabel>TITLE</InputLabel>
       <TextField
-        defaultValue={currentStream?.title}
         value={newTitle}
         onChange={(e) => setNewTitle(e.target.value)}
       ></TextField>
       <InputLabel>DESCRIPTION</InputLabel>
       <TextField
         multiline
-        defaultValue={currentStream?.description}
         value={newDescription}
         onChange={(e) => setNewDescription(e.target.value)}
       ></TextField>
       <InputLabel>DATE</InputLabel>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
-          defaultValue={dayjs(currentStream.scheduled)}
-          date={newDate}
+          value={newDate}
           onChange={(date) => setNewDate(date)}
+          minDate={dayjs()}
         />
       </LocalizationProvider>
       {displayCancelConfirm ? (
         <>
-          <Box> Cancel changes and return to stream?</Box>
+          <Box>Cancel changes and return to stream?</Box>
           <Box sx={{ display: "flex", gap: "20px" }}>
             <Button onClick={() => setDisplayCancelConfirm(false)}>BACK</Button>
             <Button
-              onClick={handleCancelEditInfo}
+              onClick={() => setDisplayEditInfo(false)}
               color="warning"
               sx={{ color: "black" }}
             >
