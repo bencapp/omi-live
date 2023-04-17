@@ -17,7 +17,10 @@ function ViewerProductsList() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [wishlist, setWishlist] = useState({});
+  // code retrieves the wishlist from the local storage or an empty object {} if it is not present in the local storage.
+  const [wishlist, setWishlist] = useState(
+    JSON.parse(localStorage.getItem("wishlist") || "{}")
+  );
 
   const handleClick = (product) => {
     console.log("Product id", product);
@@ -50,6 +53,10 @@ function ViewerProductsList() {
   useEffect(() => {
     dispatch({ type: "GET_PRODUCT" });
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  }, [wishlist]);
 
   return (
     <div>

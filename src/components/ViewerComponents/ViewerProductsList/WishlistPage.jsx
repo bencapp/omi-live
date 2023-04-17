@@ -1,15 +1,16 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { List, ListItem, ListItemText, Avatar } from "@mui/material";
 import { useHistory } from "react-router";
 import { useEffect } from "react";
 
 function WishlistPage() {
-  const products = useSelector((store) => store.allProduct);
+  const allProducts = useSelector((store) => store.allProduct);
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: "GET_PRODUCT" });
+    dispatch({ type: "GET_PRODUCT", payload: allProducts });
   }, []);
 
   const handleClick = (product) => {
@@ -17,7 +18,7 @@ function WishlistPage() {
     history.push(`/product/${product.id}`);
   };
 
-  const wishlistProducts = products.filter(products.id);
+  const wishlistProducts = allProducts.filter((product) => product.isWishlist);
 
   return (
     <div>
