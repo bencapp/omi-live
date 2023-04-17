@@ -1,7 +1,9 @@
-import { Button, Box, Checkbox, FormLabel } from "@mui/material";
+import { Button, Box} from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+// import component to make public
+import Public from "../Public/Public";
 
 function StreamerOptions({
   setDisplayConfirmDelete,
@@ -13,8 +15,6 @@ function StreamerOptions({
   const inCurrentStream = useSelector(
     (store) => store.currentProduct.inCurrentStream
   );
-
-  const [publicBool, setPublicBool] = useState(false);
 
   const currentStream = useSelector((store) => store.currentStream);
   const currentProduct = useSelector((store) => store.currentProduct);
@@ -28,29 +28,10 @@ function StreamerOptions({
     }
   }, []);
 
-  const handleChangePublic = (checked) => {
-    dispatch({
-      type: "UPDATE_PRODUCT_PUBLIC_STATUS",
-      payload: { public: checked, productID: productID },
-    });
-    setPublicBool(checked);
-  };
-
   return (
     <>
+      <Public currentProduct={currentProduct} productID={productID} />
       {/* if current stream has a scheduled time, display the remove  */}
-      <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
-        <FormLabel>
-          PUBLIC
-          <Checkbox
-            defaultChecked={currentProduct.public}
-            checked={publicBool}
-            onChange={(e) => handleChangePublic(e.target.checked)}
-            // inputProps={{ "aria-label": "controlled" }}
-          />
-        </FormLabel>
-      </Box>
-
       <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
         <Button
           color="warning"
