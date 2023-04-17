@@ -45,7 +45,7 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   pool
     .query(queryText, queryParams)
     .then(() => {
-      req.io.emit("add text", req.body.payload.text, req.body.payload.user.id);
+      req.io.emit("add_text", req.body.payload.text, req.body.payload.user.id);
       res.sendStatus(204);
     })
     .catch((error) => {
@@ -61,6 +61,7 @@ router.delete('/:id', rejectNonAdminUnauthenticated, (req, res) => {
   pool.query(queryText, [req.params.id])
   .then((dbRes) => {
     // req.io.emit("")
+    req.io.emit("add_text");
     res.sendStatus(203);
   })
   .catch((err) => {
