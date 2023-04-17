@@ -22,7 +22,7 @@ function init(socketIo) {
     const session = nms.getSession(id);
     try {
       //check if user and key parameters exist in passed url
-      if (args && args.user && args.streamKey && args.pass) {
+      if (args && args.user && args.key && args.pass) {
         //validate parameters passed by streaming environment
         const validated = validateUser(args);
         if (validated) {
@@ -42,6 +42,8 @@ function init(socketIo) {
         throw "Stream variables not valid";
       }
     } catch (error) {
+      console.log(users)
+      console.log(args);
       console.error(
         `[STREAM-AUTH]: ${error} | ${session.ip} | ${session.connectTime}`
       );
@@ -61,7 +63,7 @@ function validateUser(args) {
     //check stream args against cached users array
     if (
       args.user == user.username &&
-      args.streamKey == user.stream_key &&
+      args.key == user.stream_key &&
       encryptLib.comparePassword(args.pass, user.password)
     ) {
       return true;

@@ -4,7 +4,7 @@ const router = express.Router();
 
 //import authentication middleware
 const {
-  rejectUnauthenticated,
+  rejectUnauthenticated, rejectNonAdminUnauthenticated
 } = require(`../modules/authentication-middleware`);
 
 /**
@@ -53,5 +53,20 @@ router.post("/", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
+
+router.delete('/:id', rejectNonAdminUnauthenticated, (req, res) => {
+  const queryText = `
+  DELETE from comments
+  WHERE id = $1`
+  pool.query(queryText, [req.params.id])
+  .then((dbRes) => {
+    // req.io.emit("")
+    res.sendStatus(203);
+  })
+  .catch((err) => {
+    console.error(error)
+    res.sendStatus(500);
+  })
+})
 
 module.exports = router;

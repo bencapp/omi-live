@@ -17,7 +17,7 @@ const { Server } = require("socket.io");
 const io = new Server(server, {
   //specify the properties/functionality with cors
   cors: {
-    origins: ["http://localhost:3000", "http://localhost:3001"],
+    origins: [`http://localhost:3000`, "http://localhost:3001", `http://localhost:${process.env.PORT}` || `http://localhost:5000`],
   },
 });
 
