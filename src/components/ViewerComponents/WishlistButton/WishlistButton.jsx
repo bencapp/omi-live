@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 // type should be either 'add' or 'remove'
-function WishlistButton({ type }) {
+function WishlistButton() {
   const dispatch = useDispatch();
   const currentProduct = useSelector((store) => store.currentProduct);
 
@@ -23,7 +23,7 @@ function WishlistButton({ type }) {
 
   return (
     <>
-      {type == "add" ? (
+      {!currentProduct.on_user_wishlist ? (
         <Button onClick={handleSaveProduct}>ADD TO WISHLIST</Button>
       ) : (
         <Button onClick={handleUnSaveProduct}>ON WISHLIST</Button>

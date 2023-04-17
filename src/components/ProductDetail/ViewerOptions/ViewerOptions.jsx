@@ -14,9 +14,7 @@ function ViewerOptions({ setDisplayConfirmBuy }) {
   return (
     <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
       <Button onClick={handleClickBuy}>BUY</Button>
-      <WishlistButton
-        type={!currentProduct.on_user_wishlist ? "add" : "remove"}
-      />
+      <WishlistButton />
     </Box>
   );
 }

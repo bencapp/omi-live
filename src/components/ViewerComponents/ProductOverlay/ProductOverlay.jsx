@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import WishlistButton from "../WishlistButton/WishlistButton";
 
 import { socket } from "../../../socket";
 
@@ -61,7 +62,7 @@ function ProductOverlay() {
               <br></br>
               {currentProduct.description}
             </Box>
-            <Button sx={{ alignSelf: "end" }}>ADD TO WISHLIST</Button>
+            <WishlistButton />
           </Box>
         </Box>
       </Box>

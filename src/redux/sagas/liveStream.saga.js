@@ -4,7 +4,7 @@ import { put, takeEvery } from "redux-saga/effects";
 function* fetchCurrentProductInStream() {
   try {
     const response = yield axios.get("/api/live-stream/current-product");
-    yield put({ type: "SET_CURRENT_PRODUCT", payload: response.data });
+    yield put({ type: "FETCH_PRODUCT_BY_ID", payload: response.data.id });
   } catch (error) {
     console.log("Error with fetchCurrentProductInStream saga:", error);
   }
