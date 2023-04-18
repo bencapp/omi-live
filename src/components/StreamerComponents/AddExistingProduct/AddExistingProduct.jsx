@@ -14,7 +14,7 @@ function AddExistingProduct() {
   const products = useSelector((store) => store.allProduct);
 
   useEffect(() => {
-    dispatch({ type: "GET_PRODUCT" });
+    dispatch({ type: "GET_PRODUCTS" });
     dispatch({ type: "FETCH_STREAM_BY_ID", payload: { streamID: streamID } });
   }, []);
 

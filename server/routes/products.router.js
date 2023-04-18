@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
     SELECT products.*, EXISTS (
       SELECT 1 FROM users_products
       WHERE users_products.user_id = $1 AND users_products.product_id = products.id
-    ) AS is_wishlist_item
+    ) AS on_user_wishlist
     FROM products;
   `;
   const sqlValues = [req.user.id];

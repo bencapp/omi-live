@@ -50,7 +50,7 @@ function ViewerProductsList() {
   };
 
   useEffect(() => {
-    dispatch({ type: "GET_PRODUCT" });
+    dispatch({ type: "GET_PRODUCTS" });
   }, []);
 
   useEffect(() => {

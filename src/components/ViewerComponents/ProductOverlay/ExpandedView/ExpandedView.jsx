@@ -64,7 +64,11 @@ function ExpandedView({ setOverlayView }) {
         <Box sx={{ display: "flex", gap: "20px", justifySelf: "end" }}>
           {" "}
           <BuyButton setDisplayConfirmBuy={setDisplayConfirmBuy} />
-          <WishlistButton product={currentProduct} type="button" />
+          <WishlistButton
+            product={currentProduct}
+            type="button"
+            envType="stream-overlay"
+          />
         </Box>
       </Box>
     </Box>

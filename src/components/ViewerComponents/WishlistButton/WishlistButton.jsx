@@ -4,32 +4,31 @@ import { useState, useEffect } from "react";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
-// renderCurrent is a boolean for whether the product is the current one
+// envType is the environment in which the button exists.
+// this determines how the add and remove sagas deal with the requests
 // type is either 'button' or 'icon'
-function WishlistButton({ product, renderCurrent, type }) {
+function WishlistButton({ product, envType, type }) {
   const dispatch = useDispatch();
 
-  const [current, setCurrent] = useState(true);
-
-  useEffect(() => {
-    if (renderCurrent === false) {
-      console.log("rendered wishlist button for non-current product", product);
-      setCurrent(false);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (displayType === false) {
+  //     console.log("rendered wishlist button for non-current product", product);
+  //     setCurrent(false);
+  //   }
+  // }, []);
 
   const handleSaveProduct = () => {
     // POST to users_products table
     dispatch({
       type: "ADD_PRODUCT_TO_WISHLIST",
-      payload: { productID: product.id, current: current },
+      payload: { productID: product.id, envType: envType },
     });
   };
 
   const handleUnSaveProduct = () => {
     dispatch({
       type: "REMOVE_PRODUCT_FROM_WISHLIST",
-      payload: { productID: product.id, current: current },
+      payload: { productID: product.id, envType: envType },
     });
   };
 

@@ -3,7 +3,7 @@ import { List, ListItem, ListItemText, Avatar } from "@mui/material";
 import { useHistory } from "react-router";
 import { useEffect } from "react";
 
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 
 function StreamerProductsList() {
   const products = useSelector((store) => store.allProduct);
@@ -17,7 +17,7 @@ function StreamerProductsList() {
   };
 
   useEffect(() => {
-    dispatch({ type: "GET_PRODUCT" });
+    dispatch({ type: "GET_PRODUCTS" });
   }, []);
 
   return (

@@ -1,23 +1,38 @@
 import { put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 
-//
+function* switchDispatchAfterUpdate(envType, productID) {
+  // if product is not the current product, fetch current stream data
+  // instead of fetch product by id.
+  // fetch product by id also sets the product to the current product
+  switch (envType) {
+    case "product-detail":
+      yield put({
+        type: "FETCH_PRODUCT_BY_ID",
+        payload: productID,
+      });
+      break;
+    case "product-list":
+      yield put({ type: "GET_PRODUCTS" });
+      break;
+    case "stream-overlay":
+      yield put({ type: "FETCH_CURRENT_STREAM_DATA" });
+      break;
+    default:
+      break;
+  }
+}
+
 function* addProductToWishlist(action) {
   try {
     yield axios.post(`/api/users-products`, {
       productID: action.payload.productID,
     });
-    // if product is not the current product, fetch current stream data
-    // instead of fetch product by id.
-    // fetch product by id also sets the product to the current product
-    if (action.payload.current) {
-      yield put({
-        type: "FETCH_PRODUCT_BY_ID",
-        payload: action.payload.productID,
-      });
-    } else {
-      yield put({ type: "FETCH_CURRENT_STREAM_DATA" });
-    }
+
+    yield switchDispatchAfterUpdate(
+      action.payload.envType,
+      action.payload.productID
+    );
   } catch (error) {
     console.log("Error with ADD PRODUCT TO WISHLIST:", error);
   }
@@ -26,14 +41,10 @@ function* addProductToWishlist(action) {
 function* removeProductFromWishlist(action) {
   try {
     yield axios.delete(`/api/users-products/${action.payload.productID}`);
-    if (action.payload.current) {
-      yield put({
-        type: "FETCH_PRODUCT_BY_ID",
-        payload: action.payload.productID,
-      });
-    } else {
-      yield put({ type: "FETCH_CURRENT_STREAM_DATA" });
-    }
+    yield switchDispatchAfterUpdate(
+      action.payload.envType,
+      action.payload.productID
+    );
   } catch (error) {
     console.log("Error with ADD PRODUCT TO WISHLIST:", error);
   }

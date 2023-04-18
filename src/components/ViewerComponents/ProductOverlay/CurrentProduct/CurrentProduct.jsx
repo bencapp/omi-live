@@ -29,6 +29,7 @@ function CurrentProduct({ type }) {
         <WishlistButton
           product={currentProduct}
           renderCurrent={false}
+          envType="stream-overlay"
         />
       </Box>
     </Box>

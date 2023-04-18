@@ -29,7 +29,12 @@ function ViewerProductListItem({ product }) {
         <Box>{product.description}</Box>
       </Grid>
       <Grid item xs={2} sx={{ display: "flex", placeContent: "center" }}>
-        <WishlistButton type="icon" product={product} renderCurrent={false} />
+        <WishlistButton
+          type="icon"
+          product={product}
+          renderCurrent={false}
+          envType="product-list"
+        />
       </Grid>
     </Grid>
   );
