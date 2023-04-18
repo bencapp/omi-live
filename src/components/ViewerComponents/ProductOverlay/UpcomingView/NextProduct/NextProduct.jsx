@@ -21,7 +21,7 @@ function NextProduct({ product }) {
       <b>NEXT</b>
       <b>{product.name}</b>
       <img style={{ maxHeight: "100px" }} src={product.image_url}></img>
-      <WishlistButton product={product} />
+      <WishlistButton product={product} renderCurrent={false} envType='stream-overlay'/>
     </Box>
   );
 }

@@ -24,6 +24,7 @@ function* removeProductFromStream(action) {
       `/api/streams-products/${action.payload.streamID}/${action.payload.productID}`
     );
     yield put({ type: "SET_PRODUCT_IN_STREAM", payload: response.data });
+    yield put({type: "FETCH_STREAM_BY_ID", payload: action.payload})
   } catch (error) {
     console.log("Error with removeProductFromStream saga:", error);
   }
@@ -36,6 +37,7 @@ function* addProductToStream(action) {
       productID: action.payload.productID,
     });
     yield put({ type: "SET_PRODUCT_IN_STREAM", payload: true });
+    yield put({type: "FETCH_STREAM_BY_ID", payload: action.payload})
   } catch (error) {
     console.log("Error with addProductToStream saga:", error);
   }

@@ -9,10 +9,10 @@ import DefaultView from "./DefaultView/DefaultView";
 import ExpandedView from "./ExpandedView/ExpandedView";
 import UpcomingView from "./UpcomingView/UpcomingView";
 
-function ProductOverlay() {
+function ProductOverlay({streamID}) {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const { username, streamID } = useParams();
+  const { username } = useParams();
 
   const currentProduct = useSelector((store) => store.currentProduct);
   const currentStream = useSelector((store) => store.currentStream);
@@ -20,8 +20,7 @@ function ProductOverlay() {
   const [overlayView, setOverlayView] = useState("default");
 
   useEffect(() => {
-    dispatch({ type: "FETCH_CURRENT_PRODUCT_IN_STREAM" });
-    dispatch({ type: "FETCH_STREAM_BY_ID", payload: { streamID: streamID } });
+    dispatch({ type: "FETCH_CURRENT_STREAM_DATA" });
 
     const handleProductChange = () => {
       dispatch({ type: "FETCH_CURRENT_PRODUCT_IN_STREAM" });
@@ -29,6 +28,8 @@ function ProductOverlay() {
 
     // listen for when the streamer updates the current product
     socket.on("product change", (product) => handleProductChange(product));
+
+    socket.off("product change", handleProductChange);
   }, []);
 
   return (
