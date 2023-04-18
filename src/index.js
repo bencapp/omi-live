@@ -12,11 +12,11 @@ import { ThemeProvider } from "@mui/material";
 
 const root = ReactDOM.createRoot(document.getElementById("react-root"));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </Provider>
+  // </React.StrictMode>
 );

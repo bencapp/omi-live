@@ -7,12 +7,12 @@ function ViewerStreamHome() {
   const activeStreams = useSelector((store) => store.streams.activeStreams);
   // const [preview, setPreview] = useState("");
   const username = "omi";
-  const theme = useTheme();
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: "FETCH_ACTIVE_STREAMS" });
   }, []);
+
   return (
     <div
       align="center"
@@ -31,7 +31,6 @@ function ViewerStreamHome() {
         username={username}
         yOffset="-15vh"
         preview={true}
-        streamID={activeStreams}
       />
       ) : (
         "Sorry there are no streams currently available."

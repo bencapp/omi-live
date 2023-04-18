@@ -92,9 +92,9 @@ function Chat({ height }) {
   const deleteComment = (id) => {
     dispatch({
       type: "DELETE_CHAT",
-      payload: id
-    })
-  }
+      payload: id,
+    });
+  };
 
   const handleScroll = (e) => {
     const atBottom =
@@ -218,10 +218,12 @@ function Chat({ height }) {
                       {chat.text}
                     </Typography>
                   </Box>
-                  <Box sx={{
-                    display: "flex",
-                    flexDirection: "row"
-                  }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
                     <Typography sx={{ fontSize: ".7em", fontStyle: "italic" }}>
                       {dayjs(chat.timestamp).format("h:mm:ss A")}
                     </Typography>
