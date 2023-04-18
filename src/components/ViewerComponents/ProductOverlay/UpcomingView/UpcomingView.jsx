@@ -47,6 +47,7 @@ function UpcomingView({ setOverlayView }) {
         >
           <CurrentProduct type={"upcoming"} />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            {/* {JSON.stringify(currentStream.products)} */}
             {currentStream.products.find(
               (product) => product.order == currentProduct.order + 1
             ) && (

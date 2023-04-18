@@ -1,22 +1,32 @@
 import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 
-// type should be either 'add' or 'remove'
-function WishlistButton({ product }) {
+// currentBool is a boolean for whether the product is the current one
+function WishlistButton({ product, renderCurrent }) {
   const dispatch = useDispatch();
+
+  const [current, setCurrent] = useState(true);
+
+  useEffect(() => {
+    if (renderCurrent === false) {
+      console.log("rendered wishlist button for non-current product", product);
+      setCurrent(false);
+    }
+  }, []);
 
   const handleSaveProduct = () => {
     // POST to users_products table
     dispatch({
       type: "ADD_PRODUCT_TO_WISHLIST",
-      payload: product.id,
+      payload: { productID: product.id, current: current },
     });
   };
 
   const handleUnSaveProduct = () => {
     dispatch({
       type: "REMOVE_PRODUCT_FROM_WISHLIST",
-      payload: product.id,
+      payload: { productID: product.id, current: current },
     });
   };
 
