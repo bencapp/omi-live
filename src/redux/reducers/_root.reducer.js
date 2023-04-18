@@ -6,6 +6,7 @@ import currentStream from "./currentStream.reducer";
 import allProduct from "./allProduct.reducer";
 import currentProduct from "./currentProduct.reducer";
 import chat from "./chat.reducer";
+import wishlist from "./wishlist.reducer";
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
 // This is imported in index.js as rootSaga
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   allProduct,
   currentProduct,
   chat,
+  wishlist,
 });
 
 export default rootReducer;
