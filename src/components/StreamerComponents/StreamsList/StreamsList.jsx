@@ -10,7 +10,7 @@ function StreamsList() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const history = useHistory();
-  const streams = useSelector((store) => store.streams);
+  const streams = useSelector((store) => store.streams.streams);
 
   useEffect(() => {
     dispatch({ type: "FETCH_STREAMS" });

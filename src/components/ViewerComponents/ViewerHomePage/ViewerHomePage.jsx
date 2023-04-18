@@ -8,8 +8,8 @@ import WishlistPage from "../ViewerProductsList/WishlistPage";
 
 function ViewerHomePage() {
   const [display, setDisplay] = useState("streams");
-
   const history = useHistory();
+
   return (
     <div
       style={{
