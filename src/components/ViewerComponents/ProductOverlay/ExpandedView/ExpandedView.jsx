@@ -1,7 +1,7 @@
 import { Box, alpha, Button, useTheme } from "@mui/material";
 import WishlistButton from "../../WishlistButton/WishlistButton";
 import { useSelector } from "react-redux";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BuyButton from "../../BuyButton/BuyButton";
 import { useState } from "react";
 import ConfirmBuyPopup from "../../../ProductDetail/ConfirmBuyPopup/ConfirmBuyPopup";
@@ -20,7 +20,7 @@ function ExpandedView({ setOverlayView }) {
       {displayConfirmBuy && (
         <ConfirmBuyPopup hideConfirmBuyPopup={hideConfirmBuyPopup} />
       )}
-      <ExpandLessIcon
+      <ExpandMoreIcon
         onClick={() => setOverlayView("default")}
         sx={{ alignSelf: "center" }}
       />

@@ -64,8 +64,8 @@ function App() {
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
 
-          <ProtectedRoute exact path="/live/:username/:streamID">
-            <StreamView />
+          <ProtectedRoute exact path="/live/:username">
+            <StreamView height="100vh" width="100vw" chatHeight="20vh" />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/home">

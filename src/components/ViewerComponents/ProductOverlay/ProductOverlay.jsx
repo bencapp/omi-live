@@ -9,10 +9,10 @@ import DefaultView from "./DefaultView/DefaultView";
 import ExpandedView from "./ExpandedView/ExpandedView";
 import UpcomingView from "./UpcomingView/UpcomingView";
 
-function ProductOverlay() {
+function ProductOverlay({streamID}) {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const { username, streamID } = useParams();
+  const { username } = useParams();
 
   const currentProduct = useSelector((store) => store.currentProduct);
   const currentStream = useSelector((store) => store.currentStream);
@@ -31,6 +31,8 @@ function ProductOverlay() {
 
     socket.off("product change", handleProductChange);
   }, []);
+
+  console.log('this is the streamID', streamID)
 
   return (
     <Box

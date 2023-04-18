@@ -1,11 +1,15 @@
 import { Box, Button } from "@mui/material";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 function ConfirmGoLive({ setDisplayConfirmGoLive, streamID }) {
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const startStream = () => {
     // TODO: begin stream via OBS
     history.push(`/streamer-stream/${streamID}`);
+    dispatch({type: 'START_STREAM', payload: streamID});
   };
   return (
     <Box
