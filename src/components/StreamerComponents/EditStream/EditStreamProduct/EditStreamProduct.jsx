@@ -43,6 +43,8 @@ function EditStreamProduct({ product, handleRemoveFromStream }) {
         borderRadius: "5px",
         padding: "10px",
         width: "100%",
+        overflow: "hidden",
+        height: "11vh",
       }}
     >
       <Grid container key={product.id} alignItems="center">

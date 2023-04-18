@@ -10,7 +10,7 @@ function ViewerOptions({ setDisplayConfirmBuy }) {
   return (
     <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
       <BuyButton setDisplayConfirmBuy={setDisplayConfirmBuy} />
-      <WishlistButton product={currentProduct} />
+      <WishlistButton product={currentProduct} type="button" />
     </Box>
   );
 }

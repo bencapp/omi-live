@@ -5,12 +5,19 @@ import axios from "axios";
 function* addProductToWishlist(action) {
   try {
     yield axios.post(`/api/users-products`, {
-      productID: action.payload,
+      productID: action.payload.productID,
     });
-    yield put({
-      type: "FETCH_PRODUCT_BY_ID",
-      payload: action.payload,
-    });
+    // if product is not the current product, fetch current stream data
+    // instead of fetch product by id.
+    // fetch product by id also sets the product to the current product
+    if (action.payload.current) {
+      yield put({
+        type: "FETCH_PRODUCT_BY_ID",
+        payload: action.payload.productID,
+      });
+    } else {
+      yield put({ type: "FETCH_CURRENT_STREAM_DATA" });
+    }
   } catch (error) {
     console.log("Error with ADD PRODUCT TO WISHLIST:", error);
   }
@@ -18,11 +25,15 @@ function* addProductToWishlist(action) {
 
 function* removeProductFromWishlist(action) {
   try {
-    yield axios.delete(`/api/users-products/${action.payload}`);
-    yield put({
-      type: "FETCH_PRODUCT_BY_ID",
-      payload: action.payload,
-    });
+    yield axios.delete(`/api/users-products/${action.payload.productID}`);
+    if (action.payload.current) {
+      yield put({
+        type: "FETCH_PRODUCT_BY_ID",
+        payload: action.payload.productID,
+      });
+    } else {
+      yield put({ type: "FETCH_CURRENT_STREAM_DATA" });
+    }
   } catch (error) {
     console.log("Error with ADD PRODUCT TO WISHLIST:", error);
   }

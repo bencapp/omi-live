@@ -26,7 +26,10 @@ function CurrentProduct({ type }) {
           <br></br>
           {currentProduct.description}
         </Box>
-        <WishlistButton product={currentProduct}/>
+        <WishlistButton
+          product={currentProduct}
+          renderCurrent={false}
+        />
       </Box>
     </Box>
   );
