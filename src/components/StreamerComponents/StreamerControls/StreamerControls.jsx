@@ -13,7 +13,7 @@ function StreamerControls() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const [viewerCount, setViewerCount] = useState();
+  const [viewerCount, setViewerCount] = useState(0);
   const [displayConfirmEndStream, setDisplayConfirmEndStream] = useState(false);
   const [onLastProduct, setOnLastProduct] = useState();
   const [onFirstProduct, setOnFirstProduct] = useState();
@@ -120,7 +120,7 @@ function StreamerControls() {
           >
             End Stream
           </Button>
-          <Box>[i] viewers</Box>
+          <Box>{viewerCount} viewers</Box>
         </Grid>
       </Grid>
       <div
@@ -128,7 +128,7 @@ function StreamerControls() {
           width: "100vw",
         }}
       >
-        <Chat height={"60vh"}/>
+        <Chat height={"60vh"} />
       </div>
       {displayConfirmEndStream && (
         <ConfirmEndStream

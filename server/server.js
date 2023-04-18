@@ -40,15 +40,15 @@ io.on("connection", (socket) => {
 
   // when a viewer joins the stream
   socket.on("join stream", () => {
-    console.log("a user joined the stream");
     viewerCount++;
+    console.log("a user joined the stream", viewerCount);
     io.emit("update viewer count", viewerCount);
   });
 
   // when a viewer leaves the stream
   socket.on("leave stream", () => {
-    console.log("a user left the stream");
     viewerCount--;
+    console.log("a user left the stream", viewerCount);
     io.emit("update viewer count", viewerCount);
   });
 
