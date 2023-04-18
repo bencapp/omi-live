@@ -104,7 +104,7 @@ function ProductForm() {
                     history.push(`/product/${productID}`)
                 }
                 else {
-                    history.g()
+                    history.goBack()
                 }
                 Swal.fire("Cancelled!", "Your changes have been discarded.", "success");
             }
@@ -261,21 +261,27 @@ function ProductForm() {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             defaultValue={productID ? dayjs(currentProduct?.coupon_expiration) : null}
-                            // date={couponExpiration}
+                            date={couponExpiration}
                             onChange={(date) => setCouponExpiration(date)}
                             fullWidth
                             sx={{
-                                mb: "30px"
+                                mb: "15px"
                             }}
                         />
                     </LocalizationProvider>
+                    {/* if edit mode, show public checkbox */}
+
+                    {productID ?
+                            <Public productID={productID} currentProduct={currentProduct} />
+                        : ''
+                    }
                 </Box>
 
-                <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
+                <Box sx={{ display: "flex", gap: "15px", alignSelf: "center", mt: "15px" }}>
                     <Button variant="contained" type="button" onClick={handleCancel} color="warning" sx={{ color: "black" }}>
                         Cancel
                     </Button>
-                    {productID ? 
+                    {productID ?
                         <Button variant="contained" type="submit" sx={{ cursor: "pointer" }}>
                             Save Changes
                         </Button>
