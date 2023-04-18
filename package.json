@@ -51,6 +51,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "heroku": "^8.0.4",
     "nodemon": "^2.0.4"
   },
   "browserslist": [
