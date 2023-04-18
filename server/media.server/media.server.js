@@ -54,7 +54,7 @@ function init(socketIo) {
   //broadcast closed stream after connection is closed
   nms.on("doneConnect", (id, args) => {
     const session = nms.getSession(id);
-    io.emit("stream_closed", session.publishArgs.user);
+    io.emit("stream_closed", session?.publishArgs?.user);
   });
 }
 

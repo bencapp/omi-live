@@ -65,7 +65,7 @@ function App() {
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
 
           <ProtectedRoute exact path="/live/:username">
-            <StreamView />
+            <StreamView height="100vh" width="100vw" chatHeight="20vh" />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/home">

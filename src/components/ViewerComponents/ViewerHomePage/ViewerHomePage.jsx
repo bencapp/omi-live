@@ -38,11 +38,13 @@ function ViewerHomePage() {
           fontSize: "1.2em",
         }}
       >
-        <Link onClick={() => setDisplay("stream")}>WATCH</Link>
+        <Link onClick={() => setDisplay("streams")}>WATCH</Link>
         <Link onClick={() => setDisplay("products")}>PRODUCTS</Link>
         <Link onClick={() => setDisplay("wishlist")}> WISHLIST</Link>
       </nav>
-      {display == "streams" ? <ViewerStreamHome /> : <ViewerProductsList />}
+      {display == "streams" ? <ViewerStreamHome />
+      : display == "products" ? <ViewerProductsList />
+      : <WishlistPage/>}
     </div>
   );
 }
