@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 function WishlistPage() {
   const allProducts = useSelector((store) => store.allProduct);
+  const wishlistProducts = useSelector((store) => store.wishlist);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -18,13 +19,11 @@ function WishlistPage() {
     history.push(`/product/${product.id}`);
   };
 
-  const wishlistProducts = allProducts.filter((product) => product.isWishlist);
-
   return (
     <div>
-      {wishlistProducts.length ? (
+      {allProducts.length ? (
         <List>
-          {wishlistProducts.map((product, i) => (
+          {allProducts.map((product, i) => (
             <ListItem
               key={i}
               className="product-item"

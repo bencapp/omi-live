@@ -7,9 +7,16 @@ const pool = require("../modules/pool");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const sqlQuery = "SELECT * FROM products";
+  const sqlQuery = `
+    SELECT products.*, EXISTS (
+      SELECT 1 FROM users_products
+      WHERE users_products.user_id = $1 AND users_products.product_id = products.id
+    ) AS is_wishlist_item
+    FROM products;
+  `;
+  const sqlValues = [req.user.id];
   try {
-    const result = await pool.query(sqlQuery);
+    const result = await pool.query(sqlQuery, sqlValues);
     const products = result.rows;
     console.log("products", products);
     res.send(products);
@@ -37,10 +44,10 @@ router.post("/", async (req, res) => {
       req.body.payload.description,
       req.body.payload.coupon_code,
       req.body.payload.image_url,
-      req.body.payload.coupon_expiration
+      req.body.payload.coupon_expiration,
     ];
     console.log(sqlValues);
-    const postResult = await connection.query(sqlQuery, sqlValues)
+    const postResult = await connection.query(sqlQuery, sqlValues);
     if (req.body.payload.streamID) {
       const getNumberOfProductsQueryText = `SELECT COUNT(*) FROM streams_products WHERE stream_id = $1`;
       const getNumberOfProductsQueryParams = [req.body.payload.streamID];
@@ -64,7 +71,6 @@ router.post("/", async (req, res) => {
     }
     const newProduct = postResult.rows[0];
     res.status(201).send(newProduct);
-
   } catch (error) {
     // await connection.query("FAILED STREAM PUT");
     console.log(`Error in products POST: `, error);
@@ -96,9 +102,8 @@ router.get("/:productID", rejectUnauthenticated, (req, res) => {
 
 //PUT for updating all product info
 router.put("/:id", rejectNonAdminUnauthenticated, (req, res) => {
-  console.log('in put, req.body is', req.body)
-  const queryText =
-    `UPDATE products 
+  console.log("in put, req.body is", req.body);
+  const queryText = `UPDATE products 
     SET name = $1,
     image_url = $2, 
     description = $3, 
@@ -106,7 +111,15 @@ router.put("/:id", rejectNonAdminUnauthenticated, (req, res) => {
     coupon_expiration = $5, 
     url = $6
     WHERE id = $7`;
-  const queryParams = [req.body.name, req.body.image_url, req.body.description, req.body.coupon_code, req.body.coupon_expiration, req.body.url, req.params.id];
+  const queryParams = [
+    req.body.name,
+    req.body.image_url,
+    req.body.description,
+    req.body.coupon_code,
+    req.body.coupon_expiration,
+    req.body.url,
+    req.params.id,
+  ];
   pool
     .query(queryText, queryParams)
     .then(() => {
@@ -146,6 +159,5 @@ router.delete("/:productID", rejectNonAdminUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
-
 
 module.exports = router;
