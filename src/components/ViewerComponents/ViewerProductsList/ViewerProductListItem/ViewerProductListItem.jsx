@@ -1,8 +1,15 @@
 import { Box, Grid, useTheme } from "@mui/material";
+import { useHistory } from "react-router-dom";
 import WishlistButton from "../../WishlistButton/WishlistButton";
 
 function ViewerProductListItem({ product }) {
   const theme = useTheme();
+  const history = useHistory();
+
+  const handleGoToProduct = () => {
+    history.push(`/product/${product.id}`);
+  };
+
   return (
     <Grid
       container
@@ -15,14 +22,14 @@ function ViewerProductListItem({ product }) {
       }}
       // onClick={() => handleClick(product)}
     >
-      <Grid item xs={3}>
+      <Grid item xs={3} onClick={handleGoToProduct}>
         <img
           style={{ height: "75px" }}
           alt={product.name}
           src={product.image_url}
         />
       </Grid>
-      <Grid item xs={7}>
+      <Grid item xs={7} onClick={handleGoToProduct}>
         <Box>
           <b>{product.name}</b>
         </Box>

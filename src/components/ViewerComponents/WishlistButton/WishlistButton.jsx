@@ -10,13 +10,6 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 function WishlistButton({ product, envType, type }) {
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (displayType === false) {
-  //     console.log("rendered wishlist button for non-current product", product);
-  //     setCurrent(false);
-  //   }
-  // }, []);
-
   const handleSaveProduct = () => {
     // POST to users_products table
     dispatch({

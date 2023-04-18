@@ -11,7 +11,7 @@ function AddExistingProduct() {
   const dispatch = useDispatch();
   const history = useHistory();
   const currentStream = useSelector((store) => store.currentStream);
-  const products = useSelector((store) => store.allProduct);
+  const products = useSelector((store) => store.allProducts);
 
   useEffect(() => {
     dispatch({ type: "GET_PRODUCTS" });
