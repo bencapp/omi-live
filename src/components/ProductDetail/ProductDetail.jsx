@@ -22,6 +22,12 @@ function ProductDetail() {
 
   useEffect(() => {
     dispatch({ type: "FETCH_PRODUCT_BY_ID", payload: productID });
+
+    return () => {
+      dispatch({
+          type: "UNSET_CURRENT_PRODUCT"
+      })
+  }
   }, []);
 
   const hideConfirmBuyPopup = () => {
