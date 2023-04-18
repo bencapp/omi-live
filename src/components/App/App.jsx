@@ -24,10 +24,10 @@ import EditStream from "../StreamerComponents/EditStream/EditStream";
 import ProductDetail from "../ProductDetail/ProductDetail";
 import EditProduct from "../StreamerComponents/AddEditProduct/EditProduct";
 import AddProduct from "../StreamerComponents/AddEditProduct/AddProduct";
+import ProductForm from "../StreamerComponents/AddEditProduct/ProductForm";
 import ViewerProductsList from "../ViewerComponents/ViewerProductsList/ViewerProductsList";
 import AddExistingProduct from "../StreamerComponents/AddExistingProduct/AddExistingProduct";
 import StreamerControls from "../StreamerComponents/StreamerControls/StreamerControls";
-import WishlistPage from "../ViewerComponents/ViewerProductsList/WishlistPage";
 
 import "./App.css";
 
@@ -64,8 +64,8 @@ function App() {
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
 
-          <ProtectedRoute exact path="/live/:username/:streamID">
-            <StreamView />
+          <ProtectedRoute exact path="/live/:username">
+            <StreamView height="100vh" width="100vw" chatHeight="20vh" />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/home">
@@ -85,7 +85,7 @@ function App() {
 
           <ProtectedRoute exact path="/wishlist">
             <Nav />
-            {<WishlistPage />}
+            {<ViewerProductsList />}
           </ProtectedRoute>
 
           {/* route for displaying all the information for a specific product.
@@ -107,12 +107,12 @@ function App() {
 
           <AdminProtectedRoute exact path="/productform/:productID">
             <Nav />
-            <EditProduct />
+            <ProductForm />
           </AdminProtectedRoute>
 
           <AdminProtectedRoute exact path="/productform/">
             <Nav />
-            <AddProduct />
+            <ProductForm />
           </AdminProtectedRoute>
 
           {/* <AdminProtectedRoute

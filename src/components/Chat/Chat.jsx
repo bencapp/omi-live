@@ -98,7 +98,6 @@ function Chat({ height }) {
   };
 
   const handleScroll = (e) => {
-    // console.log("im scrollllllling")
     const atBottom =
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
     if (atBottom) {
@@ -123,7 +122,7 @@ function Chat({ height }) {
       >
         <Box
           sx={{
-            width: "100vw",
+            width: "100%",
             display: "flex",
             justifyContent: "space-between",
           }}

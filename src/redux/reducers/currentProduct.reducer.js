@@ -12,6 +12,7 @@ const currentProduct = (state = {}, action) => {
         coupon_expiration: action.payload.coupon_expiration,
         url: action.payload.url,
         on_user_wishlist: action.payload.on_user_wishlist,
+        order: action.payload.order,
       };
     case "SET_PRODUCT_IN_STREAM":
       return { ...state, inCurrentStream: action.payload };
