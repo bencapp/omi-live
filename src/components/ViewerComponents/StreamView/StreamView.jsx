@@ -61,12 +61,19 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
     socket.on("update viewer count", (count) => {
       setViewerCount(count);
     })
+    window.addEventListener('beforeunload', handleViewerClose);
     return () => {
       socket.emit('leave stream');
       socket.off("stream_closed");
       socket.off("update viewer count");
+      window.removeEventListener('beforeunload', handleViewerClose);
     };
   }, []);
+
+  const handleViewerClose = (e) => {
+    e.preventDefault();
+    socket.emit('leave stream');
+  }
 
   const toggleMute = () => {
     setMuted(!muted);
