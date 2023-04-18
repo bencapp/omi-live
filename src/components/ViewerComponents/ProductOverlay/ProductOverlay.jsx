@@ -31,8 +31,6 @@ function ProductOverlay({streamID}) {
     socket.on("product change", (product) => handleProductChange(product));
   }, []);
 
-  console.log('this is the streamID', streamID)
-
   return (
     <Box
       sx={{
