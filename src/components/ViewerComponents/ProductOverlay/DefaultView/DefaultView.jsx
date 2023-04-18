@@ -1,6 +1,5 @@
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box, alpha, useTheme } from "@mui/material";
-import WishlistButton from "../../WishlistButton/WishlistButton";
 import { useSelector } from "react-redux";
 import CurrentProduct from "../CurrentProduct/CurrentProduct";
 

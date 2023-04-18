@@ -1,17 +1,36 @@
 import axios from "axios";
 import { put, takeEvery } from "redux-saga/effects";
 
+// this should return the entire stream data with all the products,
+// as well as the 'on_user_wishlist' boolean for the current user
+// and the current product
+function* fetchCurrentStreamData() {
+  try {
+    const response = yield axios.get("/api/live-stream");
+    console.log("got current stream data, reponse.data is", response.data);
+    // now set the current stream reducer
+    yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
+    // then fetch the current product in the stream
+    const products = response.data.products;
+    const currentProduct = products.find(
+      (product) => product.id == response.data.currentProduct.id
+    );
+    yield put({
+      type: "SET_CURRENT_PRODUCT",
+      payload: currentProduct,
+    });
+  } catch (error) {
+    console.log("Error with fetchCurrentProductInStream saga:", error);
+  }
+}
+
+// returns just the current product that is cached on the server
 function* fetchCurrentProductInStream() {
   try {
     const response = yield axios.get("/api/live-stream/current-product");
-    console.log(
-      "got current product in stream, reponse.data is",
-      response.data
-    );
-    yield put({ type: "FETCH_PRODUCT_BY_ID", payload: response.data.id });
     yield put({
-      type: "SET_CURRENT_PRODUCT_ORDER",
-      payload: response.data.order,
+      type: "SET_CURRENT_PRODUCT",
+      payload: response.data,
     });
   } catch (error) {
     console.log("Error with fetchCurrentProductInStream saga:", error);
@@ -82,6 +101,7 @@ function* fetchActiveStreams() {
 }
 
 function* liveStreamSaga() {
+  yield takeEvery("FETCH_CURRENT_STREAM_DATA", fetchCurrentStreamData);
   yield takeEvery(
     "FETCH_CURRENT_PRODUCT_IN_STREAM",
     fetchCurrentProductInStream

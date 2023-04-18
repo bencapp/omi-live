@@ -11,10 +11,10 @@ function AddExistingProduct() {
   const dispatch = useDispatch();
   const history = useHistory();
   const currentStream = useSelector((store) => store.currentStream);
-  const products = useSelector((store) => store.allProduct);
+  const products = useSelector((store) => store.allProducts);
 
   useEffect(() => {
-    dispatch({ type: "GET_PRODUCT" });
+    dispatch({ type: "GET_PRODUCTS" });
     dispatch({ type: "FETCH_STREAM_BY_ID", payload: { streamID: streamID } });
   }, []);
 
