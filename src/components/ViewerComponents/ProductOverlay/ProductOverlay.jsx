@@ -20,8 +20,7 @@ function ProductOverlay({streamID}) {
   const [overlayView, setOverlayView] = useState("default");
 
   useEffect(() => {
-    dispatch({ type: "FETCH_CURRENT_PRODUCT_IN_STREAM" });
-    dispatch({ type: "FETCH_STREAM_BY_ID", payload: { streamID: streamID } });
+    dispatch({ type: "FETCH_CURRENT_STREAM_DATA" });
 
     const handleProductChange = () => {
       dispatch({ type: "FETCH_CURRENT_PRODUCT_IN_STREAM" });
@@ -29,6 +28,8 @@ function ProductOverlay({streamID}) {
 
     // listen for when the streamer updates the current product
     socket.on("product change", (product) => handleProductChange(product));
+
+    socket.off("product change", handleProductChange);
   }, []);
 
   console.log('this is the streamID', streamID)

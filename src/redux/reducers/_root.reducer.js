@@ -3,7 +3,7 @@ import errors from "./errors.reducer";
 import user from "./user.reducer";
 import streams from "./streams.reducer";
 import currentStream from "./currentStream.reducer";
-import allProduct from "./allProduct.reducer";
+import allProducts from "./allProducts.reducer";
 import currentProduct from "./currentProduct.reducer";
 import chat from "./chat.reducer";
 import wishlist from "./wishlist.reducer";
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   streams,
   currentStream,
-  allProduct,
+  allProducts,
   currentProduct,
   chat,
   wishlist,
