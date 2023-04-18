@@ -31,6 +31,7 @@ function ViewerStreamHome() {
         username={username}
         yOffset="-15vh"
         preview={true}
+        streamID={activeStreams}
       />
       ) : (
         "Sorry there are no streams currently available."

@@ -11,7 +11,7 @@ import { useTheme } from "@emotion/react";
 
 import { socket } from "../../../socket";
 
-function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
+function StreamView({ height, width, chatHeight, username, yOffset, preview, streamID }) {
   const history = useHistory();
   username = username ? username : useParams().username;
   const playerRef = useRef(null);
@@ -163,7 +163,7 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
             }}
           >
             <div style={{textAlign:"center", alignSelf:"center", width}}
-            onClick={() => history.push(`/live/${username}`)}>
+            onClick={() => history.push(`/live/${username}/${streamID}`)}>
               JOIN
             </div>
           </div>
