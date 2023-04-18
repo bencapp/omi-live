@@ -6,7 +6,6 @@ function LiveVideo({ username, playerRef, setLive }) {
   const videoRef = useRef(null);
 
   const onReady = (player) => {
-
     playerRef.current = player;
 
     // You can handle player events here, for example:
@@ -18,12 +17,12 @@ function LiveVideo({ username, playerRef, setLive }) {
     player.on("canplay", () => {
       videojs.log("player can play");
       setLive(true);
-    })
+    });
 
     //disconnect videojs if there is an error thrown on element
-    player.on("error", ()=> {
+    player.on("error", () => {
       setLive(false);
-    })
+    });
 
     //log when player disposes
     player.on("dispose", () => {

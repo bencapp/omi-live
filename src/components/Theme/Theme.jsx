@@ -10,6 +10,7 @@ const theme = createTheme({
     },
     secondary: {
       main: "#CBE5DF", // light green
+      dark: "#8fa6a0",
     },
     warning: {
       main: "#FFC3C3", // light pink
@@ -27,14 +28,14 @@ const theme = createTheme({
     },
     //  NOTE: this would be for changing the background color
     //  of input fields
-     MuiOutlinedInput: {
-       styleOverrides: {
-         root: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
           backgroundColor: "#FFFFFF",
-          fontColor: "#000000"
+          fontColor: "#000000",
           // commenting this out for now backgroundColor: "#E9E2D8",
-         },
-       },
+        },
+      },
     },
   },
 });

@@ -5,14 +5,15 @@ import HomeIcon from "@mui/icons-material/Home";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { IconButton, Typography } from "@mui/material";
+import { IconButton, Typography, Box } from "@mui/material";
 import Chat from "../../Chat/Chat";
+import ProductOverlay from "../ProductOverlay/ProductOverlay";
 
 import { socket } from "../../../socket";
 
 function StreamView() {
   const history = useHistory();
-  const { username } = useParams();
+  const { username, streamID } = useParams();
   const playerRef = useRef(null);
   const [muted, setMuted] = useState(true);
   const [live, setLive] = useState(true);
@@ -30,6 +31,18 @@ function StreamView() {
   };
 
   useEffect(() => {
+    // STARTING CODE FOR JOINING STREAM AND UPDATING VIEWER COUNTS
+    //  socket.emit("join stream");
+    //  const handleViewerCountUpdate = (count) => {
+    //    console.log("updated viewer count, count is", count);
+    //  };
+
+    //  socket.on("update viewer count", (count) =>
+    //    handleViewerCountUpdate(count)
+    //  );
+    //  return () => {
+    //    socket.off("update viewer count", handleViewerCountUpdate);
+    //  };
     //create socket listener for stream closed emit, set live = false
     socket.on("stream_closed", (user) => {
       if (user === username) {
@@ -58,12 +71,16 @@ function StreamView() {
     >
       <div style={{ backgroundColor: "#000000", width: "100vw" }}>
         {live ? (
-          <LiveVideo
-            username={username}
-            playerRef={playerRef}
-            setLive={setLive}
-          />
+          <Box
+            sx={{ width: "100vw", height: "100vh", backgroundColor: "white" }}
+          ></Box>
         ) : (
+          // <LiveVideo
+          //   username={username}
+          //   playerRef={playerRef}
+          //   setLive={setLive}
+          // />
+
           <div
             style={{
               display: "flex",
@@ -130,7 +147,14 @@ function StreamView() {
           width: "100vw",
         }}
       >
-        {live ? <Chat height={"20vh"} /> : ""}
+        {live ? (
+          <div>
+            <Chat height={"20vh"} />
+            <ProductOverlay />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
