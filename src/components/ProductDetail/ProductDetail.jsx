@@ -71,6 +71,7 @@ function ProductDetail() {
       <Box sx={{whiteSpace: 'normal'}}><Box component="div" sx={{ display: 'inline', fontWeight: "bold" }}>Description:  </Box><Box component="div" sx={{ display: 'inline', wordBreak: "break-word" }}>{currentProduct.description}</Box> </Box>
       <Box><Box sx={{ display: 'inline', fontWeight: "bold"}}>Coupon Code: </Box>  <Box component="div" sx={{ display: 'inline' }}>{currentProduct.coupon_code}</Box> </Box>
       <Box><Box sx={{ display: 'inline', fontWeight: "bold"}}>Coupon expires: </Box>  <Box component="div" sx={{ display: 'inline' }}>{dayjs(currentProduct.coupon_expiration).format("dddd, MMMM D, YYYY")}</Box> </Box>
+      <Link></Link>
       {/* MUI link */}
       
       {user.isAdmin ? (

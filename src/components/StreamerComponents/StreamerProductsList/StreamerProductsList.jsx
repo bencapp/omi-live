@@ -33,12 +33,13 @@ function StreamerProductsList() {
                 border: "1px solid grey",
                 mb: 1,
                 borderRadius: "10px",
-                padding: "1px",
+                padding: "3px",
                 backgroundColor: "#CBE5DF",
+                wordBreak: "break-word",
               }}
               onClick={() => handleClick(product)}
             >
-              <Avatar alt={product.name} src={product.image_url} />
+              <Avatar alt={product.name} src={product.image_url} sx={{ml: "5px", mr: "10px"}}/>
               <ListItemText
                 primary={product.name}
                 secondary={product.description}
