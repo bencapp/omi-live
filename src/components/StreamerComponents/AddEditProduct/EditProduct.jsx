@@ -9,6 +9,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+//import Public component
+import Public from "../../ProductDetail/Public/Public";
 
 function EditProduct() {
   const theme = useTheme();
@@ -38,7 +40,6 @@ function EditProduct() {
 
   const [couponExpiration, setCouponExpiration] = useState(currentProduct?.coupon_expiration);
 
-  // * FOR SETTING VALUES ON PAGE LOAD* 
   useEffect(() => {
     dispatch({
       type: "FETCH_PRODUCT_BY_ID", payload: productID

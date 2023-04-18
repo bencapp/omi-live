@@ -3,29 +3,28 @@ import { List, ListItem, ListItemText, Avatar } from "@mui/material";
 import { useHistory } from "react-router";
 import { useEffect } from "react";
 
-import {Button} from "@mui/material";
-
-function StreamerProductsList() {
-  const products = useSelector((store) => store.allProduct);
+function WishlistPage() {
+  const allProducts = useSelector((store) => store.allProduct);
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: "GET_PRODUCT", payload: allProducts });
+  }, []);
 
   const handleClick = (product) => {
     console.log("Product id", product);
     history.push(`/product/${product.id}`);
   };
 
-  useEffect(() => {
-    dispatch({ type: "GET_PRODUCT" });
-  }, []);
+  const wishlistProducts = allProducts.filter((product) => product.isWishlist);
 
   return (
     <div>
-      {/* {JSON.stringify(products)} */}
-      {products && products.length > 0 ? (
+      {wishlistProducts.length ? (
         <List>
-          {products.map((product, i) => (
+          {wishlistProducts.map((product, i) => (
             <ListItem
               key={i}
               className="product-item"
@@ -47,13 +46,10 @@ function StreamerProductsList() {
           ))}
         </List>
       ) : (
-        <p>No products added yet.</p>
+        <p>No items in wishlist.</p>
       )}
-      <Button size="small" onClick={() => history.push(`/productform`)}>
-        ADD NEW PRODUCT
-      </Button>
     </div>
   );
 }
 
-export default StreamerProductsList;
+export default WishlistPage;
