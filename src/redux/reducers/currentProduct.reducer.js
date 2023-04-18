@@ -15,8 +15,11 @@ const currentProduct = (state = {}, action) => {
       };
     case "SET_PRODUCT_IN_STREAM":
       return { ...state, inCurrentStream: action.payload };
-    case "UNSET_CURRENT_PRODUCT": 
-      return {}
+    case "SET_CURRENT_PRODUCT_ORDER":
+      return { ...state, order: action.payload };
+    case "UNSET_CURRENT_PRODUCT":
+      return {};
+
     default:
       return state;
   }

@@ -17,7 +17,11 @@ const { Server } = require("socket.io");
 const io = new Server(server, {
   //specify the properties/functionality with cors
   cors: {
-    origins: [`http://localhost:3000`, "http://localhost:3001", `http://localhost:${process.env.PORT}` || `http://localhost:5000`],
+    origins: [
+      `http://localhost:3000`,
+      "http://localhost:3001",
+      `http://localhost:${process.env.PORT}` || `http://localhost:5000`,
+    ],
   },
 });
 
@@ -29,9 +33,29 @@ app.use((req, res, next) => {
   return next();
 });
 
-// server.listen(3001, () => {
-//   console.log("SERVER IS RUNNING");
-// });
+let viewerCount = 0;
+
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  // when a viewer joins the stream
+  socket.on("join stream", () => {
+    console.log("a user joined the stream");
+    viewerCount++;
+    io.emit("update viewer count", viewerCount);
+  });
+
+  // when a viewer leaves the stream
+  socket.on("leave stream", () => {
+    console.log("a user left the stream");
+    viewerCount--;
+    io.emit("update viewer count", viewerCount);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
 
 // Route includes
 const usersRouter = require("./routes/users.router");
