@@ -37,8 +37,8 @@ CREATE TABLE "streams" (
 
 CREATE TABLE "streams_products" (
 	"id" SERIAL PRIMARY KEY,
-	"stream_id" INT,
-	"product_id" INT,
+	"stream_id" INT REFERENCES "streams" ON DELETE CASCADE,
+	"product_id" INT REFERENCES "products" ON DELETE CASCADE,
 	"order" INT
 );
 
@@ -46,6 +46,6 @@ CREATE TABLE "comments" (
 	"id" SERIAL PRIMARY KEY,
 	"text" VARCHAR (255),
 	"timestamp" TIMESTAMP,
-	"user_id" int REFERENCES "users",
+	"user_id" int REFERENCES "users" ON DELETE CASCADE,
 	"stream_id" int REFERENCES "streams" ON DELETE CASCADE
 );
