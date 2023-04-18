@@ -134,12 +134,15 @@ function EditProduct() {
             value={newProduct.name}
             onChange={(e) => handleChange(e, 'name')}
             sx={{
-              my: "10px",
+              mt: "5px",
+              mb: "15px"
             }}
             fullWidth
           />
 
-          <InputLabel> Image URL: </InputLabel>
+          <InputLabel >
+            Image URL:
+          </InputLabel>
           <TextField
             id="standard-basic"
             variant="outlined"
@@ -148,21 +151,23 @@ function EditProduct() {
             value={newProduct.image_url}
             onChange={(e) => handleChange(e, 'image_url')}
             sx={{
-              my: "10px",
+              mt: "5px", 
+              mb: "5px"
             }}
             fullWidth
           />
-          {newProduct.image_url && (
+          {newProduct?.image_url && (
             <CardMedia
               component="img"
-              height="250"
-              image={currentProduct?.image_url}
-              alt="Product Preview"
-              style={{ marginTop: "20px" }}
+              height="200"
+              width="auto"
+              image={currentProduct.image_url}
+              alt="Image Preview"
+              sx={{ mt: "3px", mb: "10px" }}
             />
           )}
 
-          <InputLabel> Product URL: </InputLabel>
+          <InputLabel sx={{mt: "15px", mb: "5px"}} > Product URL: </InputLabel>
           <TextField
             id="product-url"
             variant="outlined"
@@ -171,12 +176,13 @@ function EditProduct() {
             value={newProduct.url}
             onChange={(e) => handleChange(e, 'url')}
             sx={{
-              my: "10px",
+              mb: "5px"
             }}
             fullWidth
           />
           {newProduct.url && (
-            <Typography>
+            <Typography
+            >
               <a href={newProduct.url} target="_blank" rel="noreferrer">
                 {newProduct.url}
               </a>
@@ -184,7 +190,7 @@ function EditProduct() {
           )}
 
 
-          <InputLabel sx={{ margin: 1 }}> Description: </InputLabel>
+          <InputLabel sx={{ mt: "20px" }}> Description: </InputLabel>
           <TextField
             multiline
             defaultValue={currentProduct?.description}
@@ -192,43 +198,46 @@ function EditProduct() {
             onChange={(e) => handleChange(e, 'description')}
             fullWidth
             sx={{
-              my: "10px",
+              mt: "5px",
+              mb: "10px",
             }}
           >
           </TextField>
-            <InputLabel sx={{ margin: "5px" }}> Coupon Code: </InputLabel>
-            <TextField
-              variant="outlined"
-              type="text"
-              defaultValue={currentProduct?.coupon_code}
-              value={newProduct.coupon_code}
-              onChange={(e) => handleChange(e, 'coupon_code')}
-              sx={{
-                mt: "10px",
-                mb: "15px"
-              }}
-            />
-          <InputLabel sx={{mt: "3px"}}>Set Coupon Code Expiration</InputLabel>
+          <InputLabel sx={{ mt: "10px" }}> Coupon Code: </InputLabel>
+          <TextField
+            variant="outlined"
+            type="text"
+            defaultValue={currentProduct?.coupon_code}
+            value={newProduct.coupon_code}
+            onChange={(e) => handleChange(e, 'coupon_code')}
+            fullWidth
+            sx={{
+              mt: "5px",
+              mb: "15px"
+            }}
+          />
+          <InputLabel sx={{ mt: "3px" }}>Set Coupon Code Expiration</InputLabel>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               defaultValue={dayjs(currentProduct?.coupon_expiration)}
               date={couponExpiration}
               onChange={(date) => setCouponExpiration(date)}
+              fullWidth
               sx={{
-                mb: "10px"
+                mb: "30px"
               }}
             />
           </LocalizationProvider>
         </Box>
 
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Button variant="contained" type="button" onClick={handleCancel}>
+        <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
+          <Button variant="contained" type="button" onClick={handleCancel} color="warning" sx={{ color: "black" }}>
             Cancel
           </Button>
           <Button variant="contained" type="submit" sx={{ cursor: "pointer" }}>
             Save Changes
           </Button>
-        </div>
+        </Box>
       </form>
     </Box>
   );
