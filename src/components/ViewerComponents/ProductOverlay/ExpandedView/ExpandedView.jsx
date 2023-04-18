@@ -64,7 +64,7 @@ function ExpandedView({ setOverlayView }) {
         <Box sx={{ display: "flex", gap: "20px", justifySelf: "end" }}>
           {" "}
           <BuyButton setDisplayConfirmBuy={setDisplayConfirmBuy} />
-          <WishlistButton product={currentProduct}/>
+          <WishlistButton product={currentProduct} type="button" />
         </Box>
       </Box>
     </Box>
