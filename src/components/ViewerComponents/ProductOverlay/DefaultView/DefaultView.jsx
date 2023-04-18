@@ -1,4 +1,4 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box, alpha, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 import CurrentProduct from "../CurrentProduct/CurrentProduct";
@@ -9,7 +9,7 @@ function DefaultView({ setOverlayView }) {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <ExpandMoreIcon
+      <ExpandLessIcon
         onClick={() => setOverlayView("expanded")}
         sx={{ alignSelf: "center" }}
       />

@@ -74,6 +74,14 @@ function* fetchStreamOnStartStream(action) {
   }
 }
 
+function* startStream(action) {
+  try {
+    yield axios.put(`/api/live-stream/start-stream/${action.payload}`);
+  } catch (error) {
+    console.error('Error starting stream:', error);
+  }
+}
+
 // payload should be streamID to end
 function* endStream(action) {
   try {
@@ -83,12 +91,23 @@ function* endStream(action) {
   }
 }
 
+function* fetchActiveStreams() {
+  try {
+    let response = yield axios.get(`api/live-stream/active`);
+    yield put({type: 'SET_ACTIVE_STREAMS', payload: response.data});
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function* liveStreamSaga() {
   yield takeEvery("FETCH_CURRENT_STREAM_DATA", fetchCurrentStreamData);
   yield takeEvery(
     "FETCH_CURRENT_PRODUCT_IN_STREAM",
     fetchCurrentProductInStream
   );
+  yield takeEvery('FETCH_ACTIVE_STREAMS', fetchActiveStreams);
+  yield takeEvery("START_STREAM", startStream);
   yield takeEvery("SET_CURRENT_PRODUCT_IN_STREAM", setCurrentProductInStream);
   yield takeEvery("FETCH_STREAM_ON_START_STREAM", fetchStreamOnStartStream);
   yield takeEvery("END_STREAM", endStream);
