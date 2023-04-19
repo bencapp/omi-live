@@ -3,7 +3,6 @@ import { List, ListItem, ListItemText, Avatar } from "@mui/material";
 import { useHistory } from "react-router";
 import { useEffect } from "react";
 import ProductListItem from "../../ViewerComponents/ViewerProductsList/ProductListItem/ProductListItem";
-
 import { Button } from "@mui/material";
 
 function StreamerProductsList() {
