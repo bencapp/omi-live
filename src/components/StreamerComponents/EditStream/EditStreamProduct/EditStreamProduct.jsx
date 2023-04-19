@@ -2,7 +2,7 @@ import { Grid, Box, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-function EditStreamProduct({ product, handleRemoveFromStream }) {
+function EditStreamProduct({ product, handleClickRemove }) {
   const history = useHistory();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -115,7 +115,7 @@ function EditStreamProduct({ product, handleRemoveFromStream }) {
               color: "black",
               textAlign: "center",
             }}
-            onClick={() => handleRemoveFromStream(product)}
+            onClick={() => handleClickRemove(product)}
           >
             x
           </Box>

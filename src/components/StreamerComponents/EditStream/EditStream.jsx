@@ -6,9 +6,7 @@ import EditStreamInfo from "../EditStreamInfo/EditStreamInfo";
 import EditStreamProduct from "./EditStreamProduct/EditStreamProduct";
 import dayjs from "dayjs";
 
-import ConfirmRemoveFromStream from "./ConfirmRemoveFromStream/ConfirmRemoveFromStream";
-import ConfirmGoLive from "./ConfirmGoLive/ConfirmGoLive";
-import ConfirmDeleteStream from "./ConfirmDeleteStream/ConfirmDeleteStream";
+import ConfirmationPopup from "../../ConfirmationPopup/ConfirmationPopup";
 
 function EditStream() {
   const { streamID } = useParams();
@@ -32,33 +30,66 @@ function EditStream() {
     }
   }, []);
 
-  // const handleCancelEditInfo = () => {
-  //   setDisplayEditInfo(false);
-  // };
-
-  const handleRemoveFromStream = (product) => {
+  const handleClickRemove = (product) => {
     setDisplayConfirmRemoveFromStream(true);
     setProductToRemove(product);
+  };
+
+  const removeFromStream = (product) => {
+    dispatch({
+      type: "REMOVE_PRODUCT_FROM_STREAM",
+      payload: { streamID: currentStream.id, productID: productToRemove.id },
+    });
+    setDisplayConfirmRemoveFromStream(false);
+    dispatch({
+      type: "FETCH_STREAM_BY_ID",
+      payload: { streamID: currentStream.id },
+    });
+  };
+
+  const startStream = () => {
+    // TODO: begin stream via OBS
+    history.push(`/streamer-stream/${streamID}`);
+    dispatch({ type: "START_STREAM", payload: streamID });
+  };
+
+  const deleteStream = () => {
+    console.log("deleting stream");
+    // TODO: end stream for all users
+    dispatch({ type: "DELETE_STREAM", payload: streamID });
+    history.push("/home");
   };
 
   return (
     <>
       {displayConfirmRemoveFromStream && (
-        <ConfirmRemoveFromStream
-          setDisplayConfirmRemoveFromStream={setDisplayConfirmRemoveFromStream}
-          productToRemove={productToRemove}
+        <ConfirmationPopup
+          setDisplayConfirmation={setDisplayConfirmRemoveFromStream}
+          handleConfirm={removeFromStream}
+          alertText={`Are you sure you want to remove this product from the stream?`}
+          hidePopupText="CANCEL"
+          confirmPopupText="CONFIRM"
+          top="40vh"
         />
       )}
       {displayConfirmGoLive && (
-        <ConfirmGoLive
-          setDisplayConfirmGoLive={setDisplayConfirmGoLive}
-          streamID={streamID}
+        <ConfirmationPopup
+          setDisplayConfirmation={setDisplayConfirmGoLive}
+          handleConfirm={startStream}
+          alertText={`Are you sure you are ready to make this stream go live?`}
+          hidePopupText="CANCEL"
+          confirmPopupText="CONFIRM"
+          top="40vh"
         />
       )}
       {displayConfirmDeleteStream && (
-        <ConfirmDeleteStream
-          setDisplayConfirmDeleteStream={setDisplayConfirmDeleteStream}
-          streamID={streamID}
+        <ConfirmationPopup
+          setDisplayConfirmation={setDisplayConfirmDeleteStream}
+          handleConfirm={deleteStream}
+          alertText={`Are you sure you want to delete the stream?`}
+          hidePopupText="CANCEL"
+          confirmPopupText="CONFIRM"
+          top="40vh"
         />
       )}
       <Box sx={{ padding: "0px 20px" }}>
@@ -137,7 +168,7 @@ function EditStream() {
                     <EditStreamProduct
                       key={product.id}
                       product={product}
-                      handleRemoveFromStream={handleRemoveFromStream}
+                      handleClickRemove={handleClickRemove}
                     />
                   ))
               ) : (

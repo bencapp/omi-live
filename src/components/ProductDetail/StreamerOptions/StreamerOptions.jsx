@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import Public from "../Public/Public";
 import ConfirmationPopup from "../../ConfirmationPopup/ConfirmationPopup";
 
-function StreamerOptions({ setDisplayConfirmRemoveFromStream, productID }) {
+function StreamerOptions({ productID }) {
   const [displayConfirmDelete, setDisplayConfirmDelete] = useState(false);
 
   const dispatch = useDispatch();
