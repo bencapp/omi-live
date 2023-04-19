@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { socket } from "../../../socket";
 
 function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
+  const user = useSelector((store) => store.user);
   const streamID = useSelector((store) => store.streams.activeStreams);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
   const [muted, setMuted] = useState(true);
   const [live, setLive] = useState(true);
   const theme = useTheme();
+  const [viewerCount, setViewerCount] = useState(0);
 
   useEffect(() => {
     if (playerRef?.current?.options_?.id) {
@@ -31,24 +33,9 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
     }
   }, [muted, playerRef]);
 
-  const eventList = (e) => {
-    console.log(e);
-  };
-
   useEffect(() => {
-    // STARTING CODE FOR JOINING STREAM AND UPDATING VIEWER COUNTS
-    //  socket.emit("join stream");
-    //  const handleViewerCountUpdate = (count) => {
-    //    console.log("updated viewer count, count is", count);
-    //  };
-
-    //  socket.on("update viewer count", (count) =>
-    //    handleViewerCountUpdate(count)
-    //  );
-    //  return () => {
-    //    socket.off("update viewer count", handleViewerCountUpdate);
-    //  };
     dispatch({ type: "FETCH_ACTIVE_STREAMS" });
+    socket.emit('join stream', user.id);
     //create socket listener for stream closed emit, set live = false
     socket.on("stream_closed", (user) => {
       if (user === username) {
@@ -56,8 +43,13 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
         setLive(false);
       }
     });
+    socket.on("update viewer count", (count) => {
+      setViewerCount(count);
+    });
     return () => {
+      socket.emit('leave stream');
       socket.off("stream_closed");
+      socket.off("update viewer count");
     };
   }, []);
 
@@ -77,12 +69,13 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
     >
       <div style={{ backgroundColor: "#000000", width, marginTop: yOffset }}>
         {live ? (
-          <LiveVideo
-            username={username}
-            playerRef={playerRef}
-            setLive={setLive}
-          />
+          <></>
         ) : (
+          // <LiveVideo
+          //   username={username}
+          //   playerRef={playerRef}
+          //   setLive={setLive}
+          // />
           <div
             style={{
               display: "flex",
@@ -106,9 +99,12 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
           </div>
         )}
       </div>
+      <div align="center" style={{position: "fixed", zIndex: 1, color: "#FFFFFF", width, marginTop: "1em"}}>
+          {viewerCount} watching
+      </div>
       {!preview ? (
         <>
-          <div style={{ position: "fixed", zIndex: 1 }}>
+          <div style={{ position: "fixed", zIndex: 10 }}>
             <div
               style={{
                 display: "flex",
