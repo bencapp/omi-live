@@ -15,13 +15,24 @@ function ViewerProductsList({ wishlist }) {
   }, []);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        // gap: "10px",
+      }}
+    >
       {products.length ? (
         wishlist ? (
           products
             .filter((product) => product.on_user_wishlist)
             .map((product) => (
-              <ProductListItem key={product.id} product={product} />
+              <ProductListItem
+                style={{ width: "45vw" }}
+                key={product.id}
+                product={product}
+              />
             ))
         ) : (
           products.map((product) => (
