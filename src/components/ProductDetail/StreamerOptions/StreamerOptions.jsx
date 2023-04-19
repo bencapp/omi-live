@@ -44,6 +44,7 @@ function StreamerOptions({ productID }) {
           alertText="Are you sure you want to delete this product from the database?"
           hidePopupText="CANCEL"
           confirmPopupText="CONFIRM"
+          top="38vh"
         />
       )}
 

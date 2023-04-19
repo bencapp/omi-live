@@ -13,7 +13,7 @@ function ConfirmationPopup({
       sx={{
         //   height: "250px",
         width: "80vw",
-        position: "absolute",
+        position: "fixed",
         top: top ? top : "",
         left: "4.8vw",
         borderRadius: "5px",

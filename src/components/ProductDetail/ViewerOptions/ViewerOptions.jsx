@@ -25,6 +25,7 @@ function ViewerOptions() {
         to vendor site to purchase?`}
           hidePopupText="KEEP SHOPPING"
           confirmPopupText="CONTINUE"
+          top="38vh"
         />
       )}
 
