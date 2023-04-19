@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import BuyButton from "../../BuyButton/BuyButton";
 import { useState } from "react";
-import ConfirmBuyPopup from "../../../ProductDetail/ConfirmBuyPopup/ConfirmBuyPopup";
 import NextProduct from "./NextProduct/NextProduct";
 import CurrentProduct from "../CurrentProduct/CurrentProduct";
 

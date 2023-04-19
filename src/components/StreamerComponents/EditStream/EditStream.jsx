@@ -42,119 +42,7 @@ function EditStream() {
   };
 
   return (
-    <Box sx={{ padding: "0px 20px" }}>
-      {/* if stream does not have a date planned, render 'create a new stream'; else render 'edit stream' */}
-
-      {!streamID || displayEditInfo ? (
-        <EditStreamInfo setDisplayEditInfo={setDisplayEditInfo} />
-      ) : (
-        <>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
-              width: "100%",
-              alignItems: "center",
-            }}
-          >
-            <Box sx={{ fontSize: "1.5em", fontWeight: "bold" }}>
-              EDIT STREAM
-            </Box>
-            <Grid
-              container
-              sx={{
-                fontSize: "1.3em",
-                display: "flex",
-                width: "100%",
-                justifyContent: "space-between",
-              }}
-            >
-              <Grid
-                item
-                xs={7}
-                sx={{ display: "flex", flexDirection: "column", gap: "5px" }}
-              >
-                <Box>
-                  <b>{currentStream.title}</b>
-                  <Box>
-                    {dayjs(currentStream.scheduled).format("MM/DD/YYYY")}
-                  </Box>
-                </Box>
-                <Box sx={{ alignSelf: "start", fontSize: "1rem" }}>
-                  {currentStream.description}
-                </Box>
-              </Grid>
-              <Grid
-                item
-                xs={5}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "end",
-                  gap: "10px",
-                }}
-              >
-                <Button size="small" onClick={() => setDisplayEditInfo(true)}>
-                  EDIT INFO
-                </Button>
-                <Button
-                  onClick={() => {
-                    setDisplayConfirmDeleteStream(true);
-                  }}
-                  size="small"
-                  color="warning"
-                  sx={{ color: "black" }}
-                >
-                  DELETE STREAM
-                </Button>
-              </Grid>
-            </Grid>
-            {/* && currentStream.products[0]?.name */}
-            {currentStream.products && currentStream.products[0].id ? (
-              currentStream.products
-                .sort((a, b) => a.order - b.order)
-                .map((product) => (
-                  <EditStreamProduct
-                    key={product.id}
-                    product={product}
-                    handleRemoveFromStream={handleRemoveFromStream}
-                  />
-                ))
-            ) : (
-              <Box>No products yet! Add one to get started.</Box>
-            )}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-              }}
-            >
-              <Button
-                onClick={() =>
-                  history.push(`/add-existing-product/${currentStream.id}`)
-                }
-                size="small"
-              >
-                ADD EXISTING PRODUCT
-              </Button>
-              <Button size="small" onClick={() => history.push(`/productform`)}>
-                ADD NEW PRODUCT
-              </Button>
-            </Box>
-            <Button
-              onClick={() => {
-                setDisplayConfirmGoLive(true);
-              }}
-              sx={{ alignSelf: "end" }}
-              color="warning"
-            >
-              GO LIVE
-            </Button>
-          </Box>
-        </>
-      )}
+    <>
       {displayConfirmRemoveFromStream && (
         <ConfirmRemoveFromStream
           setDisplayConfirmRemoveFromStream={setDisplayConfirmRemoveFromStream}
@@ -173,7 +61,124 @@ function EditStream() {
           streamID={streamID}
         />
       )}
-    </Box>
+      <Box sx={{ padding: "0px 20px" }}>
+        {/* if stream does not have a date planned, render 'create a new stream'; else render 'edit stream' */}
+
+        {!streamID || displayEditInfo ? (
+          <EditStreamInfo setDisplayEditInfo={setDisplayEditInfo} />
+        ) : (
+          <>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Box sx={{ fontSize: "1.5em", fontWeight: "bold" }}>
+                EDIT STREAM
+              </Box>
+              <Grid
+                container
+                sx={{
+                  fontSize: "1.3em",
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Grid
+                  item
+                  xs={7}
+                  sx={{ display: "flex", flexDirection: "column", gap: "5px" }}
+                >
+                  <Box>
+                    <b>{currentStream.title}</b>
+                    <Box>
+                      {dayjs(currentStream.scheduled).format("MM/DD/YYYY")}
+                    </Box>
+                  </Box>
+                  <Box sx={{ alignSelf: "start", fontSize: "1rem" }}>
+                    {currentStream.description}
+                  </Box>
+                </Grid>
+                <Grid
+                  item
+                  xs={5}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "end",
+                    gap: "10px",
+                  }}
+                >
+                  <Button size="small" onClick={() => setDisplayEditInfo(true)}>
+                    EDIT INFO
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setDisplayConfirmDeleteStream(true);
+                    }}
+                    size="small"
+                    color="warning"
+                    sx={{ color: "black" }}
+                  >
+                    DELETE STREAM
+                  </Button>
+                </Grid>
+              </Grid>
+              {/* && currentStream.products[0]?.name */}
+              {currentStream.products && currentStream.products[0].id ? (
+                currentStream.products
+                  .sort((a, b) => a.order - b.order)
+                  .map((product) => (
+                    <EditStreamProduct
+                      key={product.id}
+                      product={product}
+                      handleRemoveFromStream={handleRemoveFromStream}
+                    />
+                  ))
+              ) : (
+                <Box>No products yet! Add one to get started.</Box>
+              )}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Button
+                  onClick={() =>
+                    history.push(`/add-existing-product/${currentStream.id}`)
+                  }
+                  size="small"
+                >
+                  ADD EXISTING PRODUCT
+                </Button>
+                <Button
+                  size="small"
+                  onClick={() => history.push(`/productform`)}
+                >
+                  ADD NEW PRODUCT
+                </Button>
+              </Box>
+              <Button
+                onClick={() => {
+                  setDisplayConfirmGoLive(true);
+                }}
+                sx={{ alignSelf: "end" }}
+                color="warning"
+              >
+                GO LIVE
+              </Button>
+            </Box>
+          </>
+        )}
+      </Box>
+    </>
   );
 }
 
