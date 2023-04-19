@@ -15,7 +15,7 @@ function StreamerControls() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [viewerCount, setViewerCount] = useState();
+  const [viewerCount, setViewerCount] = useState(0);
   const [displayConfirmEndStream, setDisplayConfirmEndStream] = useState(false);
   const [onLastProduct, setOnLastProduct] = useState();
   const [onFirstProduct, setOnFirstProduct] = useState();

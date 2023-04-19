@@ -33,27 +33,38 @@ app.use((req, res, next) => {
   return next();
 });
 
-let viewerCount = 0;
+let viewers = [];
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
-
+  // console.log("a user connected");
+  let userId;
   // when a viewer joins the stream
-  socket.on("join stream", () => {
-    console.log("a user joined the stream");
-    viewerCount++;
-    io.emit("update viewer count", viewerCount);
+  socket.on("join stream", (id) => {
+    userId = id;
+    viewers.push(userId);
+    // console.log("a user joined the stream", viewers.length);
+    io.emit("update viewer count", viewers.length);
   });
 
   // when a viewer leaves the stream
   socket.on("leave stream", () => {
-    console.log("a user left the stream");
-    viewerCount--;
-    io.emit("update viewer count", viewerCount);
+    viewers = viewers.filter((viewerId) => {
+      if (userId != viewerId) {
+        return viewerId;
+      }
+    });
+    // console.log("a user left the stream", viewers.length);
+    io.emit("update viewer count", viewers.length);
   });
 
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+    viewers = viewers.filter((viewerId) => {
+      if (userId != viewerId) {
+        return viewerId;
+      }
+    });
+    io.emit("update viewer count", viewers.length);
+    // console.log("user disconnected");
   });
 });
 
@@ -95,7 +106,11 @@ const nms = require("./media.server/media.server");
 nms.init(io);
 
 // const allowedOrigins = ['http://localhost:3000'];
-const allowedOrigins = ["http://localhost:3000", "http://localhost:3001", "http://localhost:5000"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:5000",
+];
 
 app.use(
   cors({
