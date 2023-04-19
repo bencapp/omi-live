@@ -6,9 +6,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import dayjs from "dayjs";
 
+import ConfirmationPopup from "../../ConfirmationPopup/ConfirmationPopup";
+
 import { useState } from "react";
 
-function EditStreamInfo({ setDisplayEditInfo }) {
+function EditStreamInfo({ closeEditStreamInfo, newStream }) {
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -16,7 +18,7 @@ function EditStreamInfo({ setDisplayEditInfo }) {
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
 
-  const [displayCancelConfirm, setDisplayCancelConfirm] = useState(false);
+  const [displayConfirmCancel, setDisplayConfirmCancel] = useState(false);
 
   const currentStream = useSelector((store) => store.currentStream);
 
@@ -30,7 +32,7 @@ function EditStreamInfo({ setDisplayEditInfo }) {
         scheduled: dayjs(newDate).toJSON(),
       },
     });
-    setDisplayEditInfo(false);
+    closeEditStreamInfo();
   };
 
   useEffect(() => {
@@ -41,68 +43,102 @@ function EditStreamInfo({ setDisplayEditInfo }) {
     }
   }, []);
 
+  const handleCancel = () => {
+    closeEditStreamInfo();
+  };
+
   return (
-    <Box
-      sx={{
-        height: "auto",
-        width: "90%",
-        borderRadius: "5px",
-        backgroundColor: theme.palette.secondary.main,
-        margin: "30px auto",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "10px",
-        padding: "20px 0px",
-      }}
-    >
-      <div>CREATE A NEW STREAM</div>
-      <InputLabel>TITLE</InputLabel>
-      <TextField
-        value={newTitle}
-        onChange={(e) => setNewTitle(e.target.value)}
-      ></TextField>
-      <InputLabel>DESCRIPTION</InputLabel>
-      <TextField
-        multiline
-        value={newDescription}
-        onChange={(e) => setNewDescription(e.target.value)}
-      ></TextField>
-      <InputLabel>DATE</InputLabel>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          value={newDate}
-          onChange={(date) => setNewDate(date)}
-          minDate={dayjs()}
+    <>
+      {displayConfirmCancel && (
+        <ConfirmationPopup
+          setDisplayConfirmation={setDisplayConfirmCancel}
+          handleConfirm={handleCancel}
+          alertText={`Cancel changes and return to stream?`}
+          hidePopupText="GO BACK"
+          confirmPopupText="CONFIRM"
         />
-      </LocalizationProvider>
-      {displayCancelConfirm ? (
-        <>
-          <Box>Cancel changes and return to stream?</Box>
+      )}
+      <Box
+        sx={{
+          top: "0px",
+          height: "100vh",
+          width: "100vw",
+          position: "fixed",
+          zIndex: "5",
+          backgroundColor: "rgba(50, 50, 50, .5)",
+        }}
+      >
+        <Box
+          sx={{
+            height: "auto",
+            width: "70%",
+            borderRadius: "5px",
+            backgroundColor: theme.palette.secondary.main,
+            margin: "20vh auto",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "10px",
+            padding: "20px 0px",
+            border: "1px solid black",
+          }}
+        >
+          {newStream ? (
+            <div>CREATE A NEW STREAM</div>
+          ) : (
+            <div>EDIT STREAM INFO</div>
+          )}
+
+          <InputLabel>TITLE</InputLabel>
+          <TextField
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+          ></TextField>
+          <InputLabel>DESCRIPTION</InputLabel>
+          <TextField
+            multiline
+            value={newDescription}
+            onChange={(e) => setNewDescription(e.target.value)}
+          ></TextField>
+          <InputLabel>DATE</InputLabel>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              value={newDate}
+              onChange={(date) => setNewDate(date)}
+              minDate={dayjs()}
+            />
+          </LocalizationProvider>
+          {/* {displayCancelConfirm ? (
+          <>
+            <Box>Cancel changes and return to stream?</Box>
+            <Box sx={{ display: "flex", gap: "20px" }}>
+              <Button onClick={() => setDisplayCancelConfirm(false)}>
+                BACK
+              </Button>
+              <Button
+                onClick={() => setDisplayEditInfo(false)}
+                color="warning"
+                sx={{ color: "black" }}
+              >
+                CONFIRM
+              </Button>
+            </Box>
+          </>
+        ) : ( */}
           <Box sx={{ display: "flex", gap: "20px" }}>
-            <Button onClick={() => setDisplayCancelConfirm(false)}>BACK</Button>
             <Button
-              onClick={() => setDisplayEditInfo(false)}
+              onClick={() => setDisplayConfirmCancel(true)}
               color="warning"
               sx={{ color: "black" }}
             >
-              CONFIRM
+              CANCEL
             </Button>
+            <Button onClick={handleSubmit}>SUBMIT</Button>
           </Box>
-        </>
-      ) : (
-        <Box sx={{ display: "flex", gap: "20px" }}>
-          <Button
-            onClick={() => setDisplayCancelConfirm(true)}
-            color="warning"
-            sx={{ color: "black" }}
-          >
-            CANCEL
-          </Button>
-          <Button onClick={handleSubmit}>SUBMIT</Button>
+          {/* )} */}
         </Box>
-      )}
-    </Box>
+      </Box>
+    </>
   );
 }
 
