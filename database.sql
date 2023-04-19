@@ -25,7 +25,7 @@ CREATE TABLE "products" (
 CREATE TABLE "users_products" (
 	"id" SERIAL PRIMARY KEY,
 	"user_id" int REFERENCES "users" ON DELETE CASCADE,
-	"product_id" int REFERENCES "users" ON DELETE CASCADE
+	"product_id" int REFERENCES "products" ON DELETE CASCADE
 );
 
 CREATE TABLE "streams" (

@@ -1,15 +1,14 @@
-import { Button, Box} from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 // import component to make public
 import Public from "../Public/Public";
+import ConfirmationPopup from "../../ConfirmationPopup/ConfirmationPopup";
 
-function StreamerOptions({
-  setDisplayConfirmDelete,
-  setDisplayConfirmRemoveFromStream,
-  productID,
-}) {
+function StreamerOptions({ productID }) {
+  const [displayConfirmDelete, setDisplayConfirmDelete] = useState(false);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const inCurrentStream = useSelector(
@@ -18,6 +17,14 @@ function StreamerOptions({
 
   const currentStream = useSelector((store) => store.currentStream);
   const currentProduct = useSelector((store) => store.currentProduct);
+
+  const handleDelete = () => {
+    dispatch({
+      type: "DELETE_PRODUCT",
+      payload: productID,
+    });
+    history.push("/home/:products");
+  };
 
   useEffect(() => {
     if (currentStream.id) {
@@ -30,6 +37,16 @@ function StreamerOptions({
 
   return (
     <>
+      {displayConfirmDelete && (
+        <ConfirmationPopup
+          setDisplayConfirmation={setDisplayConfirmDelete}
+          handleConfirm={handleDelete}
+          alertText="Are you sure you want to delete this product from the database?"
+          hidePopupText="CANCEL"
+          confirmPopupText="CONFIRM"
+        />
+      )}
+
       <Public currentProduct={currentProduct} productID={productID} />
       {/* if current stream has a scheduled time, display the remove  */}
       <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
@@ -40,9 +57,9 @@ function StreamerOptions({
         >
           DELETE PRODUCT
         </Button>
-        <Button
-          onClick={() => history.push(`/productform/${productID}`)}
-        >EDIT PRODUCT INFO</Button>
+        <Button onClick={() => history.push(`/productform/${productID}`)}>
+          EDIT PRODUCT INFO
+        </Button>
       </Box>
     </>
   );

@@ -9,7 +9,7 @@ import DefaultView from "./DefaultView/DefaultView";
 import ExpandedView from "./ExpandedView/ExpandedView";
 import UpcomingView from "./UpcomingView/UpcomingView";
 
-function ProductOverlay({streamID}) {
+function ProductOverlay({ streamID }) {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { username } = useParams();
@@ -40,7 +40,7 @@ function ProductOverlay({streamID}) {
         borderBottomLeftRadius: "0px",
         borderBottomRightRadius: "0px",
         padding: "5px 15px",
-        height: overlayView == "default" ? "140px" : "375px",
+        height: overlayView == "default" ? "20vh" : "44vh",
         border: `1px solid ${theme.palette.secondary.dark}`,
       }}
     >
