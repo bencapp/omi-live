@@ -11,6 +11,7 @@ import ConfirmationPopup from "../../ConfirmationPopup/ConfirmationPopup";
 function EditStream() {
   const { streamID } = useParams();
   const currentStream = useSelector((store) => store.currentStream);
+  const products = useSelector((store) => store.allProducts);
   const theme = useTheme();
   const dispatch = useDispatch();
   const history = useHistory();

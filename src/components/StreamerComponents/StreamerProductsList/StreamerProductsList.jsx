@@ -3,11 +3,10 @@ import { List, ListItem, ListItemText, Avatar } from "@mui/material";
 import { useHistory } from "react-router";
 import { useEffect } from "react";
 import ProductListItem from "../../ViewerComponents/ViewerProductsList/ProductListItem/ProductListItem";
-import { Button } from "@mui/material";
+import { Button, Box, Grid } from "@mui/material";
 
 function StreamerProductsList() {
   const products = useSelector((store) => store.allProducts);
-
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -21,21 +20,22 @@ function StreamerProductsList() {
   }, []);
 
   return (
-    <div>
-      {/* {JSON.stringify(products)} */}
-      {products && products.length > 0 ? (
-        <List>
+    <>
+      {products.length ? (
+        <Grid container spacing={2}>
           {products.map((product, i) => (
-            <ProductListItem key={product.id} product={product} />
+            <Grid item key={product.id} xs={6}>
+              <ProductListItem product={product} />
+            </Grid>
           ))}
-        </List>
+        </Grid>
       ) : (
         <p>No products added yet.</p>
       )}
       <Button size="small" onClick={() => history.push(`/productform`)}>
         ADD NEW PRODUCT
       </Button>
-    </div>
+    </>
   );
 }
 

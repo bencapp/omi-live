@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useEffect, useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import ProductListItem from "./ProductListItem/ProductListItem";
 
 // if wishlist is true, then filter only items that have been saved
@@ -15,23 +15,27 @@ function ViewerProductsList({ wishlist }) {
   }, []);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+    <Grid container spacing={2}>
       {products.length ? (
         wishlist ? (
           products
             .filter((product) => product.on_user_wishlist)
             .map((product) => (
-              <ProductListItem key={product.id} product={product} />
+              <Grid item key={product.id} xs={6}>
+                <ProductListItem product={product} />
+              </Grid>
             ))
         ) : (
           products.map((product) => (
-            <ProductListItem key={product.id} product={product} />
+            <Grid item key={product.id} xs={6}>
+              <ProductListItem product={product} />
+            </Grid>
           ))
         )
       ) : (
         <p>No products added yet.</p>
       )}
-    </Box>
+    </Grid>
   );
 }
 

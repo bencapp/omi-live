@@ -28,6 +28,9 @@ function* postProduct(action) {
   try {
     yield axios.post("/api/products", { payload: action.payload });
     yield put({ type: "GET_PRODUCTS" });
+    if (action.payload.streamID) {
+      yield put({type: "FETCH_STREAM_BY_ID", payload: {streamID: action.payload.streamID}})
+    }
   } catch (error) {
     console.log("error with element get request", error);
     yield put({ type: "FETCH_ERROR", payload: error });
@@ -38,6 +41,7 @@ function* postProduct(action) {
 function* deleteProduct(action) {
   try {
     yield axios.delete(`/api/products/${action.payload}`);
+    yield put({ type: "GET_PRODUCTS" });
   } catch (error) {
     console.log("error with element get request", error);
     yield put({ type: "FETCH_ERROR", payload: error });
