@@ -20,7 +20,7 @@ function Public ({currentProduct, productID}) {
         });
         setPublicBool(checked);
       };
-      console.log(currentProduct)
+      
       return (
         <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
         <FormLabel>
