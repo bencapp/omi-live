@@ -12,7 +12,7 @@ function ViewerOptions() {
   const [displayConfirmBuy, setDisplayConfirmBuy] = useState(false);
 
   const handleBuy = () => {
-    window.location.href = currentProduct.url;
+    window.open(currentProduct.url, "_blank");
   };
 
   return (
@@ -25,6 +25,7 @@ function ViewerOptions() {
         to vendor site to purchase?`}
           hidePopupText="KEEP SHOPPING"
           confirmPopupText="CONTINUE"
+          top="38vh"
         />
       )}
 
