@@ -32,23 +32,7 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
     }
   }, [muted, playerRef]);
 
-  const eventList = (e) => {
-    console.log(e);
-  };
-
   useEffect(() => {
-    // STARTING CODE FOR JOINING STREAM AND UPDATING VIEWER COUNTS
-    //  socket.emit("join stream");
-    //  const handleViewerCountUpdate = (count) => {
-    //    console.log("updated viewer count, count is", count);
-    //  };
-
-    //  socket.on("update viewer count", (count) =>
-    //    handleViewerCountUpdate(count)
-    //  );
-    //  return () => {
-    //    socket.off("update viewer count", handleViewerCountUpdate);
-    //  };
     dispatch({ type: "FETCH_ACTIVE_STREAMS" });
     socket.emit('join stream');
     //create socket listener for stream closed emit, set live = false
@@ -60,7 +44,7 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
     });
     socket.on("update viewer count", (count) => {
       setViewerCount(count);
-    })
+    });
     window.addEventListener('beforeunload', handleViewerClose);
     return () => {
       socket.emit('leave stream');
