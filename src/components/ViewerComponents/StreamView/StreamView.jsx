@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { socket } from "../../../socket";
 
 function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
+  const user = useSelector((store) => store.user);
   const streamID = useSelector((store) => store.streams.activeStreams);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
 
   useEffect(() => {
     dispatch({ type: "FETCH_ACTIVE_STREAMS" });
-    socket.emit('join stream');
+    socket.emit('join stream', user.id);
     //create socket listener for stream closed emit, set live = false
     socket.on("stream_closed", (user) => {
       if (user === username) {
@@ -45,19 +46,12 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
     socket.on("update viewer count", (count) => {
       setViewerCount(count);
     });
-    window.addEventListener('beforeunload', handleViewerClose);
     return () => {
       socket.emit('leave stream');
       socket.off("stream_closed");
       socket.off("update viewer count");
-      window.removeEventListener('beforeunload', handleViewerClose);
     };
   }, []);
-
-  const handleViewerClose = (e) => {
-    e.preventDefault();
-    socket.emit('leave stream');
-  }
 
   const toggleMute = () => {
     setMuted(!muted);
