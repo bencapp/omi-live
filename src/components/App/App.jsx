@@ -42,7 +42,7 @@ function App() {
 
   return (
     <Router>
-      <div style={{}}>
+      <div>
         {/* If the user is logged in, display the nav bar */}
         {/* {user.id &&} */}
 
