@@ -95,6 +95,7 @@ function EditStreamProduct({ product, handleClickRemove }) {
               textAlign: "center",
               p: "5px",
               borderRadius: "5px",
+              ml: "10px",
               mb: "5px"
             }}
             onClick={handleOrderIncrease}
@@ -110,6 +111,7 @@ function EditStreamProduct({ product, handleClickRemove }) {
               textAlign: "center",
               p: "5px",
               borderRadius: "5px",
+              ml: "10px",
               mb: "5px"
             }}
             onClick={handleOrderDecrease}
@@ -120,8 +122,6 @@ function EditStreamProduct({ product, handleClickRemove }) {
         <Grid
           item xs={1}
           container
-          alignItems="flex-end"
-          justify="flex-start"
            >
           <Box
             sx={{
@@ -133,6 +133,7 @@ function EditStreamProduct({ product, handleClickRemove }) {
               borderRadius: "5px",
               display: "flex",
               alignItems: "center",
+              alignSelf: "flex-end",
               border: "1px solid gray"
             }}
             justifyContent="center"
