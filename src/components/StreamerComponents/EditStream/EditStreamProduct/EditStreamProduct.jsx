@@ -51,7 +51,7 @@ function EditStreamProduct({ product, handleClickRemove }) {
         alignItems: "center"
       }}
     >
-      <Grid container key={product.id} alignItems="center">
+      <Grid container key={product.id} alignItems="center" sx={{height: "100%"}}>
         <Grid
           item
           xs={1}
@@ -72,18 +72,18 @@ function EditStreamProduct({ product, handleClickRemove }) {
         <Grid item xs={2} onClick={handleClickProduct} sx={{ mx: "10px" }}>
           <img src={product.image_url} />
         </Grid>
-        <Grid item xs={4} onClick={handleClickProduct} sx={{ textOverflow: 'ellipsis' }}>
+        <Grid item xs={4} onClick={handleClickProduct} sx={{ textOverflow: 'ellipsis', flexWrap: 'wrap' }}>
           <b>{product.name}</b>
           <br></br>
         </Grid>
         <Grid
           item
-          xs={1}
+          xs={3}
           sx={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
-            height: "50px",
+            justifyContent: "center",
+            height: "100%",
           }}
         >
           <Box
@@ -112,7 +112,7 @@ function EditStreamProduct({ product, handleClickRemove }) {
               p: "5px",
               borderRadius: "5px",
               ml: "10px",
-              mb: "5px"
+              mt: "5px"
             }}
             onClick={handleOrderDecrease}
           >
@@ -121,8 +121,7 @@ function EditStreamProduct({ product, handleClickRemove }) {
         </Grid>
         <Grid
           item xs={1}
-          container
-           >
+           sx={{height:"100%"  }}        >
           <Box
             sx={{
               width: "30px",
@@ -133,7 +132,6 @@ function EditStreamProduct({ product, handleClickRemove }) {
               borderRadius: "5px",
               display: "flex",
               alignItems: "center",
-              alignSelf: "flex-end",
               border: "1px solid gray"
             }}
             justifyContent="center"
