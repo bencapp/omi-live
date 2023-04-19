@@ -26,7 +26,7 @@ function ProductListItem({ product }) {
         <Box
           sx={{
             borderRadius: "5px",
-            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.15)",
             height: "100%",
           }}
         >
