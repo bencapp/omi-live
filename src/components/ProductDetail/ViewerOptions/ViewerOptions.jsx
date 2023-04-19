@@ -12,7 +12,7 @@ function ViewerOptions() {
   const [displayConfirmBuy, setDisplayConfirmBuy] = useState(false);
 
   const handleBuy = () => {
-    window.location.href = currentProduct.url;
+    window.open(currentProduct.url, "_blank");
   };
 
   return (

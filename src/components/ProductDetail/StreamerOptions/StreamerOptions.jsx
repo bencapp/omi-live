@@ -1,4 +1,4 @@
-import { Button, Box } from "@mui/material";
+import { Button, Box, Grid } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -35,6 +35,10 @@ function StreamerOptions({ productID }) {
     }
   }, []);
 
+  const handleBuy = () => {
+    window.open(currentProduct.url, "_blank");
+  };
+
   return (
     <>
       {displayConfirmDelete && (
@@ -48,20 +52,37 @@ function StreamerOptions({ productID }) {
         />
       )}
 
-      <Public currentProduct={currentProduct} productID={productID} />
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        // rowSpacing={1}
+        sx={{ width: "100%" }}
+      >
+        <Grid item xs={6} sx={{ display: "flex", placeContent: "center" }}>
+          <Public currentProduct={currentProduct} productID={productID} />
+        </Grid>
+        <Grid item xs={6} sx={{ display: "flex", placeContent: "end" }}>
+          <Button sx={{ height: "36.5px" }} onClick={handleBuy}>
+            VISIT SITE LINK
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Button
+            color="warning"
+            sx={{ color: "black" }}
+            onClick={() => setDisplayConfirmDelete(true)}
+          >
+            DELETE PRODUCT
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Button onClick={() => history.push(`/productform/${productID}`)}>
+            EDIT PRODUCT INFO
+          </Button>
+        </Grid>
+      </Grid>
       {/* if current stream has a scheduled time, display the remove  */}
-      <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
-        <Button
-          color="warning"
-          sx={{ color: "black" }}
-          onClick={() => setDisplayConfirmDelete(true)}
-        >
-          DELETE PRODUCT
-        </Button>
-        <Button onClick={() => history.push(`/productform/${productID}`)}>
-          EDIT PRODUCT INFO
-        </Button>
-      </Box>
     </>
   );
 }
