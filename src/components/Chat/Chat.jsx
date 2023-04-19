@@ -83,6 +83,7 @@ function Chat({ height }) {
         type: "GET_CHAT",
       });
     };
+    
     socket.on("add_text", receiveMessage);
     return () => {
       socket.off("add_text", receiveMessage);
