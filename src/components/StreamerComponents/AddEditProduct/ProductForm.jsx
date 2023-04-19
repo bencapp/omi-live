@@ -272,6 +272,7 @@ function ProductForm() {
                   productID ? dayjs(currentProduct?.coupon_expiration) : null
                 }
                 date={couponExpiration}
+                minDate={dayjs()}
                 onChange={(date) => setCouponExpiration(date)}
                 fullWidth
                 sx={{

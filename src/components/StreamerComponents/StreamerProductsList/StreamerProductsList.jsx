@@ -2,12 +2,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { List, ListItem, ListItemText, Avatar } from "@mui/material";
 import { useHistory } from "react-router";
 import { useEffect } from "react";
-
-import { Button } from "@mui/material";
+import ProductListItem from "../../ViewerComponents/ViewerProductsList/ProductListItem/ProductListItem";
+import { Button, Box, Grid } from "@mui/material";
 
 function StreamerProductsList() {
   const products = useSelector((store) => store.allProducts);
-
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -21,39 +20,22 @@ function StreamerProductsList() {
   }, []);
 
   return (
-    <div>
-      {/* {JSON.stringify(products)} */}
-      {products && products.length > 0 ? (
-        <List>
+    <>
+      {products.length ? (
+        <Grid container spacing={2}>
           {products.map((product, i) => (
-            <ListItem
-              key={i}
-              className="product-item"
-              sx={{
-                border: "1px solid grey",
-                mb: 1,
-                borderRadius: "10px",
-                padding: "3px",
-                backgroundColor: "#CBE5DF",
-                wordBreak: "break-word",
-              }}
-              onClick={() => handleClick(product)}
-            >
-              <Avatar alt={product.name} src={product.image_url} sx={{ml: "5px", mr: "10px"}}/>
-              <ListItemText
-                primary={product.name}
-                secondary={product.description}
-              />
-            </ListItem>
+            <Grid item key={product.id} xs={6}>
+              <ProductListItem product={product} />
+            </Grid>
           ))}
-        </List>
+        </Grid>
       ) : (
         <p>No products added yet.</p>
       )}
       <Button size="small" onClick={() => history.push(`/productform`)}>
         ADD NEW PRODUCT
       </Button>
-    </div>
+    </>
   );
 }
 

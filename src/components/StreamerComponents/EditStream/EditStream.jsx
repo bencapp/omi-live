@@ -11,9 +11,12 @@ import ConfirmationPopup from "../../ConfirmationPopup/ConfirmationPopup";
 function EditStream() {
   const { streamID } = useParams();
   const currentStream = useSelector((store) => store.currentStream);
+  const products = useSelector((store) => store.allProducts);
   const theme = useTheme();
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const [newStream, setNewStream] = useState();
 
   const [displayEditInfo, setDisplayEditInfo] = useState(false);
   const [displayConfirmRemoveFromStream, setDisplayConfirmRemoveFromStream] =
@@ -27,6 +30,8 @@ function EditStream() {
   useEffect(() => {
     if (streamID) {
       dispatch({ type: "FETCH_STREAM_BY_ID", payload: { streamID: streamID } });
+    } else {
+      setNewStream(true);
     }
   }, []);
 
@@ -58,6 +63,11 @@ function EditStream() {
     // TODO: end stream for all users
     dispatch({ type: "DELETE_STREAM", payload: streamID });
     history.push("/home");
+  };
+
+  const closeEditStreamInfo = () => {
+    setNewStream(false);
+    setDisplayEditInfo(false);
   };
 
   return (
@@ -92,123 +102,124 @@ function EditStream() {
           top="40vh"
         />
       )}
-      <Box sx={{ padding: "0px 20px" }}>
-        {/* if stream does not have a date planned, render 'create a new stream'; else render 'edit stream' */}
+      {newStream || displayEditInfo ? (
+        <EditStreamInfo
+          newStream={newStream}
+          closeEditStreamInfo={closeEditStreamInfo}
+        />
+      ) : (
+        <></>
+      )}
+      {!newStream && (
+        <Box sx={{ padding: "0px 20px" }}>
+          {/* if stream does not have a date planned, render 'create a new stream'; else render 'edit stream' */}
 
-        {!streamID || displayEditInfo ? (
-          <EditStreamInfo setDisplayEditInfo={setDisplayEditInfo} />
-        ) : (
-          <>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ fontSize: "1.5em", fontWeight: "bold", mb: "10px" }}>
+              EDIT STREAM
+            </Box>
+            <Grid
+              container
+              sx={{
+                fontSize: "1.3em",
+                display: "flex",
+                width: "100%",
+                justifyContent: "space-between",
+              }}
+            >
+              <Grid
+                item
+                xs={7}
+                sx={{ display: "flex", flexDirection: "column", gap: "5px" }}
+              >
+                <Box>
+                  <b>{currentStream.title}</b>
+                  <Box>
+                    {dayjs(currentStream.scheduled).format("MM/DD/YYYY")}
+                  </Box>
+                </Box>
+                <Box sx={{ alignSelf: "start", fontSize: "1rem" }}>
+                  {currentStream.description}
+                </Box>
+              </Grid>
+              <Grid
+                item
+                xs={5}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "end",
+                  gap: "10px",
+                }}
+              >
+                <Button size="small" onClick={() => setDisplayEditInfo(true)}>
+                  EDIT INFO
+                </Button>
+                <Button
+                  onClick={() => {
+                    setDisplayConfirmDeleteStream(true);
+                  }}
+                  size="small"
+                  color="warning"
+                  sx={{ color: "black", mb: "5px" }}
+                >
+                  DELETE STREAM
+                </Button>
+              </Grid>
+            </Grid>
+            {/* && currentStream.products[0]?.name */}
+            {currentStream.products && currentStream.products[0].id ? (
+              currentStream.products
+                .sort((a, b) => a.order - b.order)
+                .map((product) => (
+                  <EditStreamProduct
+                    key={product.id}
+                    product={product}
+                    handleClickRemove={handleClickRemove}
+                  />
+                ))
+            ) : (
+              <Box>No products yet! Add one to get started.</Box>
+            )}
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "column",
-                gap: "10px",
+                justifyContent: "space-between",
                 width: "100%",
-                alignItems: "center",
               }}
             >
-              <Box sx={{ fontSize: "1.5em", fontWeight: "bold", mb: "10px" }}>
-                EDIT STREAM
-              </Box>
-              <Grid
-                container
-                sx={{
-                  fontSize: "1.3em",
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Grid
-                  item
-                  xs={7}
-                  sx={{ display: "flex", flexDirection: "column", gap: "5px" }}
-                >
-                  <Box>
-                    <b>{currentStream.title}</b>
-                    <Box>
-                      {dayjs(currentStream.scheduled).format("MM/DD/YYYY")}
-                    </Box>
-                  </Box>
-                  <Box sx={{ alignSelf: "start", fontSize: "1rem" }}>
-                    {currentStream.description}
-                  </Box>
-                </Grid>
-                <Grid
-                  item
-                  xs={5}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "end",
-                    gap: "10px",
-                  }}
-                >
-                  <Button size="small" onClick={() => setDisplayEditInfo(true)}>
-                    EDIT INFO
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setDisplayConfirmDeleteStream(true);
-                    }}
-                    size="small"
-                    color="warning"
-                    sx={{ color: "black", mb: "5px"}}
-                  >
-                    DELETE STREAM
-                  </Button>
-                </Grid>
-              </Grid>
-              {/* && currentStream.products[0]?.name */}
-              {currentStream.products && currentStream.products[0].id ? (
-                currentStream.products
-                  .sort((a, b) => a.order - b.order)
-                  .map((product) => (
-                    <EditStreamProduct
-                      key={product.id}
-                      product={product}
-                      handleClickRemove={handleClickRemove}
-                    />
-                  ))
-              ) : (
-                <Box>No products yet! Add one to get started.</Box>
-              )}
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "100%",
-                }}
-              >
-                <Button
-                  onClick={() =>
-                    history.push(`/add-existing-product/${currentStream.id}`)
-                  }
-                  size="small"
-                >
-                  ADD EXISTING PRODUCT
-                </Button>
-                <Button
-                  size="small"
-                  onClick={() => history.push(`/productform`)}
-                >
-                  ADD NEW PRODUCT
-                </Button>
-              </Box>
               <Button
-                onClick={() => {
-                  setDisplayConfirmGoLive(true);
-                }}
-                sx={{ alignSelf: "end" }}
-                color="warning"
+                onClick={() =>
+                  history.push(`/add-existing-product/${currentStream.id}`)
+                }
+                size="small"
               >
-                GO LIVE
+                ADD EXISTING PRODUCT
+              </Button>
+              <Button size="small" onClick={() => history.push(`/productform`)}>
+                ADD NEW PRODUCT
               </Button>
             </Box>
-          </>
-        )}
-      </Box>
+            <Button
+              onClick={() => {
+                setDisplayConfirmGoLive(true);
+              }}
+              sx={{ alignSelf: "end" }}
+              color="warning"
+            >
+              GO LIVE
+            </Button>
+          </Box>
+        </Box>
+      )}
     </>
   );
 }
