@@ -24,6 +24,7 @@ import EditStream from "../StreamerComponents/EditStream/EditStream";
 import ProductDetail from "../ProductDetail/ProductDetail";
 import EditProduct from "../StreamerComponents/AddEditProduct/EditProduct";
 import AddProduct from "../StreamerComponents/AddEditProduct/AddProduct";
+import ProductForm from "../StreamerComponents/AddEditProduct/ProductForm";
 import ViewerProductsList from "../ViewerComponents/ViewerProductsList/ViewerProductsList";
 import AddExistingProduct from "../StreamerComponents/AddExistingProduct/AddExistingProduct";
 import StreamerControls from "../StreamerComponents/StreamerControls/StreamerControls";
@@ -106,12 +107,12 @@ function App() {
 
           <AdminProtectedRoute exact path="/productform/:productID">
             <Nav />
-            <EditProduct />
+            <ProductForm />
           </AdminProtectedRoute>
 
           <AdminProtectedRoute exact path="/productform/">
             <Nav />
-            <AddProduct />
+            <ProductForm />
           </AdminProtectedRoute>
 
           {/* <AdminProtectedRoute

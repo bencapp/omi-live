@@ -85,15 +85,36 @@ function EditProduct() {
   };
 
   return (
-    <Box>
-      <Typography variant="h5"> Edit Product </Typography>
+    <Box
+      sx={{
+        backgroundColor: theme.palette.secondary.main,
+        width: "90%",
+        margin: "auto",
+        borderRadius: "5px",
+        padding: "10px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+      }}
+    >
+      <Typography
+        variant="h5"
+        align="center"
+        sx={{
+          my: "10px",
+          fontWeight: "bold",
+          fontSize: "1.5rem"
+        }}
+      >
+        EDIT PRODUCT
+      </Typography>
 
       <form
         onSubmit={handleUpdate}
         style={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "stretch",
+          alignItems: "center",
           margin: "10px",
         }}
       >
@@ -102,107 +123,122 @@ function EditProduct() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            width: "80%"
           }}
         >
-
-          <InputLabel> Image URL: </InputLabel>
-          <TextField
-            id="standard-basic"
-            variant="standard"
-            type="text"
-            defaultValue={currentProduct?.image_url}
-            value={newProduct.image_url}
-            onChange={(e) => handleChange(e, 'image_url')}
-          />
-          {newProduct.image_url && (
-            <CardMedia
-              component="img"
-              height="250"
-              image={currentProduct?.image_url}
-              alt="Product Preview"
-              style={{ marginTop: "20px" }}
-            />
-          )}
           <InputLabel>Name:</InputLabel>
           <TextField
             id="standard-basic"
-            variant="standard"
+            variant="outlined"
             type="text"
             defaultValue={currentProduct?.name}
             value={newProduct.name}
             onChange={(e) => handleChange(e, 'name')}
+            sx={{
+              mt: "5px",
+              mb: "15px"
+            }}
+            fullWidth
           />
-          <InputLabel> Product URL: </InputLabel>
+
+          <InputLabel >
+            Image URL:
+          </InputLabel>
+          <TextField
+            id="standard-basic"
+            variant="outlined"
+            type="text"
+            defaultValue={currentProduct?.image_url}
+            value={newProduct.image_url}
+            onChange={(e) => handleChange(e, 'image_url')}
+            sx={{
+              mt: "5px", 
+              mb: "5px"
+            }}
+            fullWidth
+          />
+          {newProduct?.image_url && (
+            <CardMedia
+              component="img"
+              height="200"
+              width="auto"
+              image={currentProduct.image_url}
+              alt="Image Preview"
+              sx={{ mt: "3px", mb: "10px" }}
+            />
+          )}
+
+          <InputLabel sx={{mt: "15px", mb: "5px"}} > Product URL: </InputLabel>
           <TextField
             id="product-url"
-            variant="standard"
+            variant="outlined"
             type="text"
             defaultValue={currentProduct?.url}
             value={newProduct.url}
             onChange={(e) => handleChange(e, 'url')}
+            sx={{
+              mb: "5px"
+            }}
+            fullWidth
           />
           {newProduct.url && (
-            <Typography>
+            <Typography
+            >
               <a href={newProduct.url} target="_blank" rel="noreferrer">
                 {newProduct.url}
               </a>
             </Typography>
           )}
 
-        </Box>
-        <div
-          style={{
-            marginTop: "20px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <label style={{ marginBottom: "60px" }}>
-            <InputLabel sx={{ margin: 1 }}> Description: </InputLabel>
-            <TextField
-              multiline
-              defaultValue={currentProduct?.description}
-              value={newProduct.description}
-              onChange={(e) => handleChange(e, 'description')}
-              sx={{
-                marginLeft: "10px",
-                padding: "5px",
-                borderRadius: "3px",
-                //  border: "1px solid #ccc",
-              }}
-            >
-            </TextField>
-          </label>
-          <label style={{ marginBottom: "20px" }}>
-            <Typography sx={{ margin: 1 }}> Coupon Code: </Typography>
-            <TextField
-              // id="standard-basic"
-              variant="standard"
-              type="text"
-              defaultValue={currentProduct?.coupon_code}
-              value={newProduct.coupon_code}
-              onChange={(e) => handleChange(e, 'coupon_code')}
-            />
-          </label>
-          <InputLabel>Set Coupon Code Expiration</InputLabel>
+
+          <InputLabel sx={{ mt: "20px" }}> Description: </InputLabel>
+          <TextField
+            multiline
+            defaultValue={currentProduct?.description}
+            value={newProduct.description}
+            onChange={(e) => handleChange(e, 'description')}
+            fullWidth
+            sx={{
+              mt: "5px",
+              mb: "10px",
+            }}
+          >
+          </TextField>
+          <InputLabel sx={{ mt: "10px" }}> Coupon Code: </InputLabel>
+          <TextField
+            variant="outlined"
+            type="text"
+            defaultValue={currentProduct?.coupon_code}
+            value={newProduct.coupon_code}
+            onChange={(e) => handleChange(e, 'coupon_code')}
+            fullWidth
+            sx={{
+              mt: "5px",
+              mb: "15px"
+            }}
+          />
+          <InputLabel sx={{ mt: "3px" }}>Set Coupon Code Expiration</InputLabel>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               defaultValue={dayjs(currentProduct?.coupon_expiration)}
               date={couponExpiration}
               onChange={(date) => setCouponExpiration(date)}
+              fullWidth
+              sx={{
+                mb: "30px"
+              }}
             />
           </LocalizationProvider>
-        </div>
-        <Public currentProduct={currentProduct} productID={productID}/>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Button variant="contained" type="button" onClick={handleCancel}>
+        </Box>
+
+        <Box sx={{ display: "flex", gap: "15px", alignSelf: "center" }}>
+          <Button variant="contained" type="button" onClick={handleCancel} color="warning" sx={{ color: "black" }}>
             Cancel
           </Button>
           <Button variant="contained" type="submit" sx={{ cursor: "pointer" }}>
             Save Changes
           </Button>
-        </div>
+        </Box>
       </form>
     </Box>
   );
