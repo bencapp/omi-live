@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { List, ListItem, ListItemText, Avatar } from "@mui/material";
 import { useHistory } from "react-router";
 import { useEffect } from "react";
+import ProductListItem from "../../ViewerComponents/ViewerProductsList/ProductListItem/ProductListItem";
 
 import { Button } from "@mui/material";
 
@@ -26,24 +27,7 @@ function StreamerProductsList() {
       {products && products.length > 0 ? (
         <List>
           {products.map((product, i) => (
-            <ListItem
-              key={i}
-              className="product-item"
-              sx={{
-                border: "1px solid grey",
-                mb: 1,
-                borderRadius: "10px",
-                padding: "1px",
-                backgroundColor: "#CBE5DF",
-              }}
-              onClick={() => handleClick(product)}
-            >
-              <Avatar alt={product.name} src={product.image_url} />
-              <ListItemText
-                primary={product.name}
-                secondary={product.description}
-              />
-            </ListItem>
+            <ProductListItem key={product.id} product={product} />
           ))}
         </List>
       ) : (
