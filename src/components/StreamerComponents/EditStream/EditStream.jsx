@@ -177,15 +177,17 @@ function EditStream() {
             </Grid>
             {/* && currentStream.products[0]?.name */}
             {currentStream.products && currentStream.products[0].id ? (
-              currentStream.products
-                .sort((a, b) => a.order - b.order)
-                .map((product) => (
-                  <EditStreamProduct
-                    key={product.id}
-                    product={product}
-                    handleClickRemove={handleClickRemove}
-                  />
-                ))
+              <Box sx={{maxHeight: "62vh", overflow: "scroll"}}>
+                {currentStream.products
+                  .sort((a, b) => a.order - b.order)
+                  .map((product) => (
+                    <EditStreamProduct
+                      key={product.id}
+                      product={product}
+                      handleClickRemove={handleClickRemove}
+                    />
+                  ))}
+              </Box>
             ) : (
               <Box>No products yet! Add one to get started.</Box>
             )}
