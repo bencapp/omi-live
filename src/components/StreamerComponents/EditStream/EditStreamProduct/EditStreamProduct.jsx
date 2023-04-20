@@ -43,8 +43,9 @@ function EditStreamProduct({ product, handleClickRemove }) {
       sx={{
         backgroundColor: theme.palette.secondary.main,
         borderRadius: "5px",
+        my: "10px",
         padding: "10px",
-        width: "100%",
+        // width: "100%",
         overflow: "hidden",
         height: "11vh",
         display: "flex",

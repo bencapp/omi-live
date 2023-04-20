@@ -146,6 +146,7 @@ function Chat({ height }) {
                 color: "#FFFFFF",
               }}
               aria-label="logo"
+              onClick={() => setMessage('wow that is so cool')}
             >
               <ThumbUpIcon />
             </IconButton>

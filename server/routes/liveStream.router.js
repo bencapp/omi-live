@@ -101,6 +101,7 @@ router.put(
   (req, res) => {
     console.log("emitting end stream for stream", req.params.streamID);
     req.io.emit("end-stream");
+    req.io.emit("stream_closed", req.user.username);
     omi.currentProduct = {};
     omi.streamID = 0;
     omi.viewerCount = 0;
