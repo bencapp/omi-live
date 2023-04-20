@@ -140,7 +140,7 @@ function StreamerControls() {
             >
               End Stream
             </Button>
-            <Box>[i] viewers</Box>
+            <Box>{viewerCount} viewers</Box>
           </Grid>
         </Grid>
         <div
