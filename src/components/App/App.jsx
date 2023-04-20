@@ -22,8 +22,6 @@ import StreamerHomePage from "../StreamerComponents/StreamerHomePage/StreamerHom
 import ViewerHomePage from "../ViewerComponents/ViewerHomePage/ViewerHomePage";
 import EditStream from "../StreamerComponents/EditStream/EditStream";
 import ProductDetail from "../ProductDetail/ProductDetail";
-import EditProduct from "../StreamerComponents/AddEditProduct/EditProduct";
-import AddProduct from "../StreamerComponents/AddEditProduct/AddProduct";
 import ProductForm from "../StreamerComponents/AddEditProduct/ProductForm";
 import ViewerProductsList from "../ViewerComponents/ViewerProductsList/ViewerProductsList";
 import AddExistingProduct from "../StreamerComponents/AddExistingProduct/AddExistingProduct";
@@ -114,27 +112,6 @@ function App() {
             <Nav />
             <ProductForm />
           </AdminProtectedRoute>
-
-          {/* <AdminProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
-            exact
-            path="/add-product"
-          >
-            <Nav />
-
-            <AddEditProduct />
-          </AdminProtectedRoute>
-
-          <AdminProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
-
-            exact
-            path="/edit-product/:productID"
-          >
-            <Nav />
-
-            <AddEditProduct />
-          </AdminProtectedRoute> */}
 
           <AdminProtectedRoute
             // logged in shows InfoPage else shows LoginPage
