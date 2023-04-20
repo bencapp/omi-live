@@ -123,7 +123,7 @@ function EditStream() {
               alignItems: "center",
             }}
           >
-            <Box sx={{ fontSize: "1.5em", fontWeight: "bold" }}>
+            <Box sx={{ fontSize: "1.5em", fontWeight: "bold", mb: "10px" }}>
               EDIT STREAM
             </Box>
             <Grid
@@ -169,7 +169,7 @@ function EditStream() {
                   }}
                   size="small"
                   color="warning"
-                  sx={{ color: "black" }}
+                  sx={{ color: "black", mb: "5px" }}
                 >
                   DELETE STREAM
                 </Button>

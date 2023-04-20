@@ -1,6 +1,8 @@
 import { Grid, Box, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function EditStreamProduct({ product, handleClickRemove }) {
   const history = useHistory();
@@ -45,9 +47,11 @@ function EditStreamProduct({ product, handleClickRemove }) {
         width: "100%",
         overflow: "hidden",
         height: "11vh",
+        display: "flex",
+        alignItems: "center"
       }}
     >
-      <Grid container key={product.id} alignItems="center">
+      <Grid container key={product.id} alignItems="center" sx={{height: "100%"}}>
         <Grid
           item
           xs={1}
@@ -58,66 +62,82 @@ function EditStreamProduct({ product, handleClickRemove }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            borderRadius: "5px",
+            ml: "5px"
           }}
           onClick={handleClickProduct}
         >
           <div>{product.order}</div>
         </Grid>
-        <Grid item xs={2} onClick={handleClickProduct}>
+        <Grid item xs={2} onClick={handleClickProduct} sx={{ mx: "10px" }}>
           <img src={product.image_url} />
         </Grid>
-        <Grid item xs={7} onClick={handleClickProduct}>
+        <Grid item xs={4} onClick={handleClickProduct} sx={{ textOverflow: 'ellipsis', flexWrap: 'wrap' }}>
           <b>{product.name}</b>
           <br></br>
-          {product.description}
         </Grid>
         <Grid
           item
-          xs={1}
+          xs={3}
           sx={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
-            height: "50px",
+            justifyContent: "center",
+            height: "100%",
           }}
         >
           <Box
             sx={{
-              width: "20px",
+              width: "40px",
               height: "20px",
               backgroundColor: theme.palette.primary.main,
               color: "white",
               textAlign: "center",
+              p: "5px",
+              borderRadius: "5px",
+              ml: "10px",
+              mb: "5px"
             }}
             onClick={handleOrderIncrease}
           >
-            +
+            <KeyboardArrowUpIcon />
           </Box>
           <Box
             sx={{
-              width: "20px",
+              width: "40px",
               height: "20px",
               backgroundColor: theme.palette.primary.main,
               color: "white",
               textAlign: "center",
+              p: "5px",
+              borderRadius: "5px",
+              ml: "10px",
+              mt: "5px"
             }}
             onClick={handleOrderDecrease}
           >
-            -
+            <KeyboardArrowDownIcon />
           </Box>
         </Grid>
-        <Grid item xs={1}>
+        <Grid
+          item xs={1}
+           sx={{height:"100%"  }}        >
           <Box
             sx={{
-              width: "20px",
-              height: "20px",
+              width: "30px",
+              height: "30px",
               backgroundColor: theme.palette.warning.main,
               color: "black",
               textAlign: "center",
+              borderRadius: "5px",
+              display: "flex",
+              alignItems: "center",
+              border: "1px solid gray"
             }}
+            justifyContent="center"
             onClick={() => handleClickRemove(product)}
           >
-            x
+            X
           </Box>
         </Grid>
       </Grid>
