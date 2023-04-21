@@ -213,16 +213,16 @@ function ProductForm() {
               }}
               fullWidth
             />
-            {newProduct?.image_url && (
+            {newProduct?.image_url ? (
               <CardMedia
                 component="img"
                 height="200"
                 width="auto"
-                image={currentProduct?.image_url}
+                image={newProduct?.image_url}
                 alt="Image Preview"
                 sx={{ mt: "3px", mb: "10px" }}
               />
-            )}
+            ) : ''}
 
             <InputLabel sx={{ mt: "15px", mb: "5px" }}>
               {" "}
