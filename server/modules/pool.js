@@ -29,6 +29,8 @@ else {
         host: 'localhost',
         port: 5432,
         database: 'omi_live',   // 	name the database this!!
+        user: process.env.SQL_USER,
+        password: process.env.SQL_PASSWORD
     });
 }
 
