@@ -148,7 +148,7 @@ function Chat({ height }) {
                 color: "#FFFFFF",
               }}
               aria-label="logo"
-              onClick={() => setMessage("wow that is so cool")}
+              onClick={() => user.isAdmin ? setMessage("yes!~ they work amazingly and they're biodegradable") : setMessage("do the detergent sheets clean well?")}
             >
               <ThumbUpIcon />
             </IconButton>
