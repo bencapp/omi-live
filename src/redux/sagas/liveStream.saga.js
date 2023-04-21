@@ -12,6 +12,7 @@ function* fetchCurrentStreamData() {
     yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
     // then fetch the current product in the stream
     const products = response.data.products;
+    console.log("products is", products);
     const currentProduct = products.find(
       (product) => product.id == response.data.currentProduct.id
     );
@@ -20,7 +21,7 @@ function* fetchCurrentStreamData() {
       payload: currentProduct,
     });
   } catch (error) {
-    console.log("Error with fetchCurrentProductInStream saga:", error);
+    console.log("Error with fetchCurrentStreamData saga:", error);
   }
 }
 
@@ -78,7 +79,7 @@ function* startStream(action) {
   try {
     yield axios.put(`/api/live-stream/start-stream/${action.payload}`);
   } catch (error) {
-    console.error('Error starting stream:', error);
+    console.error("Error starting stream:", error);
   }
 }
 
@@ -94,7 +95,7 @@ function* endStream(action) {
 function* fetchActiveStreams() {
   try {
     let response = yield axios.get(`api/live-stream/active`);
-    yield put({type: 'SET_ACTIVE_STREAMS', payload: response.data});
+    yield put({ type: "SET_ACTIVE_STREAMS", payload: response.data });
   } catch (error) {
     console.error(error);
   }
@@ -106,7 +107,7 @@ function* liveStreamSaga() {
     "FETCH_CURRENT_PRODUCT_IN_STREAM",
     fetchCurrentProductInStream
   );
-  yield takeEvery('FETCH_ACTIVE_STREAMS', fetchActiveStreams);
+  yield takeEvery("FETCH_ACTIVE_STREAMS", fetchActiveStreams);
   yield takeEvery("START_STREAM", startStream);
   yield takeEvery("SET_CURRENT_PRODUCT_IN_STREAM", setCurrentProductInStream);
   yield takeEvery("FETCH_STREAM_ON_START_STREAM", fetchStreamOnStartStream);
