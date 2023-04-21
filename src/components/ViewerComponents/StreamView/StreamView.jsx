@@ -69,13 +69,12 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
     >
       <div style={{ backgroundColor: "#000000", width, marginTop: yOffset }}>
         {live ? (
-          // <LiveVideo
-          <></>
+          <LiveVideo
+            username={username}
+            playerRef={playerRef}
+            setLive={setLive}
+          />
         ) : (
-          //   username={username}
-          //   playerRef={playerRef}
-          //   setLive={setLive}
-          // />
           <div
             style={{
               display: "flex",
