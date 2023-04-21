@@ -75,11 +75,6 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
             setLive={setLive}
           />
         ) : (
-          // <LiveVideo
-          //   username={username}
-          //   playerRef={playerRef}
-          //   setLive={setLive}
-          // />
           <div
             style={{
               display: "flex",
