@@ -1,4 +1,4 @@
-import { Box, alpha, Button, useTheme } from "@mui/material";
+import { Box, alpha, Button, Grid, useTheme } from "@mui/material";
 import WishlistButton from "../../WishlistButton/WishlistButton";
 import { useSelector } from "react-redux";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -13,6 +13,7 @@ function ExpandedView({ setOverlayView }) {
 
   const handleBuy = () => {
     window.open(currentProduct.url, "_blank");
+    setDisplayConfirmBuy(false);
   };
 
   return (
@@ -28,19 +29,50 @@ function ExpandedView({ setOverlayView }) {
           top="-2vh"
         />
       )}
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <ExpandMoreIcon
-          onClick={() => setOverlayView("default")}
-          sx={{ alignSelf: "center" }}
-        />
-        <Button
-          size="small"
-          sx={{ position: "absolute", marginTop: "3vh", marginLeft: "66vw" }}
-          onClick={() => setOverlayView("expanded-upcoming")}
-        >
-          UPCOMING {">"}
-        </Button>
+      <Button
+        size="small"
+        sx={{ position: "absolute", marginTop: "1vh", marginLeft: "68vw" }}
+        onClick={() => setOverlayView("expanded-upcoming")}
+      >
+        UPCOMING {">"}
+      </Button>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "5px",
+          alignItems: "center",
+        }}
+      >
+        <ExpandMoreIcon onClick={() => setOverlayView("default")} />
+        <Box sx={{ textAlign: "center" }}>
+          {" "}
+          <b>NOW FEATURING</b>
+          <Box>{currentProduct.name}</Box>
+        </Box>
+
         <Box
+          sx={{
+            display: "flex",
+            gap: "10px",
+            height: "25vh",
+            alignItems: "center",
+          }}
+        >
+          <img style={{ height: "20vh" }} src={currentProduct.image_url}></img>
+          <Box sx={{ width: "40vw" }}>{currentProduct.description}</Box>
+        </Box>
+        <Box sx={{ display: "flex", gap: "20px", justifySelf: "end" }}>
+          {" "}
+          <BuyButton setDisplayConfirmBuy={setDisplayConfirmBuy} />
+          <WishlistButton
+            product={currentProduct}
+            type="button"
+            envType="stream-overlay"
+          />
+        </Box>
+
+        {/* <Box
           sx={{
             //   backgroundColor: alpha(theme.palette.secondary.main, 0.9),
             // width: "100%",
@@ -53,33 +85,7 @@ function ExpandedView({ setOverlayView }) {
             gap: "5px",
             alignItems: "center",
           }}
-        >
-          <b>NOW FEATURING</b>
-          <Box>{currentProduct.name}</Box>
-          <img style={{ height: "150px" }} src={currentProduct.image_url}></img>
-          <Box
-            sx={{
-              alignSelf: "start",
-              display: "flex",
-              flexDirection: "column",
-              gap: "5px",
-
-              height: "100px",
-            }}
-          >
-            <b>Description</b>
-            {currentProduct.description}
-          </Box>
-          <Box sx={{ display: "flex", gap: "20px", justifySelf: "end" }}>
-            {" "}
-            <BuyButton setDisplayConfirmBuy={setDisplayConfirmBuy} />
-            <WishlistButton
-              product={currentProduct}
-              type="button"
-              envType="stream-overlay"
-            />
-          </Box>
-        </Box>
+        ></Box> */}
       </Box>
     </>
   );
