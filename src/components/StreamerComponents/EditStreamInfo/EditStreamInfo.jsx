@@ -4,6 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import dayjs from "dayjs";
 
 import ConfirmationPopup from "../../ConfirmationPopup/ConfirmationPopup";
@@ -11,6 +12,7 @@ import ConfirmationPopup from "../../ConfirmationPopup/ConfirmationPopup";
 import { useState } from "react";
 
 function EditStreamInfo({ closeEditStreamInfo, newStream }) {
+  const history = useHistory();
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -46,6 +48,7 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
   const handleCancel = () => {
     if (newStream) {
       dispatch({ type: "DELETE_STREAM", payload: currentStream.id });
+      history.push("/home");
     }
     closeEditStreamInfo();
   };
@@ -87,11 +90,17 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
           }}
         >
           {newStream ? (
-            <div onClick={() => {
-              setNewTitle("Green Housekeeping!");
-              setNewDescription("How you can keep up with all of your household needs in a sustainable manner")
-              setNewDate(dayjs(Date.now() + 86400000));
-            }}>CREATE A NEW STREAM</div>
+            <div
+              onClick={() => {
+                setNewTitle("Green Housekeeping!");
+                setNewDescription(
+                  "How you can keep up with all of your household needs in a sustainable manner"
+                );
+                setNewDate(dayjs(Date.now() + 86400000));
+              }}
+            >
+              CREATE A NEW STREAM
+            </div>
           ) : (
             <div>EDIT STREAM INFO</div>
           )}
