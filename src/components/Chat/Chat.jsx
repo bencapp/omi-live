@@ -14,6 +14,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ShareIcon from "@mui/icons-material/Share";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ClearIcon from "@mui/icons-material/Clear";
+import ChatDemo from "./ChatDemo";
 
 import { socket } from "../../socket";
 
@@ -83,7 +84,7 @@ function Chat({ height }) {
         type: "GET_CHAT",
       });
     };
-    
+
     socket.on("add_text", receiveMessage);
     return () => {
       socket.off("add_text", receiveMessage);
@@ -113,6 +114,7 @@ function Chat({ height }) {
 
   return (
     <div>
+      <ChatDemo />
       <Box
         sx={{
           backgroundColor: alpha(theme.palette.primary.main, 0.7),

@@ -44,6 +44,9 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
   }, []);
 
   const handleCancel = () => {
+    if (newStream) {
+      dispatch({ type: "DELETE_STREAM", payload: currentStream.id });
+    }
     closeEditStreamInfo();
   };
 
@@ -53,7 +56,7 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
         <ConfirmationPopup
           setDisplayConfirmation={setDisplayConfirmCancel}
           handleConfirm={handleCancel}
-          alertText={`Cancel changes and return to stream?`}
+          alertText={`Cancel changes?`}
           hidePopupText="GO BACK"
           confirmPopupText="CONFIRM"
         />
@@ -112,23 +115,7 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
               minDate={dayjs()}
             />
           </LocalizationProvider>
-          {/* {displayCancelConfirm ? (
-          <>
-            <Box>Cancel changes and return to stream?</Box>
-            <Box sx={{ display: "flex", gap: "20px" }}>
-              <Button onClick={() => setDisplayCancelConfirm(false)}>
-                BACK
-              </Button>
-              <Button
-                onClick={() => setDisplayEditInfo(false)}
-                color="warning"
-                sx={{ color: "black" }}
-              >
-                CONFIRM
-              </Button>
-            </Box>
-          </>
-        ) : ( */}
+
           <Box sx={{ display: "flex", gap: "20px" }}>
             <Button
               onClick={() => setDisplayConfirmCancel(true)}
@@ -139,7 +126,6 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
             </Button>
             <Button onClick={handleSubmit}>SUBMIT</Button>
           </Box>
-          {/* )} */}
         </Box>
       </Box>
     </>
