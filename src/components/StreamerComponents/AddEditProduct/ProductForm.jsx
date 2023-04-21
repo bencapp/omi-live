@@ -259,6 +259,7 @@ function ProductForm() {
                 mt: "5px",
                 mb: "10px",
               }}
+              inputProps={{ maxLength: 240 }}
             ></TextField>
             <InputLabel sx={{ mt: "10px" }}> Coupon Code: </InputLabel>
             <TextField
