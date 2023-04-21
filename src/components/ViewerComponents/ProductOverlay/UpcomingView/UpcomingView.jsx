@@ -1,7 +1,7 @@
 import { Box, alpha, Button, useTheme } from "@mui/material";
 import WishlistButton from "../../WishlistButton/WishlistButton";
 import { useSelector } from "react-redux";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BuyButton from "../../BuyButton/BuyButton";
 import { useState } from "react";
 import NextProduct from "./NextProduct/NextProduct";
@@ -30,7 +30,7 @@ function UpcomingView({ setOverlayView }) {
           alignItems: "center",
         }}
       >
-        <ExpandLessIcon onClick={() => setOverlayView("default")} />
+        <ExpandMoreIcon onClick={() => setOverlayView("default")} />
 
         <b>UPCOMING</b>
         <Box sx={{ height: "3px" }}></Box>
