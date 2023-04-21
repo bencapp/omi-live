@@ -45,7 +45,14 @@ function ExpandedView({ setOverlayView }) {
         }}
       >
         <ExpandMoreIcon onClick={() => setOverlayView("default")} />
-        <Box sx={{ textAlign: "center" }}>
+        <Box
+          sx={{
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            gap: "3px",
+          }}
+        >
           {" "}
           <b>NOW FEATURING</b>
           <Box>{currentProduct.name}</Box>

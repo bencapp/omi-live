@@ -13,27 +13,25 @@ function UpcomingView({ setOverlayView }) {
   const currentStream = useSelector((store) => store.currentStream);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <ExpandLessIcon
-        onClick={() => setOverlayView("default")}
-        sx={{ alignSelf: "center" }}
-      />
+    <>
       <Button
         size="small"
-        sx={{ position: "absolute", marginTop: "3vh", marginLeft: "1vw" }}
+        sx={{ position: "absolute", marginTop: "1vh", marginLeft: "-1vw" }}
         onClick={() => setOverlayView("expanded")}
       >
         {"<"} CURRENT
       </Button>
+
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: "10px",
+          gap: "5px",
           alignItems: "center",
-          marginTop: "10px",
         }}
       >
+        <ExpandLessIcon onClick={() => setOverlayView("default")} />
+
         <b>UPCOMING</b>
         <Box sx={{ height: "3px" }}></Box>
         <Box
@@ -68,7 +66,7 @@ function UpcomingView({ setOverlayView }) {
           </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 }
 
