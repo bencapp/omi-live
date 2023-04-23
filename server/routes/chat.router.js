@@ -4,7 +4,8 @@ const router = express.Router();
 
 //import authentication middleware
 const {
-  rejectUnauthenticated, rejectNonAdminUnauthenticated
+  rejectUnauthenticated,
+  rejectNonAdminUnauthenticated,
 } = require(`../modules/authentication-middleware`);
 
 /**
@@ -37,7 +38,7 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   console.log("in post text, req.body is", req.body);
   const queryText = `INSERT INTO comments ("text", "timestamp", "user_id")
                        VALUES ($1, current_timestamp, $2)`;
-  const queryParams = [
+  let queryParams = [
     // req.body.payload.stream_id,
     req.body.payload.text,
     req.body.payload.user.id,
@@ -54,20 +55,64 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.delete('/:id', rejectNonAdminUnauthenticated, (req, res) => {
+router.delete("/:id", rejectNonAdminUnauthenticated, (req, res) => {
   const queryText = `
   DELETE from comments
-  WHERE id = $1`
-  pool.query(queryText, [req.params.id])
-  .then((dbRes) => {
-    // req.io.emit("")
-    req.io.emit("add_text");
-    res.sendStatus(203);
-  })
-  .catch((err) => {
-    console.error(error)
+  WHERE id = $1`;
+  pool
+    .query(queryText, [req.params.id])
+    .then((dbRes) => {
+      // req.io.emit("")
+      req.io.emit("add_text");
+      res.sendStatus(203);
+    })
+    .catch((err) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+
+router.get("/start-demo", rejectNonAdminUnauthenticated, async (req, res) => {
+  const connection = await pool.connect();
+  const asyncTimeout = (ms) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  };
+
+  try {
+    const chatQueryText = `
+                        INSERT INTO comments ("text", "timestamp", "user_id")
+                        VALUES ($1, current_timestamp, $2)`;
+
+    const chatQueryParamArray = [
+      ["I love these dryer sheets!", 3],
+      ["they dissolve???", 6],
+      ["ugh finding this kind of thing can be so hard!!", 3],
+      ["so small, doesn't waste space!!", 4],
+      ["no plastic in the packaging?", 9],
+      ["Get top dollar for your unwanted gold today! Quick cash, no hassle. Click now to learn more and turn your old jewelry into money fast! #cashforgold", 5],
+      ["my clothes are so soft after using this!", 8],
+    ];
+
+    // wait 10 seconds before populating the chat
+    await asyncTimeout(10000);
+
+    let ms = 3000;
+    for (let param of chatQueryParamArray) {
+      await asyncTimeout(ms);
+      await connection.query(chatQueryText, param);
+      req.io.emit("add_text");
+      ms = Math.floor(Math.random() * (8000 - 1000 + 1)) + 1000;
+    }
+
+    res.sendStatus(204);
+  } catch (error) {
+    console.error(error);
     res.sendStatus(500);
-  })
-})
+  } finally {
+    connection.release();
+  }
+});
 
 module.exports = router;

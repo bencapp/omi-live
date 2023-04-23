@@ -12,6 +12,7 @@ function WishlistButton({ product, envType, type }) {
 
   const handleSaveProduct = () => {
     // POST to users_products table
+    console.log("in save product");
     dispatch({
       type: "ADD_PRODUCT_TO_WISHLIST",
       payload: { productID: product.id, envType: envType },
@@ -38,7 +39,10 @@ function WishlistButton({ product, envType, type }) {
             ADD TO WISHLIST
           </Button>
         ) : (
-          <FavoriteBorderOutlinedIcon onClick={handleSaveProduct} />
+          <FavoriteBorderOutlinedIcon
+            color="primary"
+            onClick={handleSaveProduct}
+          />
         )
       ) : type == "button" ? (
         <Button
@@ -55,7 +59,7 @@ function WishlistButton({ product, envType, type }) {
           ON WISHLIST
         </Button>
       ) : (
-        <FavoriteIcon onClick={handleUnSaveProduct} />
+        <FavoriteIcon color="primary" onClick={handleUnSaveProduct} />
       )}
     </>
   );

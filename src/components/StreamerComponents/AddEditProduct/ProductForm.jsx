@@ -153,6 +153,16 @@ function ProductForm() {
               fontWeight: "bold",
               fontSize: "1.5rem",
             }}
+            onClick={() => {
+              setNewProduct({
+                ...newProduct,
+                name: "Dr. Bronner's Pure-Castile Liquid Soap ",
+                image_url: "https://m.media-amazon.com/images/I/61mn58yB+pS.jpg",
+                description: "Our most popular scent, with a peppermint burst so pure it tingles! Scented with organic peppermint oil to cool skin, clear sinuses and sharpen mind. Our Peppermint Pure-Castile Liquid Soap is concentrated, biodegradable, versatile and effective. Made with organic and certified fair trade ingredients. Organic hemp seed oil is now sourced in the U.S. following hemp legalization! Packaged in a 100% post-consumer recycled bottle. All-One!",
+                url: "https://www.drbronner.com/collections/all/products/peppermint-pure-castile-liquid-soap",
+                coupon_code: "25OFFDRBRONNER",
+              });
+            }}
           >
             ADD PRODUCT
           </Typography>
@@ -203,16 +213,16 @@ function ProductForm() {
               }}
               fullWidth
             />
-            {newProduct?.image_url && (
+            {newProduct?.image_url ? (
               <CardMedia
                 component="img"
                 height="200"
                 width="auto"
-                image={currentProduct?.image_url}
+                image={newProduct?.image_url}
                 alt="Image Preview"
                 sx={{ mt: "3px", mb: "10px" }}
               />
-            )}
+            ) : ''}
 
             <InputLabel sx={{ mt: "15px", mb: "5px" }}>
               {" "}
@@ -249,6 +259,7 @@ function ProductForm() {
                 mt: "5px",
                 mb: "10px",
               }}
+              inputProps={{ maxLength: 240 }}
             ></TextField>
             <InputLabel sx={{ mt: "10px" }}> Coupon Code: </InputLabel>
             <TextField

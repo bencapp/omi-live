@@ -4,6 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import dayjs from "dayjs";
 
 import ConfirmationPopup from "../../ConfirmationPopup/ConfirmationPopup";
@@ -11,6 +12,7 @@ import ConfirmationPopup from "../../ConfirmationPopup/ConfirmationPopup";
 import { useState } from "react";
 
 function EditStreamInfo({ closeEditStreamInfo, newStream }) {
+  const history = useHistory();
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -44,6 +46,10 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
   }, []);
 
   const handleCancel = () => {
+    if (newStream) {
+      dispatch({ type: "DELETE_STREAM", payload: currentStream.id });
+      history.push("/home");
+    }
     closeEditStreamInfo();
   };
 
@@ -53,7 +59,7 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
         <ConfirmationPopup
           setDisplayConfirmation={setDisplayConfirmCancel}
           handleConfirm={handleCancel}
-          alertText={`Cancel changes and return to stream?`}
+          alertText={`Cancel changes?`}
           hidePopupText="GO BACK"
           confirmPopupText="CONFIRM"
         />
@@ -84,7 +90,17 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
           }}
         >
           {newStream ? (
-            <div>CREATE A NEW STREAM</div>
+            <div
+              onClick={() => {
+                setNewTitle("Green Housekeeping!");
+                setNewDescription(
+                  "How you can keep up with all of your household needs in a sustainable manner"
+                );
+                setNewDate(dayjs(Date.now() + 86400000));
+              }}
+            >
+              CREATE A NEW STREAM
+            </div>
           ) : (
             <div>EDIT STREAM INFO</div>
           )}
@@ -108,23 +124,7 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
               minDate={dayjs()}
             />
           </LocalizationProvider>
-          {/* {displayCancelConfirm ? (
-          <>
-            <Box>Cancel changes and return to stream?</Box>
-            <Box sx={{ display: "flex", gap: "20px" }}>
-              <Button onClick={() => setDisplayCancelConfirm(false)}>
-                BACK
-              </Button>
-              <Button
-                onClick={() => setDisplayEditInfo(false)}
-                color="warning"
-                sx={{ color: "black" }}
-              >
-                CONFIRM
-              </Button>
-            </Box>
-          </>
-        ) : ( */}
+
           <Box sx={{ display: "flex", gap: "20px" }}>
             <Button
               onClick={() => setDisplayConfirmCancel(true)}
@@ -135,7 +135,6 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
             </Button>
             <Button onClick={handleSubmit}>SUBMIT</Button>
           </Box>
-          {/* )} */}
         </Box>
       </Box>
     </>

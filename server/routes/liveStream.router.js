@@ -34,7 +34,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
   pool
     .query(queryText, queryParams)
     .then((result) => {
-      // console.log("got stream info, result.rows is", result.rows);
+      console.log("got stream info, result.rows is", result.rows);
       let stream = result.rows[0];
       stream = { ...stream, currentProduct: omi.currentProduct };
       res.send(stream);

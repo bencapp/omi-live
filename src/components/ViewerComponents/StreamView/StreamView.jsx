@@ -35,7 +35,7 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
 
   useEffect(() => {
     dispatch({ type: "FETCH_ACTIVE_STREAMS" });
-    socket.emit('join stream', user.id);
+    socket.emit("join stream", user.id);
     //create socket listener for stream closed emit, set live = false
     socket.on("stream_closed", (user) => {
       if (user === username) {
@@ -47,7 +47,7 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
       setViewerCount(count);
     });
     return () => {
-      socket.emit('leave stream');
+      socket.emit("leave stream");
       socket.off("stream_closed");
       socket.off("update viewer count");
     };
@@ -98,8 +98,17 @@ function StreamView({ height, width, chatHeight, username, yOffset, preview }) {
           </div>
         )}
       </div>
-      <div align="center" style={{position: "fixed", zIndex: 1, color: "#FFFFFF", width, marginTop: "1em"}}>
-          {viewerCount} watching
+      <div
+        align="center"
+        style={{
+          position: "fixed",
+          zIndex: 1,
+          color: "#FFFFFF",
+          width,
+          marginTop: "1em",
+        }}
+      >
+        {viewerCount} watching
       </div>
       {!preview ? (
         <>

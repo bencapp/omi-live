@@ -14,7 +14,7 @@ function StreamerHomePage() {
     view ? view : "streams");
   const [copied, setCopied] = useState(false);
   const user = useSelector((store) => store.user);
-  const streamKey = `?key=${user.stream_key}&user=${user.username}&pass='CHANGE ME'`;
+  const streamKey = `?key=${user.stream_key}&user=${user.username}&pass=CHANGE ME`;
 
   const copyKey = () => {
     navigator.clipboard.writeText(streamKey);
