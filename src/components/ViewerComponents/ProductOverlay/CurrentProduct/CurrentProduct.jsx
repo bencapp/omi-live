@@ -25,10 +25,10 @@ function CurrentProduct({ type }) {
             flexDirection: "column",
             width: "50vw",
             gap: "10px",
+            padding: "3px",
           }}
         >
           <Box sx={{ fontWeight: "bold" }}>NOW FEATURING</Box>
-
           <Box>{currentProduct.name}</Box>
         </Box>
 
