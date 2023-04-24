@@ -160,7 +160,7 @@ function ProductForm() {
                 image_url:
                   "https://m.media-amazon.com/images/I/61mn58yB+pS.jpg",
                 description:
-                  "Our most popular scent, with a peppermint burst so pure it tingles! Scented with organic peppermint oil to cool skin, clear sinuses and sharpen mind. Our Peppermint Pure-Castile Liquid Soap is concentrated, biodegradable, versatile and effective. Made with organic and certified fair trade ingredients. Organic hemp seed oil is now sourced in the U.S. following hemp legalization! Packaged in a 100% post-consumer recycled bottle. All-One!",
+                  "Our most popular scent, with a peppermint burst so pure it tingles! Scented with organic peppermint oil to cool skin, clear sinuses and sharpen mind.",
                 url: "https://www.drbronner.com/collections/all/products/peppermint-pure-castile-liquid-soap",
                 coupon_code: "25OFFDRBRONNER",
               });
