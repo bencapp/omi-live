@@ -39,20 +39,22 @@ function AddExistingProductItem({ product }) {
         backgroundColor: theme.palette.secondary.main,
         borderRadius: "5px",
         padding: "10px",
-        width: "100%",
       }}
     >
       <Grid container key={product.id} alignItems="center">
-        <Grid item xs={3} onClick={handleClickProduct}>
+        <Grid
+          item
+          xs={3}
+          onClick={handleClickProduct}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           <img style={{ height: "70px" }} src={product.image_url} />
         </Grid>
         <Grid item xs={6} onClick={handleClickProduct}>
           <b>{product.name}</b>
-          <br></br>
-          {product.description}
         </Grid>
 
-        <Grid item xs={3}>
+        <Grid item xs={3} sx={{ display: "flex", justifyContent: "center" }}>
           {currentStream.products?.find(
             (streamProduct) => streamProduct.id == product.id
           ) ? (

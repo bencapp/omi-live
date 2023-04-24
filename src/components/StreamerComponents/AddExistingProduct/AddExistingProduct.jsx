@@ -49,17 +49,31 @@ function AddExistingProduct() {
           </Box>
           <Button
             size="small"
+            sx={{ height: "30px", alignSelf: "center" }}
             onClick={() => history.push(`/edit-stream/${streamID}`)}
           >
             BACK TO STREAM
           </Button>
         </Box>
-        {products &&
-          products
-            .sort((a, b) => a.order - b.order)
-            .map((product) => (
-              <AddExistingProductItem key={product.id} product={product} />
-            ))}
+        <Box
+          sx={{
+            height: "80vh",
+
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            width: "100%",
+            overflow: "scroll",
+            // paddingRight: "20px",
+          }}
+        >
+          {products &&
+            products
+              .sort((a, b) => a.order - b.order)
+              .map((product) => (
+                <AddExistingProductItem key={product.id} product={product} />
+              ))}
+        </Box>
       </Box>
     </Box>
   );
