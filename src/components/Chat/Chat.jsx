@@ -113,11 +113,9 @@ function Chat({ height }) {
   };
 
   const startChatDemo = () => {
-    if (user.isAdmin) {
       dispatch({
         type: "START_CHAT_DEMO",
       });
-    }
   }
 
   return (
