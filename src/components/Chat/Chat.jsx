@@ -64,6 +64,7 @@ function Chat({ height }) {
 
   const scrollToBottom = () => {
     scrollRef.current?.scrollIntoView();
+    setScrolling(false);
   };
 
   useEffect(() => {
