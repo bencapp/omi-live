@@ -22,6 +22,7 @@ function* postChat(action) {
   try {
     yield axios.post(`/api/chat`, { payload: action.payload });
     yield put({ type: "GET_CHAT" });
+    yield action.callback();
   } catch (error) {
     console.log("Error in postChat saga:", error);
   }
