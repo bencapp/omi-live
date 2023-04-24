@@ -91,7 +91,10 @@ router.get("/start-demo", rejectUnauthenticated, async (req, res) => {
       ["ugh finding this kind of thing can be so hard!!", 3],
       ["so small, doesn't waste space!!", 4],
       ["no plastic in the packaging?", 9],
-      ["Get top dollar for your unwanted gold today! Quick cash, no hassle. Click now to learn more and turn your old jewelry into money fast! #cashforgold", 5],
+      [
+        "Get top dollar for your unwanted gold today! Quick cash, no hassle. Click now to learn more and turn your old jewelry into money fast! #cashforgold",
+        5,
+      ],
       ["my clothes are so soft after using this!", 8],
     ];
 
@@ -100,7 +103,7 @@ router.get("/start-demo", rejectUnauthenticated, async (req, res) => {
       await asyncTimeout(ms);
       await connection.query(chatQueryText, param);
       req.io.emit("add_text");
-      ms = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
+      ms = Math.floor(Math.random() * (3000 - 1000 + 1)) + 1000;
     }
 
     res.sendStatus(204);
