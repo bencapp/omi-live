@@ -54,10 +54,12 @@ function Chat({ height }) {
         text: message,
         user: user,
       },
+      callback: () => {
+        setMessage("");
+        scrollToBottom();
+      }
     });
     //reset input field
-    setMessage("");
-    scrollToBottom();
   };
 
   const scrollToBottom = () => {
