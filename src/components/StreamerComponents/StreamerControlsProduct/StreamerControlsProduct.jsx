@@ -17,7 +17,7 @@ function StreamerControlsProduct({ product }) {
         <Grid item xs={3}>
           <img style={{ height: "50px" }} src={product.image_url} />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={9} sx={{ padding: "0px 10px" }}>
           <b>{product.name}</b>
           {currentProduct.id == product.id && (
             <Box>

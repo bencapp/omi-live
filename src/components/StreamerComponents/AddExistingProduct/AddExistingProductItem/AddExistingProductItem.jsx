@@ -50,7 +50,7 @@ function AddExistingProductItem({ product }) {
         >
           <img style={{ height: "70px" }} src={product.image_url} />
         </Grid>
-        <Grid item xs={6} onClick={handleClickProduct}>
+        <Grid item xs={6} onClick={handleClickProduct} sx={{ padding: "10px" }}>
           <b>{product.name}</b>
         </Grid>
 
