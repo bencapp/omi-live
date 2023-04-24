@@ -87,11 +87,11 @@ router.get("/start-demo", rejectNonAdminUnauthenticated, async (req, res) => {
 
     const chatQueryParamArray = [
       ["I love these dryer sheets!", 3],
-      ["wow", 5],
       ["they dissolve???", 6],
       ["ugh finding this kind of thing can be so hard!!", 3],
       ["so small, doesn't waste space!!", 4],
       ["no plastic in the packaging?", 9],
+      ["Get top dollar for your unwanted gold today! Quick cash, no hassle. Click now to learn more and turn your old jewelry into money fast! #cashforgold", 5],
       ["my clothes are so soft after using this!", 8],
     ];
 

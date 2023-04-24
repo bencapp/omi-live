@@ -18,13 +18,26 @@ function CurrentProduct({ type }) {
         gap: "10px",
       }}
     >
-      <Box sx={{ display: "flex" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          {type == "default" && <b>NOW FEATURING</b>}
-          {currentProduct.name}
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "50vw",
+            gap: "10px",
+            padding: "3px",
+          }}
+        >
+          <Box sx={{ fontWeight: "bold" }}>NOW FEATURING</Box>
+          <Box>{currentProduct.name}</Box>
         </Box>
 
-        <Box sx={{ height: "15vh", position: "relative" }}>
+        <Box
+          sx={{
+            height: "10vh",
+            position: "relative",
+          }}
+        >
           <Box sx={{ position: "absolute", right: "2px", top: "2px" }}>
             <WishlistButton
               product={currentProduct}
@@ -32,10 +45,10 @@ function CurrentProduct({ type }) {
               envType="stream-overlay"
             />
           </Box>
+
           <img
             style={{
-              height: "15vh",
-              width: "100%",
+              height: "10vh",
             }}
             src={currentProduct.image_url}
           ></img>

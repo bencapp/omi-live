@@ -35,12 +35,12 @@ function ProductOverlay({ streamID }) {
   return (
     <Box
       sx={{
-        backgroundColor: alpha(theme.palette.secondary.main, 0.7),
+        backgroundColor: alpha(theme.palette.secondary.main, 0.8),
         borderRadius: "15px",
         borderBottomLeftRadius: "0px",
         borderBottomRightRadius: "0px",
         padding: "5px 15px",
-        height: overlayView == "default" ? "20vh" : "44vh",
+        height: overlayView == "default" ? "15vh" : "40vh",
         border: `1px solid ${theme.palette.secondary.dark}`,
       }}
     >

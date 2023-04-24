@@ -39,7 +39,10 @@ function WishlistButton({ product, envType, type }) {
             ADD TO WISHLIST
           </Button>
         ) : (
-          <FavoriteBorderOutlinedIcon onClick={handleSaveProduct} />
+          <FavoriteBorderOutlinedIcon
+            color="primary"
+            onClick={handleSaveProduct}
+          />
         )
       ) : type == "button" ? (
         <Button
@@ -56,7 +59,7 @@ function WishlistButton({ product, envType, type }) {
           ON WISHLIST
         </Button>
       ) : (
-        <FavoriteIcon onClick={handleUnSaveProduct} />
+        <FavoriteIcon color="primary" onClick={handleUnSaveProduct} />
       )}
     </>
   );
