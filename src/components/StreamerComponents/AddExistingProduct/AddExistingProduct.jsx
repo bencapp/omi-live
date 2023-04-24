@@ -42,7 +42,7 @@ function AddExistingProduct() {
             marginBottom: "10px",
           }}
         >
-          <Box sx={{ fontSize: "1.3em" }}>
+          <Box sx={{ fontSize: "1.3em", width: "60%" }}>
             Adding to <b>{currentStream.title}</b>
             <br></br>
             {dayjs(currentStream.scheduled).format("MM/DD/YYYY")}
