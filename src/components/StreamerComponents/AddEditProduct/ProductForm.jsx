@@ -157,8 +157,10 @@ function ProductForm() {
               setNewProduct({
                 ...newProduct,
                 name: "Dr. Bronner's Pure-Castile Liquid Soap ",
-                image_url: "https://m.media-amazon.com/images/I/61mn58yB+pS.jpg",
-                description: "Our most popular scent, with a peppermint burst so pure it tingles! Scented with organic peppermint oil to cool skin, clear sinuses and sharpen mind.",
+                image_url:
+                  "https://m.media-amazon.com/images/I/61mn58yB+pS.jpg",
+                description:
+                  "Our most popular scent, with a peppermint burst so pure it tingles! Scented with organic peppermint oil to cool skin, clear sinuses and sharpen mind.",
                 url: "https://www.drbronner.com/collections/all/products/peppermint-pure-castile-liquid-soap",
                 coupon_code: "25OFFDRBRONNER",
               });
@@ -167,175 +169,177 @@ function ProductForm() {
             ADD PRODUCT
           </Typography>
         )}
-        <form
-          onSubmit={productID ? handleUpdate : handleAdd}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            margin: "10px",
-          }}
-        >
-          <Box
-            sx={{
+        <Box sx={{ height: "82vh" }}>
+          <form
+            onSubmit={productID ? handleUpdate : handleAdd}
+            style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              width: "80%",
+              margin: "10px",
+              height: "72vh",
+              overflow: "scroll",
             }}
           >
-            <InputLabel>Name:</InputLabel>
-            <TextField
-              id="standard-basic"
-              variant="outlined"
-              type="text"
-              // defaultValue={productID ? currentProduct?.name : ''}
-              value={newProduct.name}
-              onChange={(e) => handleChange(e, "name")}
+            <Box
               sx={{
-                mt: "5px",
-                mb: "15px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                width: "80%",
               }}
-              fullWidth
-            />
-
-            <InputLabel>Image URL:</InputLabel>
-            <TextField
-              id="standard-basic"
-              variant="outlined"
-              type="text"
-              // defaultValue={productID ? currentProduct?.image_url : ''}
-              value={newProduct.image_url}
-              onChange={(e) => handleChange(e, "image_url")}
-              sx={{
-                mt: "5px",
-                mb: "5px",
-              }}
-              fullWidth
-            />
-            {newProduct?.image_url ? (
-              <CardMedia
-                component="img"
-                height="200"
-                width="auto"
-                image={newProduct?.image_url}
-                alt="Image Preview"
-                sx={{ mt: "3px", mb: "10px" }}
+            >
+              <InputLabel>Name:</InputLabel>
+              <TextField
+                id="standard-basic"
+                variant="outlined"
+                type="text"
+                // defaultValue={productID ? currentProduct?.name : ''}
+                value={newProduct.name}
+                onChange={(e) => handleChange(e, "name")}
+                sx={{
+                  mt: "5px",
+                  mb: "15px",
+                }}
+                fullWidth
               />
-            ) : ''}
 
-            <InputLabel sx={{ mt: "15px", mb: "5px" }}>
-              {" "}
-              Product URL:{" "}
-            </InputLabel>
-            <TextField
-              id="product-url"
-              variant="outlined"
-              type="text"
-              // defaultValue={productID ? currentProduct?.url : ''}
-              value={newProduct.url}
-              onChange={(e) => handleChange(e, "url")}
-              sx={{
-                mb: "5px",
-              }}
-              fullWidth
-            />
-            {newProduct.url && (
-              <Typography>
-                <a href={newProduct.url} target="_blank" rel="noreferrer">
-                  {newProduct.url}
-                </a>
-              </Typography>
-            )}
+              <InputLabel>Image URL:</InputLabel>
+              <TextField
+                id="standard-basic"
+                variant="outlined"
+                type="text"
+                // defaultValue={productID ? currentProduct?.image_url : ''}
+                value={newProduct.image_url}
+                onChange={(e) => handleChange(e, "image_url")}
+                sx={{
+                  mt: "5px",
+                  mb: "5px",
+                }}
+                fullWidth
+              />
+              {newProduct?.image_url && (
+                <img
+                  style={{ width: "40vw", marginTop: "10px" }}
+                  src={newProduct?.image_url}
+                ></img>
+              )}
 
-            <InputLabel sx={{ mt: "20px" }}> Description: </InputLabel>
-            <TextField
-              multiline
-              // defaultValue={productID ? currentProduct?.description : ''}
-              value={newProduct.description}
-              onChange={(e) => handleChange(e, "description")}
-              fullWidth
-              sx={{
-                mt: "5px",
-                mb: "10px",
-              }}
-              inputProps={{ maxLength: 240 }}
-            ></TextField>
-            <InputLabel sx={{ mt: "10px" }}> Coupon Code: </InputLabel>
-            <TextField
-              variant="outlined"
-              type="text"
-              // defaultValue={productID ? currentProduct?.coupon_code : ''}
-              value={newProduct.coupon_code}
-              onChange={(e) => handleChange(e, "coupon_code")}
-              fullWidth
-              sx={{
-                mt: "5px",
-                mb: "15px",
-              }}
-            />
-            <InputLabel sx={{ mt: "3px" }}>
-              Set Coupon Code Expiration
-            </InputLabel>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                defaultValue={
-                  productID ? dayjs(currentProduct?.coupon_expiration) : null
-                }
-                date={couponExpiration}
-                minDate={dayjs()}
-                onChange={(date) => setCouponExpiration(date)}
+              <InputLabel sx={{ mt: "15px", mb: "5px" }}>
+                {" "}
+                Product URL:{" "}
+              </InputLabel>
+              <TextField
+                id="product-url"
+                variant="outlined"
+                type="text"
+                // defaultValue={productID ? currentProduct?.url : ''}
+                value={newProduct.url}
+                onChange={(e) => handleChange(e, "url")}
+                sx={{
+                  mb: "5px",
+                }}
+                fullWidth
+              />
+              {newProduct.url && (
+                <Typography>
+                  <a href={newProduct.url} target="_blank" rel="noreferrer">
+                    View External Link
+                  </a>
+                </Typography>
+              )}
+
+              <InputLabel sx={{ mt: "20px" }}> Description: </InputLabel>
+              <TextField
+                multiline
+                // defaultValue={productID ? currentProduct?.description : ''}
+                value={newProduct.description}
+                onChange={(e) => handleChange(e, "description")}
                 fullWidth
                 sx={{
+                  mt: "5px",
+                  mb: "10px",
+                }}
+                inputProps={{ maxLength: 240 }}
+              ></TextField>
+              <InputLabel sx={{ mt: "10px" }}> Coupon Code: </InputLabel>
+              <TextField
+                variant="outlined"
+                type="text"
+                // defaultValue={productID ? currentProduct?.coupon_code : ''}
+                value={newProduct.coupon_code}
+                onChange={(e) => handleChange(e, "coupon_code")}
+                fullWidth
+                sx={{
+                  mt: "5px",
                   mb: "15px",
                 }}
               />
-            </LocalizationProvider>
-            {/* if edit mode, show public checkbox */}
+              <InputLabel sx={{ mt: "3px" }}>
+                Set Coupon Code Expiration
+              </InputLabel>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  defaultValue={
+                    productID ? dayjs(currentProduct?.coupon_expiration) : null
+                  }
+                  date={couponExpiration}
+                  minDate={dayjs()}
+                  onChange={(date) => setCouponExpiration(date)}
+                  fullWidth
+                  sx={{
+                    mb: "15px",
+                  }}
+                />
+              </LocalizationProvider>
+              {/* if edit mode, show public checkbox */}
 
-            {productID ? (
-              <Public productID={productID} currentProduct={currentProduct} />
-            ) : (
-              ""
-            )}
-          </Box>
+              {productID ? (
+                <Public productID={productID} currentProduct={currentProduct} />
+              ) : (
+                ""
+              )}
+            </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              alignSelf: "center",
-              mt: "15px",
-            }}
-          >
-            <Button
-              variant="contained"
-              type="button"
-              onClick={() => setDisplayConfirmCancel(true)}
-              color="warning"
-              sx={{ color: "black" }}
+            <Box
+              sx={{
+                display: "flex",
+                gap: "15px",
+                alignSelf: "center",
+                mt: "15px",
+                position: "fixed",
+                bottom: "5vh",
+              }}
             >
-              Cancel
-            </Button>
-            {productID ? (
               <Button
                 variant="contained"
-                type="submit"
-                sx={{ cursor: "pointer" }}
+                type="button"
+                onClick={() => setDisplayConfirmCancel(true)}
+                color="warning"
+                sx={{ color: "black" }}
               >
-                Save Changes
+                Cancel
               </Button>
-            ) : (
-              <Button
-                variant="contained"
-                type="submit"
-                sx={{ cursor: "pointer" }}
-              >
-                Add Product
-              </Button>
-            )}
-          </Box>
-        </form>
+              {productID ? (
+                <Button
+                  variant="contained"
+                  type="submit"
+                  sx={{ cursor: "pointer" }}
+                >
+                  Save Changes
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  type="submit"
+                  sx={{ cursor: "pointer" }}
+                >
+                  Add Product
+                </Button>
+              )}
+            </Box>
+          </form>
+        </Box>
       </Box>
     </>
   );

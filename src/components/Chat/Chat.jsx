@@ -113,13 +113,13 @@ function Chat({ height }) {
   };
 
   const startChatDemo = () => {
-      dispatch({
-        type: "START_CHAT_DEMO",
-      });
-  }
+    dispatch({
+      type: "START_CHAT_DEMO",
+    });
+  };
 
   return (
-    <div>
+    <>
       {/* <ChatDemo /> */}
       <Box
         sx={{
@@ -154,7 +154,13 @@ function Chat({ height }) {
                 color: "#FFFFFF",
               }}
               aria-label="logo"
-              onClick={() => user.isAdmin ? setMessage("yes!~ they work amazingly and they're biodegradable") : setMessage("do the detergent sheets clean well?")}
+              onClick={() =>
+                user.isAdmin
+                  ? setMessage(
+                      "yes!~ they work amazingly and they're biodegradable"
+                    )
+                  : setMessage("do the detergent sheets clean well?")
+              }
             >
               <ThumbUpIcon />
             </IconButton>
@@ -294,10 +300,10 @@ function Chat({ height }) {
             </Button>
           </Box>
         ) : (
-          ""
+          <></>
         )}
       </Box>
-    </div>
+    </>
   );
 }
 

@@ -11,7 +11,6 @@ function StreamerControlsProduct({ product }) {
         borderRadius: "5px",
         padding: "10px",
         border: currentProduct.id == product.id ? "1px solid green" : "",
-        overflow: "scroll",
       }}
     >
       <Grid container key={product.id} alignItems="center">

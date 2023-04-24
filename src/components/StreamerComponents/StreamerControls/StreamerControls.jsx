@@ -73,6 +73,15 @@ function StreamerControls() {
       )}
       <Box
         sx={{
+          width: "100vw",
+          position: "fixed",
+          bottom: "0",
+        }}
+      >
+        <Chat height={"60vh"} />
+      </Box>
+      <Box
+        sx={{
           display: "flex",
           flexDirection: "column",
           height: "100vh",
@@ -95,6 +104,8 @@ function StreamerControls() {
               display: "flex",
               flexDirection: "column",
               width: "100%",
+              height: "100vh",
+              overflow: "scroll",
               borderRight: "1px solid black",
               padding: "10px",
               gap: "10px",
@@ -143,13 +154,6 @@ function StreamerControls() {
             <Box>{viewerCount} viewers</Box>
           </Grid>
         </Grid>
-        <div
-          style={{
-            width: "100vw",
-          }}
-        >
-          <Chat height={"60vh"} />
-        </div>
       </Box>
     </>
   );
