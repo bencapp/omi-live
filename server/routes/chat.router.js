@@ -72,7 +72,7 @@ router.delete("/:id", rejectNonAdminUnauthenticated, (req, res) => {
     });
 });
 
-router.get("/start-demo", rejectNonAdminUnauthenticated, async (req, res) => {
+router.get("/start-demo", rejectUnauthenticated, async (req, res) => {
   const connection = await pool.connect();
   const asyncTimeout = (ms) => {
     return new Promise((resolve) => {
