@@ -95,12 +95,12 @@ router.get("/start-demo", rejectNonAdminUnauthenticated, async (req, res) => {
       ["my clothes are so soft after using this!", 8],
     ];
 
-    let ms = 3000;
+    let ms = 1000;
     for (let param of chatQueryParamArray) {
       await asyncTimeout(ms);
       await connection.query(chatQueryText, param);
       req.io.emit("add_text");
-      ms = Math.floor(Math.random() * (6000 - 1000 + 1)) + 1000;
+      ms = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
     }
 
     res.sendStatus(204);

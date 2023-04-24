@@ -112,9 +112,17 @@ function Chat({ height }) {
     navigator.clipboard.writeText(window.location.href);
   };
 
+  const startChatDemo = () => {
+    if (user.isAdmin) {
+      dispatch({
+        type: "START_CHAT_DEMO",
+      });
+    }
+  }
+
   return (
     <div>
-      <ChatDemo />
+      {/* <ChatDemo /> */}
       <Box
         sx={{
           backgroundColor: alpha(theme.palette.primary.main, 0.7),
@@ -137,7 +145,7 @@ function Chat({ height }) {
                 color: "#FFFFFF",
               }}
               aria-label="logo"
-              onClick={copyUrl}
+              onClick={startChatDemo}
             >
               <ShareIcon />
             </IconButton>
