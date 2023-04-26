@@ -18,7 +18,6 @@ router.get("/", async (req, res) => {
   try {
     const result = await pool.query(sqlQuery, sqlValues);
     const products = result.rows;
-    console.log("products", products);
     res.send(products);
   } catch (err) {
     console.error(err);
@@ -46,7 +45,6 @@ router.post("/", async (req, res) => {
       req.body.payload.image_url,
       req.body.payload.coupon_expiration,
     ];
-    console.log(sqlValues);
     const postResult = await connection.query(sqlQuery, sqlValues);
     if (req.body.payload.streamID) {
       const getNumberOfProductsQueryText = `SELECT COUNT(*) FROM streams_products WHERE stream_id = $1`;
@@ -57,7 +55,6 @@ router.post("/", async (req, res) => {
       );
 
       const numberOfProducts = result.rows[0].count;
-      console.log("number of products is", numberOfProducts);
 
       const queryText = `INSERT INTO streams_products ("stream_id", "product_id", "order")
                         VALUES ($1, $2, $3)`;
@@ -82,7 +79,6 @@ router.post("/", async (req, res) => {
 
 // GET route for getting a single product by ID
 router.get("/:productID", rejectUnauthenticated, (req, res) => {
-  console.log("in product get, req.params is", req.params);
   const queryText = `SELECT products.*,
                       EXISTS (SELECT FROM users_products WHERE users_products.product_id = $1 AND users_products.user_id = $2) AS on_user_wishlist
                       FROM "products"
@@ -91,7 +87,6 @@ router.get("/:productID", rejectUnauthenticated, (req, res) => {
   pool
     .query(queryText, queryParams)
     .then((result) => {
-      // console.log("got product by id, result.rows is", result.rows);
       res.send(result.rows[0]);
     })
     .catch((err) => {
@@ -102,7 +97,6 @@ router.get("/:productID", rejectUnauthenticated, (req, res) => {
 
 //PUT for updating all product info
 router.put("/:id", rejectNonAdminUnauthenticated, (req, res) => {
-  console.log("in put, req.body is", req.body);
   const queryText = `UPDATE products 
     SET name = $1,
     image_url = $2, 

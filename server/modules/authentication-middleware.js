@@ -11,8 +11,7 @@ const rejectUnauthenticated = (req, res, next) => {
 };
 
 const rejectNonAdminUnauthenticated = (req, res, next) => {
-  // check if logged in and if
-  console.log("checking non admin auth, req.user is", req.user);
+  // check if logged in and if user is an admin
   if (req.isAuthenticated() && req.user.isAdmin) {
     next();
   } else {

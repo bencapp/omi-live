@@ -10,8 +10,6 @@ const router = express.Router();
  * POST route for saving an item for a specific user
  */
 router.post("/", rejectUnauthenticated, (req, res) => {
-  console.log("in users products POST, req.body is", req.body);
-  // POST route code here
   const queryText = `INSERT INTO users_products ("user_id", "product_id")
                     VALUES ($1, $2)`;
   const queryParams = [req.user.id, req.body.productID];
@@ -25,8 +23,6 @@ router.post("/", rejectUnauthenticated, (req, res) => {
 });
 
 router.delete("/:productID", rejectUnauthenticated, (req, res) => {
-  console.log("in users products DELETE, req.body is", req.body);
-  // POST route code here
   const queryText = `DELETE FROM users_products WHERE user_id = $1 AND product_id = $2`;
   const queryParams = [req.user.id, req.params.productID];
   pool

@@ -11,7 +11,6 @@ function* chatSaga() {
 function* getChat() {
   try {
     const chat = yield axios.get(`/api/chat`);
-    console.log("in get saga - chat from database:", chat.data);
     yield put({ type: "SET_CHAT", payload: chat.data });
   } catch (error) {
     console.log("error in getChat saga", error);

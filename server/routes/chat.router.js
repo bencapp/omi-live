@@ -21,7 +21,6 @@ router.get("/", rejectUnauthenticated, (req, res) => {
     .query(queryText)
     // queryParams)
     .then((result) => {
-      // console.log("result.rows", result.rows);
       res.send(result.rows);
     })
     .catch((err) => {
@@ -35,7 +34,6 @@ router.get("/", rejectUnauthenticated, (req, res) => {
  */
 // "stream_id",
 router.post("/", rejectUnauthenticated, (req, res) => {
-  console.log("in post text, req.body is", req.body);
   const queryText = `INSERT INTO comments ("text", "timestamp", "user_id")
                        VALUES ($1, current_timestamp, $2)`;
   let queryParams = [

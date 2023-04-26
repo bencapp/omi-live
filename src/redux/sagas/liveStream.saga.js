@@ -7,12 +7,10 @@ import { put, takeEvery } from "redux-saga/effects";
 function* fetchCurrentStreamData() {
   try {
     const response = yield axios.get("/api/live-stream");
-    console.log("got current stream data, reponse.data is", response.data);
     // now set the current stream reducer
     yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
     // then fetch the current product in the stream
     const products = response.data.products;
-    console.log("products is", products);
     const currentProduct = products.find(
       (product) => product.id == response.data.currentProduct.id
     );
