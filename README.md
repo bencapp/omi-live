@@ -1,8 +1,12 @@
 
-# Prime Solo Project Starting Repo
-This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
+# Omi Live Shopping
 
-We **STRONGLY** recommend following these instructions carefully. It's a lot, and will take some time to set up, but your life will be much easier this way in the long run.
+## Description
+
+_Duration: Two week sprint_
+
+Omi Live Shopping is a one-of-a-kind, green-first streaming platform that connects you with a community of eco-conscious consumers who are passionate about supporting environmentally friendly businesses.  Our platform provides an interactive experience where you can live stream your product, answer questions from viewers in real-time, and receive a sales commission on each purchase made during your stream. Omi Live Shopping is committed to showcasing authentic, sustainable products and practices and building trust between viewers and content creators. 
+
 
 ## Use the Template for This Repository (Don't Clone)
 
