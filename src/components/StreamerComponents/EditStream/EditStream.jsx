@@ -59,7 +59,6 @@ function EditStream() {
   };
 
   const deleteStream = () => {
-    console.log("deleting stream");
     // TODO: end stream for all users
     dispatch({ type: "DELETE_STREAM", payload: streamID });
     history.push("/home");
@@ -177,7 +176,7 @@ function EditStream() {
             </Grid>
             {/* && currentStream.products[0]?.name */}
             {currentStream.products && currentStream.products[0].id ? (
-              <Box sx={{maxHeight: "62vh", overflow: "scroll"}}>
+              <Box sx={{ maxHeight: "62vh", overflow: "scroll" }}>
                 {currentStream.products
                   .sort((a, b) => a.order - b.order)
                   .map((product) => (

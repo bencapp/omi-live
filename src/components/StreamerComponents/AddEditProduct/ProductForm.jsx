@@ -28,9 +28,7 @@ function ProductForm() {
 
   // id of product from the URL
   const { productID } = useParams();
-  console.log("productID", productID);
   const currentProduct = useSelector((store) => store.currentProduct);
-  console.log("currentProduct", currentProduct);
 
   const [displayConfirmCancel, setDisplayConfirmCancel] = useState(false);
 
@@ -152,18 +150,6 @@ function ProductForm() {
               my: "10px",
               fontWeight: "bold",
               fontSize: "1.5rem",
-            }}
-            onClick={() => {
-              setNewProduct({
-                ...newProduct,
-                name: "Dr. Bronner's Pure-Castile Liquid Soap ",
-                image_url:
-                  "https://m.media-amazon.com/images/I/61mn58yB+pS.jpg",
-                description:
-                  "Our most popular scent, with a peppermint burst so pure it tingles! Scented with organic peppermint oil to cool skin, clear sinuses and sharpen mind.",
-                url: "https://www.drbronner.com/collections/all/products/peppermint-pure-castile-liquid-soap",
-                coupon_code: "25OFFDRBRONNER",
-              });
             }}
           >
             ADD PRODUCT

@@ -36,13 +36,11 @@ app.use((req, res, next) => {
 let viewers = [];
 
 io.on("connection", (socket) => {
-  // console.log("a user connected");
   let userId;
   // when a viewer joins the stream
   socket.on("join stream", (id) => {
     userId = id;
     viewers.push(userId);
-    // console.log("a user joined the stream", viewers.length);
     io.emit("update viewer count", viewers.length);
   });
 
@@ -53,7 +51,6 @@ io.on("connection", (socket) => {
         return viewerId;
       }
     });
-    // console.log("a user left the stream", viewers.length);
     io.emit("update viewer count", viewers.length);
   });
 
@@ -64,7 +61,6 @@ io.on("connection", (socket) => {
       }
     });
     io.emit("update viewer count", viewers.length);
-    // console.log("user disconnected");
   });
 });
 
@@ -138,8 +134,6 @@ const proxyOptions = {
 };
 
 app.use("/live", createProxyMiddleware(proxyOptions));
-
-console.log(proxyOptions.router);
 
 /** Listen * */
 server.listen(PORT, () => {

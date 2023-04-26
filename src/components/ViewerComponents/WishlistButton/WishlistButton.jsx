@@ -12,7 +12,6 @@ function WishlistButton({ product, envType, type }) {
 
   const handleSaveProduct = () => {
     // POST to users_products table
-    console.log("in save product");
     dispatch({
       type: "ADD_PRODUCT_TO_WISHLIST",
       payload: { productID: product.id, envType: envType },

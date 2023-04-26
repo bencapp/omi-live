@@ -11,7 +11,6 @@ function RegisterForm() {
 
   const registerUser = (event) => {
     event.preventDefault();
-    console.log("in register user");
     dispatch({
       type: "REGISTER",
       payload: {
