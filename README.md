@@ -12,7 +12,7 @@ Omi Live Shopping is a one-of-a-kind, green-first streaming platform that connec
 1. Installation
 1. Usage
 1. Technologies used
-1. Acknowledgement
+1. Acknowledgements
 1. Contact
 
 ## Installation
