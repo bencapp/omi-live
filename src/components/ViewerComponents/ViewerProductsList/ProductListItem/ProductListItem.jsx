@@ -22,26 +22,36 @@ function ProductListItem({ product }) {
         flexDirection: "column",
         alignItems: "center",
       }}
+      onClick={handleGoToProduct}
     >
-      <img src={product.image_url} style={{ height: "13vh" }} />
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          fontWeight: "bold",
-          placeContent: "center",
+          height: "10vh",
+          position: "relative",
         }}
       >
-        {product.name}
+        <Box sx={{ position: "absolute", right: "2px", top: "2px" }}>
+          <WishlistButton
+            type="icon"
+            product={product}
+            envType="product-list"
+          />
+        </Box>
+        <img
+          style={{
+            height: "13vh",
+          }}
+          src={product.image_url}
+        ></img>
       </Box>
       <Box
         sx={{
-          display: "flex",
-          placeContent: "center",
-          alignItems: "center",
+          marginTop: "4vh",
+          fontWeight: "bold",
+          textAlign: "center",
         }}
       >
-        <WishlistButton type="icon" product={product} envType="product-list" />
+        {product.name}
       </Box>
     </Paper>
   );

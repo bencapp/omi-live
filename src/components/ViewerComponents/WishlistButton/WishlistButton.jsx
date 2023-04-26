@@ -10,7 +10,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 function WishlistButton({ product, envType, type }) {
   const dispatch = useDispatch();
 
-  const handleSaveProduct = () => {
+  const handleSaveProduct = (e) => {
+    e.stopPropagation();
     // POST to users_products table
     dispatch({
       type: "ADD_PRODUCT_TO_WISHLIST",
@@ -18,7 +19,9 @@ function WishlistButton({ product, envType, type }) {
     });
   };
 
-  const handleUnSaveProduct = () => {
+  const handleUnSaveProduct = (e) => {
+    e.stopPropagation();
+
     dispatch({
       type: "REMOVE_PRODUCT_FROM_WISHLIST",
       payload: { productID: product.id, envType: envType },
