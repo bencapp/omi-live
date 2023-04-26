@@ -12,11 +12,9 @@ const router = express.Router();
 router.get("/:streamID/:productID", (req, res) => {
   const queryText = `SELECT EXISTS (SELECT FROM streams_products WHERE product_id = $1 AND stream_id = $2) AS in_stream;`;
   const queryParams = [req.params.productID, req.params.streamID];
-  console.log("queryParams is", queryParams);
   pool
     .query(queryText, queryParams)
     .then((result) => {
-      console.log("checked if in stream, result.rows is", result.rows);
       res.send(result.rows[0].in_stream);
     })
     .catch((err) => {
@@ -38,7 +36,6 @@ router.post("/", async (req, res) => {
     );
 
     const numberOfProducts = result.rows[0].count;
-    console.log("number of products is", numberOfProducts);
 
     const queryText = `INSERT INTO streams_products ("stream_id", "product_id", "order")
                         VALUES ($1, $2, $3)`;
@@ -69,7 +66,6 @@ router.delete("/:streamID/:productID", async (req, res) => {
     const getOrderQueryText = `SELECT "order" FROM streams_products WHERE stream_id = $1 AND product_id = $2`;
     const queryParams = [req.params.streamID, req.params.productID];
     const response = await connection.query(getOrderQueryText, queryParams);
-    console.log("got order, response is", response);
     const order = response.rows[0].order;
 
     // then, subtract 1 from the order for all products that are ordered after the product to delete

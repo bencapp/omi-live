@@ -11,7 +11,6 @@ function StreamerProductsList() {
   const dispatch = useDispatch();
 
   const handleClick = (product) => {
-    console.log("Product id", product);
     history.push(`/product/${product.id}`);
   };
 

@@ -90,17 +90,7 @@ function EditStreamInfo({ closeEditStreamInfo, newStream }) {
           }}
         >
           {newStream ? (
-            <div
-              onClick={() => {
-                setNewTitle("Green Housekeeping!");
-                setNewDescription(
-                  "How you can keep up with all of your household needs in a sustainable manner"
-                );
-                setNewDate(dayjs(Date.now() + 86400000));
-              }}
-            >
-              CREATE A NEW STREAM
-            </div>
+            <div>CREATE A NEW STREAM</div>
           ) : (
             <div>EDIT STREAM INFO</div>
           )}

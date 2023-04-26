@@ -11,17 +11,21 @@ function ViewerProductsList({ wishlist }) {
 
   useEffect(() => {
     dispatch({ type: "GET_PRODUCTS" });
-    console.log(wishlist);
   }, []);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container justifyContent="center">
       {products.length ? (
         wishlist ? (
           products
             .filter((product) => product.on_user_wishlist)
             .map((product) => (
-              <Grid item key={product.id} xs={6}>
+              <Grid
+                item
+                key={product.id}
+                xs={6}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
                 <ProductListItem product={product} />
               </Grid>
             ))

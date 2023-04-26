@@ -41,11 +41,9 @@ function StreamerControls() {
       (product) => product.id == currentProduct.id
     );
     const newOrder = type == "previous" ? product.order - 1 : product.order + 1;
-    console.log("new order is", newOrder);
     const nextProduct = currentStream.products.find(
       (product) => product.order == newOrder
     );
-    console.log("next product is", nextProduct);
     dispatch({
       type: "SET_CURRENT_PRODUCT_IN_STREAM",
       payload: { product: nextProduct, streamID: streamID },
@@ -53,7 +51,6 @@ function StreamerControls() {
   };
 
   const endStream = () => {
-    console.log("ending stream");
     // TODO: end stream for all users
     dispatch({ type: "END_STREAM", payload: streamID });
     history.push(`/home`);

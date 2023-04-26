@@ -4,7 +4,6 @@ import { put, takeEvery } from "redux-saga/effects";
 // returns true or false for whether the relationship exists
 function* fetchProductInStream(action) {
   try {
-    console.log("fetching product in stream, action.payload:", action.payload);
     const response = yield axios.get(
       `/api/streams-products/${action.payload.streamID}/${action.payload.productID}`
     );
@@ -16,10 +15,7 @@ function* fetchProductInStream(action) {
 
 function* removeProductFromStream(action) {
   try {
-    console.log(
-      "in remove from stream saga, action.payload is",
-      action.payload
-    );
+
     const response = yield axios.delete(
       `/api/streams-products/${action.payload.streamID}/${action.payload.productID}`
     );

@@ -60,7 +60,6 @@ function* orderChange(action) {
     const response = yield axios.get(
       `/api/streams/${action.payload.currentStream.id}`
     );
-    console.log("changed order and got stream by id, response is", response);
     yield put({ type: "SET_CURRENT_STREAM", payload: response.data });
   } catch (error) {
     console.log("Error with order change stream saga:", error);

@@ -35,7 +35,6 @@ router.get("/:streamID", rejectUnauthenticated, (req, res) => {
                       WHERE streams.id = $1
                       GROUP BY streams.id;`;
   const queryParams = [req.params.streamID];
-  // console.log("in get stream by id, id is", req.params.streamID);
   pool
     .query(queryText, queryParams)
     .then((result) => res.send(result.rows[0]))
@@ -71,7 +70,6 @@ router.put("/:id", rejectNonAdminUnauthenticated, (req, res) => {
     req.body.scheduled,
     req.params.id,
   ];
-  console.log("in update stream info, queryParams is", queryParams);
   pool
     .query(queryText, queryParams)
     .then(() => {
@@ -109,15 +107,12 @@ router.put(
         req.body.type == "increase" ? req.body.order - 1 : req.body.order + 1;
       const getQueryParams = [newOrder, req.params.streamID];
 
-      console.log("getQueryParams is", getQueryParams);
-
       const result = await connection.query(getQueryText, [
         newOrder,
         Number(req.params.streamID),
       ]);
 
       const otherProductID = result.rows[0].product_id;
-      console.log("changing order, other product id is", otherProductID);
 
       // now set the order of that product
       const setOrderQueryText = `UPDATE streams_products SET "order" = $1 WHERE product_id = $2 AND stream_id = $3`;
@@ -127,7 +122,6 @@ router.put(
         otherProductID,
         req.params.streamID,
       ];
-      console.log("firstQueryParams is", firstQueryParams);
 
       await connection.query(setOrderQueryText, firstQueryParams);
 
@@ -137,7 +131,6 @@ router.put(
         req.body.productID,
         req.params.streamID,
       ];
-      console.log("secondQueryParams is", secondQueryParams);
 
       await connection.query(setOrderQueryText, secondQueryParams);
 

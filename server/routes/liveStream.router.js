@@ -34,7 +34,6 @@ router.get("/", rejectUnauthenticated, (req, res) => {
   pool
     .query(queryText, queryParams)
     .then((result) => {
-      console.log("got stream info, result.rows is", result.rows);
       let stream = result.rows[0];
       stream = { ...stream, currentProduct: omi.currentProduct };
       res.send(stream);
@@ -50,7 +49,6 @@ router.put(
   "/current-product/:streamID",
   rejectNonAdminUnauthenticated,
   (req, res) => {
-    // console.log("updating product, req.body is", req.body);
     omi.currentProduct = req.body.product;
     req.io.emit("product change", req.body.product);
     res.sendStatus(204);
@@ -83,7 +81,6 @@ router.put(
       WHERE id = ANY ($1);`;
       await connection.query(setPublicQuery, [productIds]);
       await connection.query("COMMIT");
-      // console.log(omi);
       res.sendStatus(201);
     } catch (error) {
       console.error(error);
@@ -99,7 +96,6 @@ router.put(
   "/end-stream/:streamID",
   rejectNonAdminUnauthenticated,
   (req, res) => {
-    console.log("emitting end stream for stream", req.params.streamID);
     req.io.emit("end-stream");
     req.io.emit("stream_closed", req.user.username);
     omi.currentProduct = {};
