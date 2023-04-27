@@ -55,16 +55,18 @@ Omi Live Shopping is a one-of-a-kind, green-first streaming platform that connec
 ## Technologies used
 * React
 * Redux
-* Redux-Saga
+* Redux-Sagas
 * Javascript 
 * HTML
 * CSS
-* Express
+* Express.js
 * Passport 
 * Node.js
 * Postico 2
 * PostgreSQL
 * Material UI 
+* Node Media Server
+* Socket.io
 
 ## Acknowledgements
 A huge thanks to our client Summer Lee for the idea and vision behind OMI Live Shopping. Thank you to Dane Smith and [Prime Digital Academy](www.primeacademy.io) for the training, support, and guidance through the process of building this application. 
