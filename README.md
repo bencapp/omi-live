@@ -19,11 +19,12 @@ Omi Live Shopping is a one-of-a-kind, green-first streaming platform that connec
 
 ## Screenshots
 
-<img src="public/assets/images/screenshot1.png" width="100">
-<img src="public/assets/images/screenshot2.png" width="100">
-<img src="public/assets/images/screenshot3.png" width="100">
-<img src="public/assets/images/screenshot4.png" width="100">
-<img src="public/assets/images/screenshot5.png" width="100">
+<div style={{display: 'flex'}}></div>
+<img src="public/assets/images/screenshot1.png" width="150">
+<img src="public/assets/images/screenshot2.png" width="150">
+<img src="public/assets/images/screenshot3.png" width="150">
+<img src="public/assets/images/screenshot4.png" width="150">
+<img src="public/assets/images/screenshot5.png" width="150">
 
 ## Installation
 
